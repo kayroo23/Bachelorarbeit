@@ -5,9 +5,9 @@ import java.awt.geom.AffineTransform;
 import java.util.List;
 
 public class DrawPoints extends JFrame {
-    final AffineTransform FLIP_X_COORDINATE;
+    private final AffineTransform FLIP_X_COORDINATE;
     private final List<List<NewPair>> clusters;
-    private final int scalingFactor = 5;
+
 
 
     public DrawPoints(List<List<NewPair>> c) {
@@ -23,6 +23,7 @@ public class DrawPoints extends JFrame {
 
     @Override
     public void paint(Graphics graphic) {
+        final int scalingFactor = 5;
         final int circleRadius = 3;
 
         Graphics2D g = (Graphics2D) graphic;
