@@ -1,7 +1,5 @@
-import javafx.scene.shape.Circle;
-import java.awt.Color;
+import org.apache.commons.math3.stat.regression.GLSMultipleLinearRegression;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +81,7 @@ public class Main {
 
         new DrawPoints(clusters);
 
+        GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
     }
 
 }

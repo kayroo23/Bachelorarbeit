@@ -1,9 +1,7 @@
-import javafx.scene.shape.Circle;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DrawPoints extends JFrame {
