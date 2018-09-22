@@ -2,7 +2,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
-import org.apache.commons.math3.stat.regression.GLSMultipleLinearRegression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,23 +69,32 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        List<List<NewPair>> clusters = new ArrayList<>();
-        List<NewPair> c1 = new ArrayList<>();
-        List<NewPair> c2 = new ArrayList<>();
-        List<NewPair> c3 = new ArrayList<>();
-        List<NewPair> c4 = new ArrayList<>();
-        List<NewPair> c5 = new ArrayList<>();
+    /**
+     * Fuellt die uebergebene Liste an Clustern mit Fakedaten
+     * @param clusters Liste an Clustern
+     * @param numberOfPointsPerCluster Anzahl der Datenpunkte innerhalb eines Clusters
+     * @param numberOfAtributes Anzahl an Attributen die jeder Punkt besitzt
+     */
+    private static void generateFakeData(List<List<Point>> clusters, int numberOfPointsPerCluster, int numberOfAtributes){
+        int streuungsreichweite = 15;
+        int bereich = 75;
+        int attributeCount = -1;
 
-        clusters.add(c1);
-        clusters.add(c2);
-        clusters.add(c3);
-        clusters.add(c4);
-        clusters.add(c5);
-        int numberOfPointsPerCluster = 100;
+        for (List<Point> cluster: clusters) {
+            attributeCount++;
+            for(int i = 0; i < numberOfPointsPerCluster; i++){
+                double[] pointArray = new double[numberOfAtributes];
+                for(int k = 0; k < numberOfAtributes; k++){
+                    pointArray[k] = Math.random() + 10*k;
+                }
+                Point p = new Point(numberOfAtributes, numberOfPointsPerCluster, pointArray);
+                cluster.add(p);
+            }
+        }
+    }
 
+    private static void calculationFor2Attributes(List<List<NewPair>> clusters, int numberOfPointsPerCluster){
         generateFakeData(clusters, numberOfPointsPerCluster);
-
         new DrawPoints(clusters);
 
         double[] firstCoord = new double[numberOfPointsPerCluster * clusters.size()];
@@ -108,7 +116,6 @@ public class Main {
             matrix[i][1] = secondCoord[i];
         }
 
-        GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
         double covariance = new Covariance().covariance(firstCoord,secondCoord);
         double pearson = new PearsonsCorrelation().correlation(firstCoord, secondCoord);
         double spearman = new SpearmansCorrelation().correlation(firstCoord, secondCoord);
@@ -134,6 +141,88 @@ public class Main {
             }
             System.out.println(" ");
         }
+    }
+
+    private static void calculationForMoreAttributes(List<List<Point>> newClusters, int numberOfPointsPerCluster, int numberOfAttributes){
+        generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+
+        double[][] matrix = new double[numberOfPointsPerCluster * newClusters.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
+
+        int k = 0;
+        for (List<Point> cluster : newClusters) {
+            for (Point point: cluster) {
+                matrix[k] = point.getAttributes();
+                k++;
+            }
+        }
+
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                System.out.print(matrix[i][j] + "   ");
+            }
+            System.out.println(" ");
+        }
+        System.out.println(" ");
+
+        //double covarianceMatrix = new Covariance().computeCovarianceMatrix(all);
+        RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
+        RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
+
+        System.out.println("Pearson Matrix: ");
+        for (int i = 0; i < pearsonMatrix.getColumnDimension(); i++) {
+            for(int j = 0; j < pearsonMatrix.getRowDimension(); j++){
+                System.out.print(pearsonMatrix.getEntry(j , i) + "   ");
+                if(i == j){
+                    System.out.print("                ");
+                }
+            }
+            System.out.println(" ");
+        }
+        System.out.println(" ");
+
+        System.out.println("Spearman Matrix: ");
+        for (int i = 0; i < spearmanMatrix.getColumnDimension(); i++) {
+            for(int j = 0; j < spearmanMatrix.getRowDimension(); j++){
+                System.out.print(spearmanMatrix.getEntry(j , i) + "   ");
+                if(i == j){
+                    System.out.print("                ");
+                }
+            }
+            System.out.println(" ");
+        }
+    }
+
+    public static void main(String[] args) {
+        List<List<NewPair>> clusters = new ArrayList<>();
+        List<NewPair> c1 = new ArrayList<>();
+        List<NewPair> c2 = new ArrayList<>();
+        List<NewPair> c3 = new ArrayList<>();
+        List<NewPair> c4 = new ArrayList<>();
+        List<NewPair> c5 = new ArrayList<>();
+        clusters.add(c1);
+        clusters.add(c2);
+        clusters.add(c3);
+        clusters.add(c4);
+        clusters.add(c5);
+
+        List<List<Point>> newClusters = new ArrayList<>();
+        List<Point> newC1 = new ArrayList<>();
+        List<Point> newC2 = new ArrayList<>();
+        List<Point> newC3 = new ArrayList<>();
+        List<Point> newC4 = new ArrayList<>();
+        List<Point> newC5 = new ArrayList<>();
+        newClusters.add(newC1);
+        newClusters.add(newC2);
+        newClusters.add(newC3);
+        newClusters.add(newC4);
+        newClusters.add(newC5);
+
+        int numberOfPointsPerCluster = 100;
+        int numberOfAttributes = 5;
+
+        //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
+        calculationForMoreAttributes(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+
 
     }
 
