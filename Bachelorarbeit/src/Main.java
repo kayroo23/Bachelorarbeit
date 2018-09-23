@@ -29,6 +29,19 @@ public class Main {
         return false;
     }
 
+    private static boolean isNotValidCenter(double[] center, ArrayList<Point> listOfCenters, double border){
+        for (Point p: listOfCenters) {
+            double sum = 0;
+            for (int i = 0; i < center.length; i++) {
+                sum += Math.pow(center[i] - p.getAttributes()[i],2);
+            }
+            if(Math.sqrt(sum) < border){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      *
      * @param streuungsreichweite gibt die Verschiebung an
@@ -69,6 +82,12 @@ public class Main {
         }
     }
 
+    private static void getRandomCenter(double[] center, int bereich){
+        for(int i = 0; i < center.length; i++){
+            center[i] = Math.random() * bereich;
+        }
+    }
+
     /**
      * Fuellt die uebergebene Liste an Clustern mit Fakedaten
      * @param clusters Liste an Clustern
@@ -76,19 +95,23 @@ public class Main {
      * @param numberOfAtributes Anzahl an Attributen die jeder Punkt besitzt
      */
     private static void generateFakeData(List<List<Point>> clusters, int numberOfPointsPerCluster, int numberOfAtributes){
-        int streuungsreichweite = 15;
-        int bereich = 75;
-        int attributeCount = -1;
+        double streuungsreichweite = 15;
+        int bereich = (int)(clusters.size() * streuungsreichweite * 10);
+        ArrayList<Point> clusterPositions = new ArrayList<>();
 
         for (List<Point> cluster: clusters) {
-            attributeCount++;
+            double[] center = new double[numberOfAtributes];
+            do{
+                getRandomCenter(center, bereich);
+            }while(isNotValidCenter(center, clusterPositions, 3 * streuungsreichweite));
             for(int i = 0; i < numberOfPointsPerCluster; i++){
                 double[] pointArray = new double[numberOfAtributes];
                 for(int k = 0; k < numberOfAtributes; k++){
-                    pointArray[k] = Math.random() + 10*k;
+                    pointArray[k] = (center[k] - (streuungsreichweite/2))  + (Math.random() * streuungsreichweite);
                 }
-                Point p = new Point(numberOfAtributes, numberOfPointsPerCluster, pointArray);
+                Point p = new Point(numberOfAtributes, pointArray);
                 cluster.add(p);
+                clusterPositions.add(new Point(numberOfAtributes, center));
             }
         }
     }
@@ -157,10 +180,14 @@ public class Main {
         }
 
         for(int i = 0; i < matrix.length; i++){
+            if(i % numberOfPointsPerCluster == 0){
+                System.out.println("Next Cluster");
+            }
             for(int j = 0; j < matrix[0].length; j++){
                 System.out.print(matrix[i][j] + "   ");
             }
             System.out.println(" ");
+
         }
         System.out.println(" ");
 
@@ -176,9 +203,9 @@ public class Main {
                     System.out.print("                ");
                 }
             }
-            System.out.println(" ");
+            System.out.println();
         }
-        System.out.println(" ");
+        System.out.println();
 
         System.out.println("Spearman Matrix: ");
         for (int i = 0; i < spearmanMatrix.getColumnDimension(); i++) {
@@ -188,42 +215,25 @@ public class Main {
                     System.out.print("                ");
                 }
             }
-            System.out.println(" ");
+            System.out.println();
         }
     }
 
     public static void main(String[] args) {
         List<List<NewPair>> clusters = new ArrayList<>();
-        List<NewPair> c1 = new ArrayList<>();
-        List<NewPair> c2 = new ArrayList<>();
-        List<NewPair> c3 = new ArrayList<>();
-        List<NewPair> c4 = new ArrayList<>();
-        List<NewPair> c5 = new ArrayList<>();
-        clusters.add(c1);
-        clusters.add(c2);
-        clusters.add(c3);
-        clusters.add(c4);
-        clusters.add(c5);
-
         List<List<Point>> newClusters = new ArrayList<>();
-        List<Point> newC1 = new ArrayList<>();
-        List<Point> newC2 = new ArrayList<>();
-        List<Point> newC3 = new ArrayList<>();
-        List<Point> newC4 = new ArrayList<>();
-        List<Point> newC5 = new ArrayList<>();
-        newClusters.add(newC1);
-        newClusters.add(newC2);
-        newClusters.add(newC3);
-        newClusters.add(newC4);
-        newClusters.add(newC5);
-
+        int numberOfClusters = 10;
         int numberOfPointsPerCluster = 100;
-        int numberOfAttributes = 5;
+        int numberOfAttributes = 10;
+
+        for(int i = 0; i < numberOfClusters; i++){
+            clusters.add(new ArrayList<NewPair>());
+            newClusters.add(new ArrayList<Point>());
+
+        }
 
         //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
         calculationForMoreAttributes(newClusters, numberOfPointsPerCluster, numberOfAttributes);
-
-
     }
 
 }
