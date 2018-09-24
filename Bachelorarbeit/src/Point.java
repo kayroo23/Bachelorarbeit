@@ -16,11 +16,11 @@ public class Point {
         this.attributes = att;
     }
 
-    public int getNumberOfAttributes(){
+    int getNumberOfAttributes(){
         return numberOfAttributes;
     }
 
-    public double[] getAttributes(){
+    double[] getAttributes(){
         return attributes;
     }
 

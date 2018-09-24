@@ -59,7 +59,7 @@ public class Main {
      */
     private static void generateFakeData(List<List<NewPair>> clusters, int numberOfPointsPerCluster){
         int streuungsreichweite = 15;
-        int bereich = 75;
+        int bereich = (int)(clusters.size() * streuungsreichweite);
         int xK = getRandomPosition(streuungsreichweite, bereich);
         int yK = getRandomPosition(streuungsreichweite, bereich);
         ArrayList<NewPair> clusterPositions = new ArrayList<>();
@@ -117,7 +117,6 @@ public class Main {
     }
 
     private static void calculationFor2Attributes(List<List<NewPair>> clusters, int numberOfPointsPerCluster){
-        generateFakeData(clusters, numberOfPointsPerCluster);
         new DrawPoints(clusters);
 
         double[] firstCoord = new double[numberOfPointsPerCluster * clusters.size()];
@@ -166,9 +165,7 @@ public class Main {
         }
     }
 
-    private static void calculationForMoreAttributes(List<List<Point>> newClusters, int numberOfPointsPerCluster, int numberOfAttributes){
-        generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
-
+    private static void calculationForMoreAttributes(List<List<Point>> newClusters, int numberOfPointsPerCluster){
         double[][] matrix = new double[numberOfPointsPerCluster * newClusters.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
 
         int k = 0;
@@ -179,6 +176,7 @@ public class Main {
             }
         }
 
+        //Prints all Points sorted by the clusters
         for(int i = 0; i < matrix.length; i++){
             if(i % numberOfPointsPerCluster == 0){
                 System.out.println("Next Cluster");
@@ -191,10 +189,11 @@ public class Main {
         }
         System.out.println(" ");
 
-        //double covarianceMatrix = new Covariance().computeCovarianceMatrix(all);
+
         RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
 
+        //Prints the Pearson Matrix
         System.out.println("Pearson Matrix: ");
         for (int i = 0; i < pearsonMatrix.getColumnDimension(); i++) {
             for(int j = 0; j < pearsonMatrix.getRowDimension(); j++){
@@ -207,6 +206,7 @@ public class Main {
         }
         System.out.println();
 
+        //Prints the Spearman Matrix
         System.out.println("Spearman Matrix: ");
         for (int i = 0; i < spearmanMatrix.getColumnDimension(); i++) {
             for(int j = 0; j < spearmanMatrix.getRowDimension(); j++){
@@ -217,6 +217,61 @@ public class Main {
             }
             System.out.println();
         }
+
+        //Calculates the most significant attribute of pearson
+        double pearsonColumnMin = 1;
+        int pearsonAttribute = -1;
+        for (int i = 0; i < pearsonMatrix.getColumnDimension(); i++) {
+            double rowMax = 0;
+            for(int j = 0; j < pearsonMatrix.getRowDimension(); j++){
+                if(Math.abs(pearsonMatrix.getEntry(j , i)) > rowMax && Math.abs(pearsonMatrix.getEntry(j , i)) < 1){
+                    rowMax = pearsonMatrix.getEntry(j , i);
+                }
+            }
+            if(rowMax < pearsonColumnMin){
+                pearsonColumnMin = rowMax;
+                pearsonAttribute = i;
+            }
+        }
+        System.out.println();
+        System.out.println("Attribut: " + pearsonAttribute + " Pearson: " + pearsonColumnMin);
+
+        //Calculates the most significant attribute of spearman
+        double spearmanColumnMin = 1;
+        int spearmanAttribute = -1;
+        for (int i = 0; i < spearmanMatrix.getColumnDimension(); i++) {
+            double rowMax = 0;
+            for(int j = 0; j < spearmanMatrix.getRowDimension(); j++){
+                if(Math.abs(spearmanMatrix.getEntry(j , i)) > rowMax && Math.abs(spearmanMatrix.getEntry(j , i)) < 1){
+                    rowMax = spearmanMatrix.getEntry(j , i);
+                }
+            }
+            if(rowMax < spearmanColumnMin){
+                spearmanColumnMin = rowMax;
+                spearmanAttribute = i;
+            }
+        }
+        System.out.println();
+        System.out.println("Attribut: " + spearmanAttribute + " Spearman: " + spearmanColumnMin);
+        System.out.println();
+
+
+        //Prints max and min value from the "best" attribute of each cluster
+        for(int i = 0; i < newClusters.size(); i++){
+            double min = Double.POSITIVE_INFINITY;
+            double max = Double.NEGATIVE_INFINITY;
+            for (Point p: newClusters.get(i)) {
+                if (p.getAttributes()[spearmanAttribute] < min) {
+                    min = p.getAttributes()[spearmanAttribute];
+                }
+                if (p.getAttributes()[spearmanAttribute] > max) {
+                    max = p.getAttributes()[spearmanAttribute];
+                }
+            }
+            System.out.println("Cluster: " + i + ": [" + min + "," + max + "]");
+        }
+
+
     }
 
     public static void main(String[] args) {
@@ -231,9 +286,15 @@ public class Main {
             newClusters.add(new ArrayList<Point>());
 
         }
-
+        //generateFakeData(clusters, numberOfPointsPerCluster);
         //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
-        calculationForMoreAttributes(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+        generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+        /*for(int i = 0; i < clusters.size(); i++){
+            for(int j = 0; j < clusters.get(i).size(); j++){
+                newClusters.get(i).add(new Point(2, clusters.get(i).get(j).getAttribute()));
+            }
+        }*/
+        calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
     }
 
 }

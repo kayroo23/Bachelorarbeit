@@ -1,15 +1,21 @@
-public class NewPair {
-    private int first, second;
+public class NewPair extends Point{
+    private double[] attribute = new double[2];
+
     NewPair(int x, int y){
-        first = x;
-        second = y;
+        super(2);
+        attribute[0] = x;
+        attribute[1] = y;
     }
 
-    int getFirst(){
-        return first;
+    double[] getAttribute(){
+        return attribute;
     }
 
-    int getSecond(){
-        return second;
+    double getFirst(){
+        return attribute[0];
+    }
+
+    double getSecond(){
+        return attribute[1];
     }
 }

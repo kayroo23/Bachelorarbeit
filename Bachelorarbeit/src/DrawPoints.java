@@ -30,7 +30,7 @@ public class DrawPoints extends JFrame {
         g.setTransform(FLIP_X_COORDINATE);
         for (List<NewPair> x : clusters) {
             for (NewPair p : x) {
-                g.drawOval(scalingFactor * p.getFirst(), scalingFactor * p.getSecond(), circleRadius,circleRadius);
+                g.drawOval((int)(scalingFactor * p.getFirst()), (int)(scalingFactor * p.getSecond()), circleRadius,circleRadius);
             }
         }
     }
