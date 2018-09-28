@@ -193,6 +193,7 @@ public class Main {
         RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
 
+
         //Prints the Pearson Matrix
         System.out.println("Pearson Matrix: ");
         for (int i = 0; i < pearsonMatrix.getColumnDimension(); i++) {
@@ -217,6 +218,8 @@ public class Main {
             }
             System.out.println();
         }
+        System.out.println();
+
 
         //Calculates the most significant attribute of pearson
         double pearsonColumnMin = 1;
@@ -257,6 +260,7 @@ public class Main {
 
 
         //Prints max and min value from the "best" attribute of each cluster
+        double[][] tempMatrix = new double[newClusters.size()][2];
         for(int i = 0; i < newClusters.size(); i++){
             double min = Double.POSITIVE_INFINITY;
             double max = Double.NEGATIVE_INFINITY;
@@ -268,8 +272,32 @@ public class Main {
                     max = p.getAttributes()[spearmanAttribute];
                 }
             }
-            System.out.println("Cluster: " + i + ": [" + min + "," + max + "]");
+            tempMatrix[i][0] = min;
+            tempMatrix[i][1] = max;
         }
+
+
+        //Sort the min/max Matrix with respect to min
+        for(int i = tempMatrix.length; i > 1; --i){
+            double temp;
+            for(int j = 0; j < i-1; ++j){
+                if(tempMatrix[j][0] > tempMatrix[j+1][0]){
+                    temp = tempMatrix[j][0];
+                    tempMatrix[j][0] = tempMatrix[j+1][0];
+                    tempMatrix[j+1][0] = temp;
+
+                    temp = tempMatrix[j][1];
+                    tempMatrix[j][1] = tempMatrix[j+1][1];
+                    tempMatrix[j+1][1] = temp;
+                }
+            }
+        }
+
+        //Print the min/max Matrix
+        for(int i = 0; i < tempMatrix.length; i++){
+            System.out.println("Cluster: " + i + ": [" + tempMatrix[i][0] + "," + tempMatrix[i][1] + "]");
+        }
+
 
 
     }
