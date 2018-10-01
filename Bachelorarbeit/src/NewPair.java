@@ -1,4 +1,4 @@
-public class NewPair extends Point{
+class NewPair extends Point{
     private double[] attribute = new double[2];
 
     NewPair(int x, int y){

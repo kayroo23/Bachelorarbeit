@@ -10,7 +10,7 @@ public class DrawPoints extends JFrame {
 
 
 
-    public DrawPoints(List<List<NewPair>> c) {
+    DrawPoints(List<List<NewPair>> c) {
         super("test");
         clusters = c;
         setDefaultCloseOperation(EXIT_ON_CLOSE);

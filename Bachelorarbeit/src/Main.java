@@ -3,6 +3,7 @@ import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -428,18 +429,37 @@ public class Main {
         generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
-        GeneralCalculation calculator = new CalculationForAllPoints();
 
+        GeneralCalculation calculator = new GeneralCalculation();
         double[][] matrix = calculator.calculateMatrix(newClusters, numberOfPointsPerCluster);
         RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
+
         System.out.println("Pearson Matrix: ");
         printMatrix(pearsonMatrix);
         System.out.println("Spearman Matrix: ");
         printMatrix(spearmanMatrix);
         //bestAttributes = calculateBestAttributes(newClusters, numberOfShownAttributes, pearsonMatrix);
         bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
-        calculator.calculateResults(newClusters, bestAttributes);
+        calculator.calculateMinMaxResults(newClusters, bestAttributes);
+        calculator.calculateQuartileResult(newClusters, bestAttributes);
+
+        List<double[][]> matrixList = new ArrayList<>();
+        matrixList = calculator.calculateMatrixList(newClusters, numberOfPointsPerCluster);
+        for(int i = 0; i < newClusters.size(); i++){
+            pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
+            spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
+            //System.out.println(i + ". Pearson Matrix: ");
+            //printMatrix(pearsonMatrix);
+            //System.out.println(i + ". Spearman Matrix: ");
+            //printMatrix(spearmanMatrix);
+            //bestAttributes = calculateBestAttributes(newClusters, numberOfShownAttributes, pearsonMatrix);
+            bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+            List<List<Point>> oneCluster = new ArrayList<>();
+            oneCluster.add(newClusters.get(i));
+            calculator.calculateMinMaxResults(oneCluster, bestAttributes);
+            calculator.calculateQuartileResult(oneCluster, bestAttributes);
+        }
     }
 
 }
