@@ -1,0 +1,3 @@
+iris: https://archive.ics.uci.edu/ml/datasets/iris
+ecoli: https://archive.ics.uci.edu/ml/datasets/Ecoli
+fertility: https://archive.ics.uci.edu/ml/datasets/Fertility

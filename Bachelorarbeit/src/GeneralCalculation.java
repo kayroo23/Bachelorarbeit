@@ -8,8 +8,8 @@ import java.util.List;
 
     private List<double[][]> listOfMatrices = new ArrayList<>();
 
-    double[][] calculateMatrix(List<List<Point>> newClusters, int numberOfPointsPerCluster){
-        double[][] matrix = new double[numberOfPointsPerCluster * newClusters.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
+    double[][] calculateMatrix(List<List<Point>> newClusters){
+        double[][] matrix = new double[newClusters.get(0).size() * newClusters.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
 
         int k = 0;
         for (List<Point> cluster : newClusters) {
@@ -21,10 +21,10 @@ import java.util.List;
         return matrix;
     }
 
-    List<double[][]> calculateMatrixList(List<List<Point>> newClusters, int numberOfPointsPerCluster) {
+    List<double[][]> calculateMatrixList(List<List<Point>> newClusters) {
         for (List<Point> cluster : newClusters) {
             int k = 0;
-            double[][] matrix = new double[numberOfPointsPerCluster][newClusters.get(0).get(0).getNumberOfAttributes()];
+            double[][] matrix = new double[newClusters.get(0).size()][newClusters.get(0).get(0).getNumberOfAttributes()];
             for (Point point: cluster) {
                 matrix[k] = point.getAttributes();
                 k++;

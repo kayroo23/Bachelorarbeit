@@ -3,9 +3,12 @@ import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -410,15 +413,54 @@ public class Main {
         System.out.println();
     }
 
+    /**reads the txt file and stores the points in seperated clusters
+     *
+     * @param location location of the txt file
+     * @param newClusters List of clusters
+     * @param firstRelevantValue all Values from the input file before this value will be ignored
+     */
+    private static void readClassificationDataSet(String location, List<List<Point>> newClusters, int firstRelevantValue){
+        File file = new File(location);
+        newClusters.clear();
+        List<String> knownClasses = new ArrayList<>();
+        try{
+            String s;
+            Scanner sc = new Scanner(file);
+            int positionInArrayList = 0;
+            while(sc.hasNextLine()){
+                while(sc.hasNext()){
+                    s = sc.next();
+                    String[] values = s.split(",");
+                    //Add new cluster in Arraylist if necessary
+                    if(!knownClasses.contains(values[values.length-1])){
+                        knownClasses.add(values[values.length-1]);
+                        newClusters.add(new ArrayList<Point>());
+                    }
+                    //Find right cluster for this point
+                    for (int z = 0; z < knownClasses.size(); z++) {
+                        if(knownClasses.get(z).equals(values[values.length-1])){
+                            positionInArrayList = z;
+                            break;
+                        }
+                    }
+                    double[] attributes = new double[values.length - 1 - firstRelevantValue];
+                    for(int l = firstRelevantValue; l < values.length-1; l++){
+                        attributes[l - firstRelevantValue] = Double.parseDouble(values[l]);
+                    }
+                    newClusters.get(positionInArrayList).add(new Point(attributes.length, attributes));
+                }
+            }
+        }catch(FileNotFoundException e){
+            System.out.println("Einlesen der Datei fehlgeschlagen!");
+        }
+    }
+
     public static void main(String[] args) {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
-        int numberOfClusters = 10;
-        int numberOfPointsPerCluster = 100;
+        int numberOfClusters = 5;
+        int numberOfPointsPerCluster = 50;
         int numberOfAttributes = 10;
-        int numberOfShownAttributes = 3;
-        List<Integer> bestAttributes;
-
         for(int i = 0; i < numberOfClusters; i++){
             clusters.add(new ArrayList<NewPair>());
             newClusters.add(new ArrayList<Point>());
@@ -429,9 +471,15 @@ public class Main {
         generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
+        //readClassificationDataSet("irisDataset.txt", newClusters, 0);
+        //readClassificationDataSet("fertilityDataSet.txt", newClusters, 0);
+        readClassificationDataSet("ecoliDataSet.txt", newClusters, 1);
+
+        int numberOfShownAttributes = 3;
+        List<Integer> bestAttributes;
 
         GeneralCalculation calculator = new GeneralCalculation();
-        double[][] matrix = calculator.calculateMatrix(newClusters, numberOfPointsPerCluster);
+        double[][] matrix = calculator.calculateMatrix(newClusters);
         RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
 
@@ -445,9 +493,9 @@ public class Main {
         calculator.calculateQuartileResult(newClusters, bestAttributes);
 
         List<double[][]> matrixList = new ArrayList<>();
-        matrixList = calculator.calculateMatrixList(newClusters, numberOfPointsPerCluster);
+        matrixList = calculator.calculateMatrixList(newClusters);
         for(int i = 0; i < newClusters.size(); i++){
-            pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
+            //pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
             spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
             //System.out.println(i + ". Pearson Matrix: ");
             //printMatrix(pearsonMatrix);
