@@ -1,5 +1,6 @@
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.correlation.Covariance;
+import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 
@@ -471,9 +472,9 @@ public class Main {
         generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
-        //readClassificationDataSet("irisDataset.txt", newClusters, 0);
+        readClassificationDataSet("irisDataset.txt", newClusters, 0);
         //readClassificationDataSet("fertilityDataSet.txt", newClusters, 0);
-        readClassificationDataSet("ecoliDataSet.txt", newClusters, 1);
+        //readClassificationDataSet("ecoliDataSet.txt", newClusters, 1);
 
         int numberOfShownAttributes = 3;
         List<Integer> bestAttributes;
@@ -482,17 +483,19 @@ public class Main {
         double[][] matrix = calculator.calculateMatrix(newClusters);
         RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
+        RealMatrix kendallsTauMatrix = new KendallsCorrelation().computeCorrelationMatrix(matrix);
 
         System.out.println("Pearson Matrix: ");
         printMatrix(pearsonMatrix);
         System.out.println("Spearman Matrix: ");
         printMatrix(spearmanMatrix);
-        //bestAttributes = calculateBestAttributes(newClusters, numberOfShownAttributes, pearsonMatrix);
+        System.out.println("Kendalls Tau Matrix: ");
+        printMatrix(kendallsTauMatrix);
         bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
         calculator.calculateMinMaxResults(newClusters, bestAttributes);
         calculator.calculateQuartileResult(newClusters, bestAttributes);
 
-        List<double[][]> matrixList = new ArrayList<>();
+        List<double[][]> matrixList;
         matrixList = calculator.calculateMatrixList(newClusters);
         for(int i = 0; i < newClusters.size(); i++){
             //pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
@@ -501,7 +504,8 @@ public class Main {
             //printMatrix(pearsonMatrix);
             //System.out.println(i + ". Spearman Matrix: ");
             //printMatrix(spearmanMatrix);
-            //bestAttributes = calculateBestAttributes(newClusters, numberOfShownAttributes, pearsonMatrix);
+            //System.out.println("Kendalls Tau Matrix: ");
+            //printMatrix(kendallsTauMatrix);
             bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
             List<List<Point>> oneCluster = new ArrayList<>();
             oneCluster.add(newClusters.get(i));
