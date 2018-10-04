@@ -13,9 +13,10 @@
     <session id="-493764723">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="14" />
+          <entry key="project.closed" value="15" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.31" value="3" />
           <entry key="project.open.time.33" value="1" />
@@ -24,7 +25,7 @@
           <entry key="project.open.time.36" value="1" />
           <entry key="project.open.time.37" value="1" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -40,12 +41,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="23" />
-          <entry key="java" value="14363" />
+          <entry key="java" value="15940" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="14363" />
+          <entry key="JAVA" value="15940" />
           <entry key="PLAIN_TEXT" value="23" />
         </counts>
       </usages-collector>
@@ -56,8 +57,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="492" column="39" selection-start-line="492" selection-start-column="39" selection-end-line="492" selection-end-column="39" />
+            <state relative-caret-position="1173">
+              <caret line="422" column="7" lean-forward="true" selection-start-line="422" selection-start-column="7" selection-end-line="422" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;method#tooClose#0;class#Main#0" />
@@ -112,15 +113,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GeneralCalculation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="23" column="70" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
+            <state relative-caret-position="442">
+              <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#calculateMatrix#0;class#GeneralCalculation#0" />
                 <element signature="method#calculateMatrixList#0;class#GeneralCalculation#0" />
                 <element signature="method#calculateBestAttributes#0;class#GeneralCalculation#0" />
                 <element signature="method#replaceWorst#0;class#GeneralCalculation#0" />
                 <element signature="method#calculateMinMaxResults#0;class#GeneralCalculation#0" />
                 <element signature="method#calculateQuartileResult#0;class#GeneralCalculation#0" />
+                <element signature="method#printTable#0;class#GeneralCalculation#0" />
+                <element signature="docComment;method#calculateTable#0;class#GeneralCalculation#0" />
+                <element signature="method#calculateTable#0;class#GeneralCalculation#0" />
               </folding>
             </state>
           </provider>
@@ -148,8 +153,8 @@
         <option value="$PROJECT_DIR$/src/CalculationPerCluster.java" />
         <option value="$PROJECT_DIR$/src/NewPair.java" />
         <option value="$PROJECT_DIR$/src/DrawPoints.java" />
-        <option value="$PROJECT_DIR$/src/GeneralCalculation.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/GeneralCalculation.java" />
       </list>
     </option>
   </component>
@@ -167,7 +172,6 @@
     <panes>
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -184,6 +188,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -248,7 +253,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20788912" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21002132" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -257,7 +262,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.16160521" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31344903" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -282,34 +287,6 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/CalculationPerCluster.java" />
     <entry file="file://$PROJECT_DIR$/src/CalculationForAllPoints.java" />
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="492" column="39" selection-start-line="492" selection-start-column="39" selection-end-line="492" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;method#tooClose#0;class#Main#0" />
-            <element signature="method#tooClose#0;class#Main#0" />
-            <element signature="method#isNotValidCenter#0;class#Main#0" />
-            <element signature="docComment;method#getRandomPosition#0;class#Main#0" />
-            <element signature="method#getRandomPosition#0;class#Main#0" />
-            <element signature="docComment;method#generateFakeData#0;class#Main#0" />
-            <element signature="method#getRandomCenter#0;class#Main#0" />
-            <element signature="docComment;method#generateFakeData#1;class#Main#0" />
-            <element signature="method#generateFakeData#1;class#Main#0" />
-            <element signature="method#calculationFor2Attributes#0;class#Main#0" />
-            <element signature="method#calculationForMoreAttributes#0;class#Main#0" />
-            <element signature="method#calculateMatrix#0;class#Main#0" />
-            <element signature="method#calculateBestAttributes#0;class#Main#0" />
-            <element signature="method#replaceWorst#0;class#Main#0" />
-            <element signature="method#calculateResults#0;class#Main#0" />
-            <element signature="method#printMatrix#0;class#Main#0" />
-            <element signature="docComment;method#readClassificationDataSet#0;class#Main#0" />
-            <element signature="method#readClassificationDataSet#0;class#Main#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/DrawPoints.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -332,15 +309,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GeneralCalculation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="23" column="70" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
+        <state relative-caret-position="442">
+          <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#calculateMatrix#0;class#GeneralCalculation#0" />
             <element signature="method#calculateMatrixList#0;class#GeneralCalculation#0" />
             <element signature="method#calculateBestAttributes#0;class#GeneralCalculation#0" />
             <element signature="method#replaceWorst#0;class#GeneralCalculation#0" />
             <element signature="method#calculateMinMaxResults#0;class#GeneralCalculation#0" />
             <element signature="method#calculateQuartileResult#0;class#GeneralCalculation#0" />
+            <element signature="method#printTable#0;class#GeneralCalculation#0" />
+            <element signature="docComment;method#calculateTable#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateTable#0;class#GeneralCalculation#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1173">
+          <caret line="422" column="7" lean-forward="true" selection-start-line="422" selection-start-column="7" selection-end-line="422" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#tooClose#0;class#Main#0" />
+            <element signature="method#tooClose#0;class#Main#0" />
+            <element signature="method#isNotValidCenter#0;class#Main#0" />
+            <element signature="docComment;method#getRandomPosition#0;class#Main#0" />
+            <element signature="method#getRandomPosition#0;class#Main#0" />
+            <element signature="docComment;method#generateFakeData#0;class#Main#0" />
+            <element signature="method#getRandomCenter#0;class#Main#0" />
+            <element signature="docComment;method#generateFakeData#1;class#Main#0" />
+            <element signature="method#generateFakeData#1;class#Main#0" />
+            <element signature="method#calculationFor2Attributes#0;class#Main#0" />
+            <element signature="method#calculationForMoreAttributes#0;class#Main#0" />
+            <element signature="method#calculateMatrix#0;class#Main#0" />
+            <element signature="method#calculateBestAttributes#0;class#Main#0" />
+            <element signature="method#replaceWorst#0;class#Main#0" />
+            <element signature="method#calculateResults#0;class#Main#0" />
+            <element signature="method#printMatrix#0;class#Main#0" />
+            <element signature="docComment;method#readClassificationDataSet#0;class#Main#0" />
+            <element signature="method#readClassificationDataSet#0;class#Main#0" />
           </folding>
         </state>
       </provider>

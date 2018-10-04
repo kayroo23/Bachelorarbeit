@@ -1,6 +1,8 @@
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,10 +72,10 @@ import java.util.List;
         }
     }
 
-    void calculateMinMaxResults(List<List<Point>> newClusters, List<Integer> bestAttributes){
+     Object[][] calculateMinMaxResults(List<List<Point>> newClusters, List<Integer> bestAttributes){
         //Prints max and min value from the "best" attribute of each cluster
         System.out.print("             ");
-        double[][] result = new double[newClusters.size()][bestAttributes.size()*2];
+        Object[][] result = new Object[newClusters.size()][bestAttributes.size()*2];
         int k = 0;
         for (int x : bestAttributes) {
             double[][] tempMatrix = new double[newClusters.size()][2];
@@ -115,11 +117,14 @@ import java.util.List;
         }
         System.out.println();
 
+        return result;
+
     }
 
-    void calculateQuartileResult(List<List<Point>> newClusters, List<Integer> bestAttributes){
+    Object[][] calculateQuartileResult(List<List<Point>> newClusters, List<Integer> bestAttributes){
         Percentile p = new Percentile(0.25);
         double[] attribute1 = new double[newClusters.get(0).size()];
+        Object[][] result = new Object[newClusters.size()][bestAttributes.size()*2];
         for(int j = 0; j < newClusters.size(); j++){
             System.out.print("             ");
             for(int k = 0; k < bestAttributes.size(); k++){
@@ -127,12 +132,63 @@ import java.util.List;
                     attribute1[i] = newClusters.get(j).get(i).getAttributes()[bestAttributes.get(k)];
                 }
                 p.setData(attribute1);
+                result[j][0 + 2*k] = p.evaluate(25);
+                result[j][1 + 2*k] = p.evaluate(75);
+
                 System.out.print(p.evaluate(25)  + " , ");
                 System.out.print(p.evaluate(75) + " | ");
             }
             System.out.println();
         }
         System.out.println();
+
+        return result;
+    }
+
+    void printTable(Object[][] objectToPrint, List<Integer> bestAttributes, String title, String first, String second){
+        String[] test = new String[objectToPrint[0].length];
+        test[0] = "";
+        for(int loopVariable = 0; loopVariable < test.length-1; loopVariable++){
+            if(loopVariable % 2 == 0){
+                test[loopVariable+1] = "Attribute " + bestAttributes.get(loopVariable/2) + ":  " + first;
+            }else {
+                test[loopVariable+1] = "Attribute " + bestAttributes.get(loopVariable/2) + ":  " + second;
+            }
+        }
+        JTable table = new JTable(objectToPrint, test);
+        JScrollPane scrollPane = new JScrollPane(table);
+        JFrame frame = new JFrame(title);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = frame.getContentPane();
+        c.add(scrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+        frame.setSize(900,200);
+
+    }
+
+     /**Fuegt eine Anfangsbezeichnung hinzu und fügt die Tabellen zusammen
+      *
+      * @param obj1 Entspricht den gerade Zeilennummern
+      * @param obj2 Entspricht den ungerade Zeilennummern
+      * @return Ergebnis aus obj1 und obj2
+      */
+    Object[][] calculateTable(Object[][] obj1, Object[][] obj2){
+        Object[][] objResult = new Object[obj1.length + obj2.length][obj1[0].length+1];
+        for(int loop = 0; loop < objResult.length; loop++){
+            if(loop % 2 == 0){
+                objResult[loop][0] = "Cluster " + (loop/2) + " MinMax";
+                for(int l = 0; l < obj1[0].length; l++){
+                    objResult[loop][l+1] =  obj1[loop/2][l];
+                }
+            }else{
+                objResult[loop][0] = "Cluster " + (loop/2) + " Quartile";
+                for(int l = 0; l < obj2[0].length; l++){
+                    objResult[loop][l+1] =  obj2[loop/2][l];
+                }
+            }
+
+        }
+        return objResult;
     }
 
 }

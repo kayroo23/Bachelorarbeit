@@ -1,3 +1,4 @@
+import com.sun.deploy.util.ArrayUtil;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
@@ -460,7 +461,7 @@ public class Main {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
         int numberOfClusters = 5;
-        int numberOfPointsPerCluster = 50;
+        int numberOfPointsPerCluster = 500;
         int numberOfAttributes = 10;
         for(int i = 0; i < numberOfClusters; i++){
             clusters.add(new ArrayList<NewPair>());
@@ -492,8 +493,8 @@ public class Main {
         System.out.println("Kendalls Tau Matrix: ");
         printMatrix(kendallsTauMatrix);
         bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
-        calculator.calculateMinMaxResults(newClusters, bestAttributes);
-        calculator.calculateQuartileResult(newClusters, bestAttributes);
+        Object[][] objResult = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes), calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResult, bestAttributes, "MinMax + Quartile", "First", "Second");
 
         List<double[][]> matrixList;
         matrixList = calculator.calculateMatrixList(newClusters);
@@ -509,8 +510,13 @@ public class Main {
             bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
             List<List<Point>> oneCluster = new ArrayList<>();
             oneCluster.add(newClusters.get(i));
-            calculator.calculateMinMaxResults(oneCluster, bestAttributes);
-            calculator.calculateQuartileResult(oneCluster, bestAttributes);
+            //calculator.calculateMinMaxResults(oneCluster, bestAttributes);
+            //calculator.calculateQuartileResult(oneCluster, bestAttributes);
+            //calculator.printTable(calculator.calculateMinMaxResults(oneCluster, bestAttributes), bestAttributes, "MinMax", "Min", "Max");
+            //calculator.printTable(calculator.calculateQuartileResult(oneCluster, bestAttributes), bestAttributes, "Quartile", "0.25", "0.75");
+
+            objResult = calculator.calculateTable(calculator.calculateMinMaxResults(oneCluster, bestAttributes), calculator.calculateQuartileResult(oneCluster, bestAttributes));
+            calculator.printTable(objResult, bestAttributes, "MinMax + Quartile", "First", "Second");
         }
     }
 
