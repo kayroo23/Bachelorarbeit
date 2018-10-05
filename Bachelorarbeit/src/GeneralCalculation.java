@@ -122,7 +122,7 @@ import java.util.List;
     }
 
     Object[][] calculateQuartileResult(List<List<Point>> newClusters, List<Integer> bestAttributes){
-        Percentile p = new Percentile(0.25);
+        Percentile p = new Percentile();
         double[] attribute1 = new double[newClusters.get(0).size()];
         Object[][] result = new Object[newClusters.size()][bestAttributes.size()*2];
         for(int j = 0; j < newClusters.size(); j++){
@@ -131,6 +131,18 @@ import java.util.List;
                 for(int i = 0; i < newClusters.get(j).size(); i++){
                     attribute1[i] = newClusters.get(j).get(i).getAttributes()[bestAttributes.get(k)];
                 }
+
+                /*double temp;
+                for(int a = attribute1.length; a > 1 ; --a){
+                    for(int b = 0; b < a-1; ++b){
+                        if(attribute1[b] > attribute1[b+1]){
+                            temp = attribute1[b+1];
+                            attribute1[b+1] = attribute1[b];
+                            attribute1[b] = temp;
+                        }
+                    }
+                }*/
+
                 p.setData(attribute1);
                 result[j][0 + 2*k] = p.evaluate(25);
                 result[j][1 + 2*k] = p.evaluate(75);

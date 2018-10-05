@@ -460,7 +460,7 @@ public class Main {
     public static void main(String[] args) {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
-        int numberOfClusters = 5;
+        int numberOfClusters = 10;
         int numberOfPointsPerCluster = 500;
         int numberOfAttributes = 10;
         for(int i = 0; i < numberOfClusters; i++){
@@ -494,10 +494,17 @@ public class Main {
         printMatrix(kendallsTauMatrix);
         bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
         Object[][] objResult = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes), calculator.calculateQuartileResult(newClusters, bestAttributes));
-        calculator.printTable(objResult, bestAttributes, "MinMax + Quartile", "First", "Second");
+        calculator.printTable(objResult, bestAttributes, "Spearman for all Points: MinMax + Quartile", "First", "Second");
 
         List<double[][]> matrixList;
         matrixList = calculator.calculateMatrixList(newClusters);
+        Object[][] objResult2 = new Object[objResult.length + newClusters.size()*2 - 2][];
+        Object[][] test = new Object[newClusters.size()][objResult[0].length];
+        Object[] empty = new Object[objResult[0].length];
+        for(int l = 0; l < empty.length; l++){
+            empty[l] = "";
+        }
+
         for(int i = 0; i < newClusters.size(); i++){
             //pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
             spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
@@ -514,10 +521,24 @@ public class Main {
             //calculator.calculateQuartileResult(oneCluster, bestAttributes);
             //calculator.printTable(calculator.calculateMinMaxResults(oneCluster, bestAttributes), bestAttributes, "MinMax", "Min", "Max");
             //calculator.printTable(calculator.calculateQuartileResult(oneCluster, bestAttributes), bestAttributes, "Quartile", "0.25", "0.75");
+            Object[][] objResult1 = calculator.calculateTable(calculator.calculateMinMaxResults(oneCluster, bestAttributes), calculator.calculateQuartileResult(oneCluster, bestAttributes));
 
-            objResult = calculator.calculateTable(calculator.calculateMinMaxResults(oneCluster, bestAttributes), calculator.calculateQuartileResult(oneCluster, bestAttributes));
-            calculator.printTable(objResult, bestAttributes, "MinMax + Quartile", "First", "Second");
+            test[i][0] = "";
+            for(int loopVariable = 0; loopVariable < test[0].length-1; loopVariable++){
+                if(loopVariable % 2 == 0){
+                    test[i][loopVariable+1] = "Attribute " + bestAttributes.get(loopVariable/2) + ":  " + "First";
+                }else {
+                    test[i][loopVariable+1] = "Attribute " + bestAttributes.get(loopVariable/2) + ":  " + "Second";
+                }
+            }
+            objResult2[4*i] = objResult1[0];
+            objResult2[(4*i)+1] = objResult1[1];
+            if(i+1 < newClusters.size()){
+                objResult2[(4*i)+2] = empty;
+                objResult2[(4*i)+3] = test[i+1];
+            }
         }
+        calculator.printTable(objResult2, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First", "Second");
     }
 
 }
