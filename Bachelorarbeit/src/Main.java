@@ -496,6 +496,11 @@ public class Main {
         Object[][] objResult = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes), calculator.calculateQuartileResult(newClusters, bestAttributes));
         calculator.printTable(objResult, bestAttributes, "Spearman for all Points: MinMax + Quartile", "First", "Second");
 
+
+        int[] findBestAttributes = new int[newClusters.get(0).get(0).getNumberOfAttributes()];
+        for (int att = 0; att < findBestAttributes.length; att++) {
+            findBestAttributes[att] = 0;
+        }
         List<double[][]> matrixList;
         matrixList = calculator.calculateMatrixList(newClusters);
         Object[][] objResult2 = new Object[objResult.length + newClusters.size()*2 - 2][];
@@ -504,7 +509,6 @@ public class Main {
         for(int l = 0; l < empty.length; l++){
             empty[l] = "";
         }
-
         for(int i = 0; i < newClusters.size(); i++){
             //pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
             spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
@@ -537,8 +541,26 @@ public class Main {
                 objResult2[(4*i)+2] = empty;
                 objResult2[(4*i)+3] = test[i+1];
             }
+
+            for (int x : bestAttributes) {
+                findBestAttributes[x]++;
+            }
         }
         calculator.printTable(objResult2, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First", "Second");
+
+        int temp = bestAttributes.size();
+        bestAttributes.clear();
+        for(int k = 0; k < temp; k++){
+            int highest = 0;
+            for (int l:findBestAttributes) {
+                if((l > highest) && !bestAttributes.contains(l)){
+                    highest = l;
+                }
+            }
+            bestAttributes.add(highest);
+        }
+        Object[][] objResult3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes), calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResult3, bestAttributes, "Spearman first per Cluster then for all: MinMax + Quartile ", "First", "Second");
     }
 
 }
