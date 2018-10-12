@@ -1,4 +1,5 @@
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 import javax.swing.*;
@@ -72,7 +73,7 @@ import java.util.List;
         }
     }
 
-     Object[][] calculateMinMaxResults(List<List<Point>> newClusters, List<Integer> bestAttributes){
+    Object[][] calculateMinMaxResults(List<List<Point>> newClusters, List<Integer> bestAttributes){
         //Prints max and min value from the "best" attribute of each cluster
         System.out.print("             ");
         Object[][] result = new Object[newClusters.size()][bestAttributes.size()*2];
@@ -201,6 +202,96 @@ import java.util.List;
 
         }
         return objResult;
+    }
+
+     /**errechnet die Tabellen der einzelnen Cluster und fügt sie zusammen
+      *
+      * @param newClusters Liste an Clustern
+      * @param bestAttributes Liste an besten Attributen
+      * @param numberOfShownAttributes Anzahl Attribute die angezeigt werden sollen
+      * @return
+      */
+    Object[][] calculateTablePerCluster(List<List<Point>> newClusters, List<Integer> bestAttributes, int numberOfShownAttributes){
+        List<double[][]> matrixList;
+        matrixList = this.calculateMatrixList(newClusters);
+        Object[][] objResult2 = new Object[newClusters.size()*4 - 2][];
+        Object[][] test = new Object[newClusters.size()][(bestAttributes.size()*2)+1];
+        Object[] empty = new Object[(bestAttributes.size()*2)+1];
+
+        for(int l = 0; l < empty.length; l++){
+            empty[l] = "";
+        }
+
+        for(int i = 0; i < newClusters.size(); i++) {
+            //pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
+            RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
+            bestAttributes = this.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+            List<List<Point>> oneCluster = new ArrayList<>();
+            oneCluster.add(newClusters.get(i));
+            Object[][] objResult1 = this.calculateTable(this.calculateMinMaxResults(oneCluster, bestAttributes), this.calculateQuartileResult(oneCluster, bestAttributes));
+
+            test[i][0] = "";
+            for (int loopVariable = 0; loopVariable < test[0].length - 1; loopVariable++) {
+                if (loopVariable % 2 == 0) {
+                    test[i][loopVariable + 1] = "Attribute " + bestAttributes.get(loopVariable / 2) + ":  " + "First";
+                } else {
+                    test[i][loopVariable + 1] = "Attribute " + bestAttributes.get(loopVariable / 2) + ":  " + "Second";
+                }
+                System.out.println(test[i]);
+                objResult2[4 * i] = objResult1[0];
+                objResult2[(4 * i) + 1] = objResult1[1];
+                if (i + 1 < newClusters.size()) {
+                    objResult2[(4 * i) + 2] = empty;
+                    objResult2[(4 * i) + 3] = test[i + 1];
+                }
+            }
+        }
+
+        return objResult2;
+    }
+
+     /** Errechnet die besten Attribute für das erste Cluster
+      *
+      * @param newClusters Liste an Clustern
+      * @param numberOfShownAttributes Anzahl Attribute die angezeigt werden sollen
+      * @return bestAttribute List
+      */
+    List<Integer> bestAttributesForFirstCluster(List<List<Point>> newClusters, int numberOfShownAttributes){
+        List<double[][]> matrixList;
+        matrixList = this.calculateMatrixList(newClusters);
+        RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(0));
+        return this.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+    }
+
+     /** Errechnet die besten Attribute wenn sie zuerst für alle Cluster einzeln berechnet werden und davon die häufigsten ausgewählt werden
+      *
+      * @param newClusters Liste an Clustern
+      * @param numberOfShownAttributes Anzahl Attribute die angezeigt werden sollen
+      * @return bestAttribute List
+      */
+    List<Integer> bestAttributesFirstForClusterThenForAll(List<List<Point>> newClusters, int numberOfShownAttributes){
+        List<double[][]> matrixList;
+        matrixList = this.calculateMatrixList(newClusters);
+        int[] findBestAttributes = new int[newClusters.get(0).get(0).getNumberOfAttributes()];
+        List<Integer> bestAttributes = new ArrayList<>();
+        for(int i = 0; i < newClusters.size(); i++){
+            RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
+            bestAttributes = this.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+            for (int x : bestAttributes) {
+                findBestAttributes[x]++;
+            }
+        }
+        bestAttributes.clear();
+        for(int k = 0; k < numberOfShownAttributes; k++){
+            int highest = 0;
+            for (int l:findBestAttributes) {
+                if((l > highest) && !bestAttributes.contains(l)){
+                    highest = l;
+                }
+            }
+            bestAttributes.add(highest);
+        }
+        return bestAttributes;
     }
 
 }
