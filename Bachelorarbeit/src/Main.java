@@ -474,7 +474,8 @@ public class Main {
         generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
-        readClassificationDataSet("irisDataset.txt", newClusters, 0);
+        readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
+        //readClassificationDataSet("irisDataset.txt", newClusters, 0);
         //readClassificationDataSet("fertilityDataSet.txt", newClusters, 0);
         //readClassificationDataSet("ecoliDataSet.txt", newClusters, 1);
 
@@ -502,12 +503,15 @@ public class Main {
         //Calculates the best attributes per cluster
         Object[][] objResult2 = calculator.calculateTablePerCluster(newClusters, bestAttributes, numberOfShownAttributes);
         bestAttributes = calculator.bestAttributesForFirstCluster(newClusters, numberOfShownAttributes);
-        calculator.printTable(objResult2, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First", "Second");
+        calculator.printTable(objResult2, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
+                "Second");
 
         //Calculates first the best attributes per cluster and then takes the most frequent of this list
         bestAttributes = calculator.bestAttributesFirstForClusterThenForAll(newClusters, numberOfShownAttributes);
-        Object[][] objResult3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes), calculator.calculateQuartileResult(newClusters, bestAttributes));
-        calculator.printTable(objResult3, bestAttributes, "Spearman first per Cluster then for all: MinMax + Quartile ", "First", "Second");
+        Object[][] objResult3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResult3, bestAttributes, "Spearman first per Cluster then for all: MinMax + Quartile ",
+                "First", "Second");
 
 
     }

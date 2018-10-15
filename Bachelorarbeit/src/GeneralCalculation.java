@@ -11,26 +11,38 @@ import java.util.List;
 
     private List<double[][]> listOfMatrices = new ArrayList<>();
 
-    double[][] calculateMatrix(List<List<Point>> newClusters){
-        double[][] matrix = new double[newClusters.get(0).size() * newClusters.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
+     /**Gibt die Anzahl an Punkten im kleinsten Cluster zurueck
+      *
+      * @param newClusters Liste an Clustern
+      * @return Anzahl an Punkten im kleinsten Cluster zurueck
+      */
+    private int getMinimumClusterSize(List<List<Point>> newClusters){
+        int min = Integer.MAX_VALUE;
+        for(int i = 0; i < newClusters.size(); i++){
+            if(newClusters.get(i).size() < min){
+                min = newClusters.get(i).size();
+            }
+        }
+        return min;
+    }
 
-        int k = 0;
+    double[][] calculateMatrix(List<List<Point>> newClusters){
+        int min = getMinimumClusterSize(newClusters);
+        double[][] matrix = new double[min * newClusters.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
         for (List<Point> cluster : newClusters) {
-            for (Point point: cluster) {
-                matrix[k] = point.getAttributes();
-                k++;
+            for(int l = 0; l < min; l++){
+                matrix[l] = cluster.get(l).getAttributes();
             }
         }
         return matrix;
     }
 
-    List<double[][]> calculateMatrixList(List<List<Point>> newClusters) {
+    private List<double[][]> calculateMatrixList(List<List<Point>> newClusters) {
+        int min = getMinimumClusterSize(newClusters);
         for (List<Point> cluster : newClusters) {
-            int k = 0;
-            double[][] matrix = new double[newClusters.get(0).size()][newClusters.get(0).get(0).getNumberOfAttributes()];
-            for (Point point: cluster) {
-                matrix[k] = point.getAttributes();
-                k++;
+            double[][] matrix = new double[min][newClusters.get(0).get(0).getNumberOfAttributes()];
+            for (int l = 0; l < min; l++) {
+                matrix[l] = cluster.get(l).getAttributes();
             }
             listOfMatrices.add(matrix);
         }
@@ -124,25 +136,15 @@ import java.util.List;
 
     Object[][] calculateQuartileResult(List<List<Point>> newClusters, List<Integer> bestAttributes){
         Percentile p = new Percentile();
-        double[] attribute1 = new double[newClusters.get(0).size()];
+        int min = getMinimumClusterSize(newClusters);
+        double[] attribute1 = new double[min];
         Object[][] result = new Object[newClusters.size()][bestAttributes.size()*2];
         for(int j = 0; j < newClusters.size(); j++){
             System.out.print("             ");
             for(int k = 0; k < bestAttributes.size(); k++){
-                for(int i = 0; i < newClusters.get(j).size(); i++){
+                for(int i = 0; i < min; i++){
                     attribute1[i] = newClusters.get(j).get(i).getAttributes()[bestAttributes.get(k)];
                 }
-
-                /*double temp;
-                for(int a = attribute1.length; a > 1 ; --a){
-                    for(int b = 0; b < a-1; ++b){
-                        if(attribute1[b] > attribute1[b+1]){
-                            temp = attribute1[b+1];
-                            attribute1[b+1] = attribute1[b];
-                            attribute1[b] = temp;
-                        }
-                    }
-                }*/
 
                 p.setData(attribute1);
                 result[j][0 + 2*k] = p.evaluate(25);
