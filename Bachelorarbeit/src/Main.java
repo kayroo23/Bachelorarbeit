@@ -471,11 +471,11 @@ public class Main {
         //generateFakeData(clusters, numberOfPointsPerCluster);
         //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
 
-        generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+        //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
-        readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
-        //readClassificationDataSet("irisDataset.txt", newClusters, 0);
+        //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
+        readClassificationDataSet("irisDataset.txt", newClusters, 0);
         //readClassificationDataSet("fertilityDataSet.txt", newClusters, 0);
         //readClassificationDataSet("ecoliDataSet.txt", newClusters, 1);
 
@@ -499,6 +499,10 @@ public class Main {
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
         calculator.printTable(objResult, bestAttributes, "Spearman for all Points: MinMax + Quartile",
                 "First", "Second");
+        System.out.println("For all ttributes");
+        calculator.calculateOverlap(newClusters, bestAttributes);
+
+
 
         //Calculates the best attributes per cluster
         Object[][] objResult2 = calculator.calculateTablePerCluster(newClusters, bestAttributes, numberOfShownAttributes);
@@ -506,13 +510,16 @@ public class Main {
         calculator.printTable(objResult2, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
                 "Second");
 
+
+
         //Calculates first the best attributes per cluster and then takes the most frequent of this list
         bestAttributes = calculator.bestAttributesFirstForClusterThenForAll(newClusters, numberOfShownAttributes);
         Object[][] objResult3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
         calculator.printTable(objResult3, bestAttributes, "Spearman first per Cluster then for all: MinMax + Quartile ",
                 "First", "Second");
-
+        System.out.println("First per Cluster, then the most frequent: ");
+        calculator.calculateOverlap(newClusters, bestAttributes);
 
     }
 

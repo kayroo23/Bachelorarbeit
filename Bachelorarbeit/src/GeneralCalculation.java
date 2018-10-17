@@ -87,7 +87,7 @@ import java.util.List;
 
     Object[][] calculateMinMaxResults(List<List<Point>> newClusters, List<Integer> bestAttributes){
         //Prints max and min value from the "best" attribute of each cluster
-        System.out.print("             ");
+        //System.out.print("             ");
         Object[][] result = new Object[newClusters.size()][bestAttributes.size()*2];
         int k = 0;
         for (int x : bestAttributes) {
@@ -108,14 +108,14 @@ import java.util.List;
             }
 
             //Print the min/max Matrix
-            System.out.print("Attribute: " + x + "                             ");
+            //System.out.print("Attribute: " + x + "                             ");
             for(int i = 0; i < tempMatrix.length; i++){
                 result[i][0 + 2 * k] = tempMatrix[i][0];
                 result[i][1 + 2 * k] = tempMatrix[i][1];
             }
             k++;
         }
-        System.out.println();
+        /*System.out.println();
         for(int i = 0; i < result.length; i++){
             System.out.print("Cluster: "+ i + " : ");
             for(int j = 0; j < result[i].length; j++){
@@ -128,7 +128,7 @@ import java.util.List;
             }
             System.out.println();
         }
-        System.out.println();
+        System.out.println();*/
 
         return result;
 
@@ -140,7 +140,7 @@ import java.util.List;
         double[] attribute1 = new double[min];
         Object[][] result = new Object[newClusters.size()][bestAttributes.size()*2];
         for(int j = 0; j < newClusters.size(); j++){
-            System.out.print("             ");
+            //System.out.print("             ");
             for(int k = 0; k < bestAttributes.size(); k++){
                 for(int i = 0; i < min; i++){
                     attribute1[i] = newClusters.get(j).get(i).getAttributes()[bestAttributes.get(k)];
@@ -150,14 +150,32 @@ import java.util.List;
                 result[j][0 + 2*k] = p.evaluate(25);
                 result[j][1 + 2*k] = p.evaluate(75);
 
-                System.out.print(p.evaluate(25)  + " , ");
-                System.out.print(p.evaluate(75) + " | ");
+                //System.out.print(p.evaluate(25)  + " , ");
+                //System.out.print(p.evaluate(75) + " | ");
+            }
+            //System.out.println();
+        }
+        //System.out.println();
+
+        return result;
+    }
+
+    void calculateOverlap(List<List<Point>> newClusters, List<Integer> bestAttributes){
+        Object[][] calc = this.calculateMinMaxResults(newClusters,bestAttributes);
+        for (int best = 0; best < bestAttributes.size(); best++) {
+            System.out.println(bestAttributes.get(best) + "   :");
+
+            for(int l = 0; l < calc.length-1; l++){
+                for(int k = l+1; k < calc.length; k++){
+                    System.out.println(this.overlap((double)calc[l][best], (double)calc[l][best+1], (double)calc[k][best], (double)calc[k][best+1]));
+                }
             }
             System.out.println();
         }
-        System.out.println();
+    }
 
-        return result;
+    private double overlap(double xMin, double xMax, double yMin, double yMax){
+        return (Math.max(0, Math.max(xMax-yMin, yMax-xMin))/Math.min(xMax-xMin,yMax-yMin));
     }
 
     void printTable(Object[][] objectToPrint, List<Integer> bestAttributes, String title, String first, String second){
@@ -239,7 +257,6 @@ import java.util.List;
                 } else {
                     test[i][loopVariable + 1] = "Attribute " + bestAttributes.get(loopVariable / 2) + ":  " + "Second";
                 }
-                System.out.println(test[i]);
                 objResult2[4 * i] = objResult1[0];
                 objResult2[(4 * i) + 1] = objResult1[1];
                 if (i + 1 < newClusters.size()) {
@@ -275,6 +292,9 @@ import java.util.List;
         List<double[][]> matrixList;
         matrixList = this.calculateMatrixList(newClusters);
         int[] findBestAttributes = new int[newClusters.get(0).get(0).getNumberOfAttributes()];
+        for(int j = 0; j < findBestAttributes.length; j++){
+            findBestAttributes[j] = 0;
+        }
         List<Integer> bestAttributes = new ArrayList<>();
         for(int i = 0; i < newClusters.size(); i++){
             RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
@@ -286,8 +306,8 @@ import java.util.List;
         bestAttributes.clear();
         for(int k = 0; k < numberOfShownAttributes; k++){
             int highest = 0;
-            for (int l:findBestAttributes) {
-                if((l > highest) && !bestAttributes.contains(l)){
+            for (int l = 0; l < findBestAttributes.length; l++) {
+                if((findBestAttributes[l] > highest) && !bestAttributes.contains(l)){
                     highest = l;
                 }
             }
