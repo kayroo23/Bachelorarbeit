@@ -164,10 +164,10 @@ import java.util.List;
         Object[][] calc = this.calculateMinMaxResults(newClusters,bestAttributes);
         for (int best = 0; best < bestAttributes.size(); best++) {
             System.out.println(bestAttributes.get(best) + "   :");
-
             for(int l = 0; l < calc.length-1; l++){
                 for(int k = l+1; k < calc.length; k++){
-                    System.out.println(this.overlap((double)calc[l][best], (double)calc[l][best+1], (double)calc[k][best], (double)calc[k][best+1]));
+                    System.out.println(this.overlap((double)calc[l][(2*best)], (double)calc[l][(2*best)+1],
+                            (double)calc[k][(2*best)], (double)calc[k][(2*best)+1]));
                 }
             }
             System.out.println();
