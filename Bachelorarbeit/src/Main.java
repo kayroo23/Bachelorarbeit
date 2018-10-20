@@ -1,4 +1,5 @@
 import com.sun.deploy.util.ArrayUtil;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
@@ -404,14 +405,8 @@ public class Main {
 
     private static void printMatrix(RealMatrix spearmanMatrix, String s){
         System.out.println(s);
-        for (int i = 0; i < spearmanMatrix.getColumnDimension(); i++) {
-            for(int j = 0; j < spearmanMatrix.getRowDimension(); j++){
-                System.out.print(spearmanMatrix.getEntry(j , i) + "   ");
-                if(i == j){
-                    System.out.print("                ");
-                }
-            }
-            System.out.println();
+        for(int u = 0; u < spearmanMatrix.getRowDimension(); u++){
+            System.out.println(spearmanMatrix.getRowVector(u));
         }
         System.out.println();
     }
@@ -505,8 +500,8 @@ public class Main {
 
 
         //Calculates the best attributes per cluster
-        Object[][] objResult2 = calculator.calculateTablePerCluster(newClusters, bestAttributes, numberOfShownAttributes);
-        bestAttributes = calculator.bestAttributesForFirstCluster(newClusters, numberOfShownAttributes);
+        Object[][] objResult2 = calculator.calculateTablePerClusterWithSpearman(newClusters, bestAttributes, numberOfShownAttributes);
+        bestAttributes = calculator.bestAttributesForFirstClusterWithSpearman(newClusters, numberOfShownAttributes);
         calculator.printTable(objResult2, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
                 "Second");
 
@@ -520,6 +515,8 @@ public class Main {
                 "First", "Second");
         System.out.println("First per Cluster, then the most frequent: ");
         calculator.calculateOverlap(newClusters, bestAttributes);
+
+
 
     }
 

@@ -231,7 +231,7 @@ import java.util.List;
       * @param numberOfShownAttributes Anzahl Attribute die angezeigt werden sollen
       * @return
       */
-    Object[][] calculateTablePerCluster(List<List<Point>> newClusters, List<Integer> bestAttributes, int numberOfShownAttributes){
+    Object[][] calculateTablePerClusterWithSpearman(List<List<Point>> newClusters, List<Integer> bestAttributes, int numberOfShownAttributes){
         List<double[][]> matrixList;
         matrixList = this.calculateMatrixList(newClusters);
         Object[][] objResult2 = new Object[newClusters.size()*4 - 2][];
@@ -275,7 +275,7 @@ import java.util.List;
       * @param numberOfShownAttributes Anzahl Attribute die angezeigt werden sollen
       * @return bestAttribute List
       */
-    List<Integer> bestAttributesForFirstCluster(List<List<Point>> newClusters, int numberOfShownAttributes){
+    List<Integer> bestAttributesForFirstClusterWithSpearman(List<List<Point>> newClusters, int numberOfShownAttributes){
         List<double[][]> matrixList;
         matrixList = this.calculateMatrixList(newClusters);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(0));
