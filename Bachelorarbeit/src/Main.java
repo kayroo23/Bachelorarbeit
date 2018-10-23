@@ -456,7 +456,7 @@ public class Main {
     public static void main(String[] args) {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
-        int numberOfClusters = 10;
+        int numberOfClusters = 5;
         int numberOfPointsPerCluster = 500;
         int numberOfAttributes = 10;
         for(int i = 0; i < numberOfClusters; i++){
@@ -466,11 +466,11 @@ public class Main {
         //generateFakeData(clusters, numberOfPointsPerCluster);
         //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
 
-        //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+        generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
-        readClassificationDataSet("irisDataset.txt", newClusters, 0);
+        //readClassificationDataSet("irisDataset.txt", newClusters, 0);
         //readClassificationDataSet("fertilityDataSet.txt", newClusters, 0);
         //readClassificationDataSet("ecoliDataSet.txt", newClusters, 1);
 
@@ -483,41 +483,92 @@ public class Main {
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix kendallsTauMatrix = new KendallsCorrelation().computeCorrelationMatrix(matrix);
 
-        printMatrix(pearsonMatrix, "Pearson Matrix: ");
-        printMatrix(spearmanMatrix, "Spearman Matrix: ");
-        printMatrix(kendallsTauMatrix, "Kendalls Tau Matrix: ");
+        RealMatrix standardDeviation = calculator.calculateStandardDeviation(matrix);
+        RealMatrix geomMean = calculator.calculateGeomMean(matrix);
+        RealMatrix variance = calculator.calculateVariance(matrix);
+
+        //printMatrix(standardDeviation, "stdabw");
+        //printMatrix(pearsonMatrix, "Pearson Matrix: ");
+        //printMatrix(spearmanMatrix, "Spearman Matrix: ");
+        //printMatrix(kendallsTauMatrix, "Kendalls Tau Matrix: ");
 
 
-        //Calculates the best attributes in general
+        //Calculates the best attributes in general with matrices
+        bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, pearsonMatrix);
+        Object[][] objResult1 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResult1, bestAttributes, "Pearson for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with Pearson");
+        calculator.calculateOverlap(newClusters, bestAttributes);
+
+        bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, kendallsTauMatrix);
+        Object[][] objResult2 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResult2, bestAttributes, "Kendall for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with Kendall");
+        calculator.calculateOverlap(newClusters, bestAttributes);
+
         bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
         Object[][] objResult = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
         calculator.printTable(objResult, bestAttributes, "Spearman for all Points: MinMax + Quartile",
                 "First", "Second");
-        System.out.println("For all ttributes");
+        System.out.println("For all attributes with Spearman");
         calculator.calculateOverlap(newClusters, bestAttributes);
 
 
 
+        //Calculates the best attributes in general with vector
+        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, standardDeviation);
+        Object[][] objResultVector1 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResultVector1, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with Stdabw");
+        calculator.calculateOverlap(newClusters, bestAttributes);
+
+
+        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, geomMean);
+        Object[][] objResultVector2 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResultVector2, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with Geometric Mean");
+        calculator.calculateOverlap(newClusters, bestAttributes);
+
+        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, variance);
+        Object[][] objResultVector3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResultVector3, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with Variance");
+        calculator.calculateOverlap(newClusters, bestAttributes);
+
+
+
+        /*
+
         //Calculates the best attributes per cluster
-        Object[][] objResult2 = calculator.calculateTablePerClusterWithSpearman(newClusters, bestAttributes, numberOfShownAttributes);
+        Object[][] objResult3 = calculator.calculateTablePerClusterWithSpearman(newClusters, bestAttributes, numberOfShownAttributes);
         bestAttributes = calculator.bestAttributesForFirstClusterWithSpearman(newClusters, numberOfShownAttributes);
-        calculator.printTable(objResult2, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
+        calculator.printTable(objResult3, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
                 "Second");
 
 
 
         //Calculates first the best attributes per cluster and then takes the most frequent of this list
         bestAttributes = calculator.bestAttributesFirstForClusterThenForAll(newClusters, numberOfShownAttributes);
-        Object[][] objResult3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+        Object[][] objResult4 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
-        calculator.printTable(objResult3, bestAttributes, "Spearman first per Cluster then for all: MinMax + Quartile ",
+        calculator.printTable(objResult4, bestAttributes, "Spearman first per Cluster then for all: MinMax + Quartile ",
                 "First", "Second");
         System.out.println("First per Cluster, then the most frequent: ");
         calculator.calculateOverlap(newClusters, bestAttributes);
 
 
-
+        */
     }
 
 }
