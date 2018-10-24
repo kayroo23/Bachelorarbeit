@@ -4,6 +4,7 @@ import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 import org.apache.commons.math3.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 import org.apache.commons.math3.stat.descriptive.moment.Variance;
+import org.apache.commons.math3.stat.descriptive.rank.Median;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 import javax.swing.*;
@@ -28,6 +29,28 @@ import java.util.List;
              result.setEntry(i,0, stdabw.evaluate(temp));
          }
         return result;
+     }
+
+     RealMatrix calculateMedianDeviation(double[][] matrix){
+         double[] input = new double[matrix[0].length];
+         RealMatrix result = new Array2DRowRealMatrix(input);
+         double[] temp = new double[matrix[0].length];
+         Median median = new Median();
+        double medianResult;
+
+         for(int i = 0; i < matrix[0].length; i++){
+             double medianTemp = 0;
+             for(int k = 0; k < temp.length; k++){
+                 temp[k] = matrix[k][i];
+             }
+             medianResult = median.evaluate(temp);
+             for (double l : temp) {
+                 medianTemp += Math.abs(l - medianResult);
+             }
+
+             result.setEntry(i,0, medianTemp/temp.length);
+         }
+         return result;
      }
 
      RealMatrix calculateGeomMean(double[][] matrix){
@@ -234,7 +257,7 @@ import java.util.List;
       * @param newClusters List of clusters
       * @param bestAttributes List of best Attributes
       */
-    void calculateOverlap(List<List<Point>> newClusters, List<Integer> bestAttributes){
+    double calculateOverlap(List<List<Point>> newClusters, List<Integer> bestAttributes){
         Object[][] calc = this.calculateMinMaxResults(newClusters,bestAttributes);
         double meanOfMeans = 0;
         for (int best = 0; best < bestAttributes.size(); best++) {
@@ -251,7 +274,7 @@ import java.util.List;
                             //(double)calc[k][(2*best)], (double)calc[k][(2*best)+1]));
                 }
             }
-            System.out.println();
+            //System.out.println();
             mean = mean/count;
             /*System.out.println("Mean: " + mean);
             System.out.println();
@@ -259,9 +282,11 @@ import java.util.List;
             meanOfMeans += mean;
         }
         meanOfMeans = meanOfMeans/bestAttributes.size();
-        System.out.println("Mean of Means: " + meanOfMeans);
+        /*System.out.println("Mean of Means: " + meanOfMeans);
         System.out.println();
-        System.out.println();
+        System.out.println();*/
+
+        return meanOfMeans;
     }
 
     private double overlap(double xMin, double xMax, double yMin, double yMax){

@@ -103,7 +103,7 @@ public class Main {
      */
     private static void generateFakeData(List<List<Point>> clusters, int numberOfPointsPerCluster, int numberOfAtributes){
         double streuungsreichweite = 15;
-        int bereich = (int)(clusters.size() * streuungsreichweite * 10);
+        int bereich = (int)(clusters.size() * streuungsreichweite * 100);
         ArrayList<Point> clusterPositions = new ArrayList<>();
 
         for (List<Point> cluster: clusters) {
@@ -486,6 +486,7 @@ public class Main {
         RealMatrix standardDeviation = calculator.calculateStandardDeviation(matrix);
         RealMatrix geomMean = calculator.calculateGeomMean(matrix);
         RealMatrix variance = calculator.calculateVariance(matrix);
+        RealMatrix medianDeviation = calculator.calculateMedianDeviation(matrix);
 
         //printMatrix(standardDeviation, "stdabw");
         //printMatrix(pearsonMatrix, "Pearson Matrix: ");
@@ -500,7 +501,7 @@ public class Main {
         calculator.printTable(objResult1, bestAttributes, "Pearson for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Pearson");
-        calculator.calculateOverlap(newClusters, bestAttributes);
+        System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
 
         bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, kendallsTauMatrix);
         Object[][] objResult2 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
@@ -508,7 +509,7 @@ public class Main {
         calculator.printTable(objResult2, bestAttributes, "Kendall for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Kendall");
-        calculator.calculateOverlap(newClusters, bestAttributes);
+        System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
 
         bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
         Object[][] objResult = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
@@ -516,7 +517,7 @@ public class Main {
         calculator.printTable(objResult, bestAttributes, "Spearman for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Spearman");
-        calculator.calculateOverlap(newClusters, bestAttributes);
+        System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
 
 
 
@@ -527,7 +528,7 @@ public class Main {
         calculator.printTable(objResultVector1, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Stdabw");
-        calculator.calculateOverlap(newClusters, bestAttributes);
+        System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
 
 
         bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, geomMean);
@@ -536,7 +537,7 @@ public class Main {
         calculator.printTable(objResultVector2, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Geometric Mean");
-        calculator.calculateOverlap(newClusters, bestAttributes);
+        System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
 
         bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, variance);
         Object[][] objResultVector3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
@@ -544,7 +545,15 @@ public class Main {
         calculator.printTable(objResultVector3, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Variance");
-        calculator.calculateOverlap(newClusters, bestAttributes);
+        System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
+
+        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, medianDeviation);
+        Object[][] objResultVector4 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResultVector4, bestAttributes, "MedianDeviation for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with MedianDeviation");
+        System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
 
 
 
@@ -569,6 +578,54 @@ public class Main {
 
 
         */
+
+        int iterations = 10;
+        double[] means = new double[7];
+        for(int f = 0; f < iterations; f++){
+            newClusters.clear();
+            for(int i = 0; i < numberOfClusters; i++){
+                newClusters.add(new ArrayList<Point>());
+            }
+            generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+
+            numberOfShownAttributes = 3;
+            bestAttributes.clear();
+
+            calculator = new GeneralCalculation();
+            matrix = calculator.calculateMatrix(newClusters);
+            pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
+            spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
+            kendallsTauMatrix = new KendallsCorrelation().computeCorrelationMatrix(matrix);
+
+            standardDeviation = calculator.calculateStandardDeviation(matrix);
+            geomMean = calculator.calculateGeomMean(matrix);
+            variance = calculator.calculateVariance(matrix);
+            medianDeviation = calculator.calculateMedianDeviation(matrix);
+
+            bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, pearsonMatrix);
+            means[0] = means[0] + calculator.calculateOverlap(newClusters, bestAttributes);
+            bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, kendallsTauMatrix);
+            means[1] = means[1] + calculator.calculateOverlap(newClusters, bestAttributes);
+            bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+            means[2] = means[2] + calculator.calculateOverlap(newClusters, bestAttributes);
+            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, standardDeviation);
+            means[3] = means[3] + calculator.calculateOverlap(newClusters, bestAttributes);
+            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, geomMean);
+            means[4] = means[4] + calculator.calculateOverlap(newClusters, bestAttributes);
+            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, variance);
+            means[5] = means[5] + calculator.calculateOverlap(newClusters, bestAttributes);
+            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, medianDeviation);
+            means[6] = means[6] + calculator.calculateOverlap(newClusters, bestAttributes);
+        }
+        System.out.println();System.out.println();
+        System.out.println("Pearson: " + means[0]/iterations);
+        System.out.println("Kendall: " + means[1]/iterations);
+        System.out.println("Spearman: " + means[2]/iterations);
+        System.out.println("Stdabw: " + means[3]/iterations);
+        System.out.println("GeomMean: " + means[4]/iterations);
+        System.out.println("Variance: " + means[5]/iterations);
+        System.out.println("MedianDeviation: " + means[6]/iterations);
+
     }
 
 }
