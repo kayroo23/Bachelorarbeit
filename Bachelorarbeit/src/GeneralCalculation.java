@@ -141,7 +141,7 @@ import java.util.List;
         return listOfMatrices;
     }
 
-    List<Integer> calculateBestAttributes(int numberOfShownAttributes, RealMatrix spearmanMatrix){
+    List<Integer> calculateBestAttributesForMatrix(int numberOfShownAttributes, RealMatrix spearmanMatrix){
         List<Integer> bestAttributes = new ArrayList<>();
         double[][] attributeValue = new double[numberOfShownAttributes][2];
         for(int i = 0; i < numberOfShownAttributes; i++){
@@ -252,12 +252,15 @@ import java.util.List;
         return result;
     }
 
-     /**Calculates the overlap of all pairs
+     /**Calculates the overlap of all pairs of Clusters
+      * computed with the same "bestAttributes" for all clusters with intersection of the intervalborders
       *
       * @param newClusters List of clusters
       * @param bestAttributes List of best Attributes
+      *
+      * @return mean of the mean overlapps of all pairs
       */
-    double calculateOverlap(List<List<Point>> newClusters, List<Integer> bestAttributes){
+    double calculateOverlapInterval(List<List<Point>> newClusters, List<Integer> bestAttributes){
         Object[][] calc = this.calculateMinMaxResults(newClusters,bestAttributes);
         double meanOfMeans = 0;
         for (int best = 0; best < bestAttributes.size(); best++) {
@@ -360,7 +363,7 @@ import java.util.List;
         for(int i = 0; i < newClusters.size(); i++) {
             //pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrixList.get(i));
             RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
-            bestAttributes = this.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+            bestAttributes = this.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanMatrix);
             List<List<Point>> oneCluster = new ArrayList<>();
             oneCluster.add(newClusters.get(i));
             Object[][] objResult1 = this.calculateTable(this.calculateMinMaxResults(oneCluster, bestAttributes), this.calculateQuartileResult(oneCluster, bestAttributes));
@@ -394,7 +397,7 @@ import java.util.List;
         List<double[][]> matrixList;
         matrixList = this.calculateMatrixList(newClusters);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(0));
-        return this.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+        return this.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanMatrix);
     }
 
      /** Errechnet die besten Attribute wenn sie zuerst für alle Cluster einzeln berechnet werden und davon die häufigsten ausgewählt werden
@@ -413,7 +416,7 @@ import java.util.List;
         List<Integer> bestAttributes = new ArrayList<>();
         for(int i = 0; i < newClusters.size(); i++){
             RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrixList.get(i));
-            bestAttributes = this.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
+            bestAttributes = this.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanMatrix);
             for (int x : bestAttributes) {
                 findBestAttributes[x]++;
             }
