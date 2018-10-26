@@ -453,6 +453,77 @@ public class Main {
         }
     }
 
+
+    private static List<List<Point>> generateGoldStandardDataset(){
+        List<List<Point>> clusters = new ArrayList<>();
+        for(int i = 0; i < 5; i++){
+            clusters.add(new ArrayList<Point>());
+        }
+        for(int k = 0; k < 100; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,schuhgr,geschlecht
+            double[] attList = new double[6];
+            attList[0] = (int)((Math.random()*19)+1);
+            attList[1] = (int)((Math.random()*9)+1);
+            attList[2] = (int)((Math.random()*39)+1);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            Point p = new Point(attList.length, attList);
+            clusters.get(0).add(p);
+        }
+        for(int k = 0; k < 100; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,schuhgr,geschlecht
+            double[] attList = new double[6];
+            attList[0] = (int)((Math.random()*19)+21);
+            attList[1] = (int)((Math.random()*39)+11);
+            attList[2] = (int)((Math.random()*19)+41);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            Point p = new Point(attList.length, attList);
+            clusters.get(1).add(p);
+        }
+        for(int k = 0; k < 100; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,schuhgr,geschlecht
+            double[] attList = new double[6];
+            attList[0] = (int)((Math.random()*19)+41);
+            attList[1] = (int)((Math.random()*29)+51);
+            attList[2] = (int)((Math.random()*19)+61);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            Point p = new Point(attList.length, attList);
+            clusters.get(2).add(p);
+        }
+        for(int k = 0; k < 100; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,schuhgr,geschlecht
+            double[] attList = new double[6];
+            attList[0] = (int)((Math.random()*19)+61);
+            attList[1] = (int)((Math.random()*5)+81);
+            attList[2] = (int)((Math.random()*12)+81);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            Point p = new Point(attList.length, attList);
+            clusters.get(3).add(p);
+        }
+        for(int k = 0; k < 100; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,schuhgr,geschlecht
+            double[] attList = new double[6];
+            attList[0] = (int)((Math.random()*19)+81);
+            attList[1] = (int)((Math.random()*5)+96);
+            attList[2] = (int)((Math.random()*6)+94);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            Point p = new Point(attList.length, attList);
+            clusters.get(4).add(p);
+        }
+
+
+        return clusters;
+    }
+
     public static void main(String[] args) {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
@@ -467,6 +538,7 @@ public class Main {
         //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
 
         generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+        newClusters = generateGoldStandardDataset();
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
@@ -534,7 +606,7 @@ public class Main {
         bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, geomMean);
         Object[][] objResultVector2 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
-        calculator.printTable(objResultVector2, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
+        calculator.printTable(objResultVector2, bestAttributes, "Geometric Mean for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Geometric Mean");
         System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
@@ -542,7 +614,7 @@ public class Main {
         bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, variance);
         Object[][] objResultVector3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
-        calculator.printTable(objResultVector3, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
+        calculator.printTable(objResultVector3, bestAttributes, "Variance for all Points: MinMax + Quartile",
                 "First", "Second");
         System.out.println("For all attributes with Variance");
         System.out.println(calculator.calculateOverlap(newClusters, bestAttributes));
@@ -579,52 +651,6 @@ public class Main {
 
         */
 
-        int iterations = 10;
-        double[] means = new double[7];
-        for(int f = 0; f < iterations; f++){
-            newClusters.clear();
-            for(int i = 0; i < numberOfClusters; i++){
-                newClusters.add(new ArrayList<Point>());
-            }
-            generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
-
-            numberOfShownAttributes = 3;
-            bestAttributes.clear();
-
-            calculator = new GeneralCalculation();
-            matrix = calculator.calculateMatrix(newClusters);
-            pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
-            spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
-            kendallsTauMatrix = new KendallsCorrelation().computeCorrelationMatrix(matrix);
-
-            standardDeviation = calculator.calculateStandardDeviation(matrix);
-            geomMean = calculator.calculateGeomMean(matrix);
-            variance = calculator.calculateVariance(matrix);
-            medianDeviation = calculator.calculateMedianDeviation(matrix);
-
-            bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, pearsonMatrix);
-            means[0] = means[0] + calculator.calculateOverlap(newClusters, bestAttributes);
-            bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, kendallsTauMatrix);
-            means[1] = means[1] + calculator.calculateOverlap(newClusters, bestAttributes);
-            bestAttributes = calculator.calculateBestAttributes(numberOfShownAttributes, spearmanMatrix);
-            means[2] = means[2] + calculator.calculateOverlap(newClusters, bestAttributes);
-            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, standardDeviation);
-            means[3] = means[3] + calculator.calculateOverlap(newClusters, bestAttributes);
-            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, geomMean);
-            means[4] = means[4] + calculator.calculateOverlap(newClusters, bestAttributes);
-            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, variance);
-            means[5] = means[5] + calculator.calculateOverlap(newClusters, bestAttributes);
-            bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, medianDeviation);
-            means[6] = means[6] + calculator.calculateOverlap(newClusters, bestAttributes);
-        }
-        System.out.println();System.out.println();
-        System.out.println("Pearson: " + means[0]/iterations);
-        System.out.println("Kendall: " + means[1]/iterations);
-        System.out.println("Spearman: " + means[2]/iterations);
-        System.out.println("Stdabw: " + means[3]/iterations);
-        System.out.println("GeomMean: " + means[4]/iterations);
-        System.out.println("Variance: " + means[5]/iterations);
-        System.out.println("MedianDeviation: " + means[6]/iterations);
 
     }
 
