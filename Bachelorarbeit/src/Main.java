@@ -3,6 +3,7 @@ import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
+import org.apache.commons.math3.stat.descriptive.moment.Mean;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -553,7 +554,7 @@ public class Main {
         //readClassificationDataSet("ecoliDataSet.txt", newClusters, 1);
 
         int numberOfShownAttributes = 3;
-        List<Integer> bestAttributes;
+        List<Integer> bestAttributes = new ArrayList<>();
 
         GeneralCalculation calculator = new GeneralCalculation();
         double[][] matrix = calculator.calculateMatrix(newClusters);
@@ -565,6 +566,8 @@ public class Main {
         RealMatrix geomMean = calculator.calculateGeomMean(matrix);
         RealMatrix variance = calculator.calculateVariance(matrix);
         RealMatrix medianDeviation = calculator.calculateMedianDeviation(matrix);
+        RealMatrix variationsCoefficient = calculator.calculateVariationsCoefficient(matrix);
+        RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
 
         //printMatrix(standardDeviation, "stdabw");
         //printMatrix(pearsonMatrix, "Pearson Matrix: ");
@@ -609,7 +612,6 @@ public class Main {
         System.out.println("For all attributes with Stdabw");
         System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
 
-
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMean);
         Object[][] objResultVector2 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
@@ -625,7 +627,6 @@ public class Main {
                 "First", "Second");
         System.out.println("For all attributes with MedianDeviation");
         System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
-        */
 
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, variance);
         Object[][] objResultVector3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
@@ -635,6 +636,22 @@ public class Main {
         System.out.println("For all attributes with Variance");
         System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
 
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, variationsCoefficient);
+        Object[][] objResultVector5 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResultVector5, bestAttributes, "variationsCoefficient for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with variationsCoefficient");
+        System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
+
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartilsDispersion);
+        Object[][] objResultVector6 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResultVector6, bestAttributes, "quartilsDispersion for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with quartilsDispersion");
+        System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
+        */
 
 
 
@@ -646,7 +663,7 @@ public class Main {
         for(int l = 0; l < matrixList1.size(); l++){
             spearmanList.add(new SpearmansCorrelation().computeCorrelationMatrix(matrixList1.get(l)));
         }
-        Object[][] objResult3 = calculator.calculateTablePerClusterWithMatrix(newClusters, bestAttributes, numberOfShownAttributes, spearmanList);
+        Object[][] objResult3 = calculator.calculateTablePerClusterWithMatrix(newClusters, numberOfShownAttributes, spearmanList);
         bestAttributes = calculator.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanList.get(0));
         calculator.printTable(objResult3, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
                 "Second");
@@ -657,24 +674,73 @@ public class Main {
         for(int l = 0; l < matrixList2.size(); l++){
             varianceList.add(calculator.calculateVariance(matrixList2.get(l)));
         }
-
-        for(int f = 0; f < varianceList.get(0).getRowDimension();f++){
-            System.out.println(varianceList.get(0).getEntry(f,0));
-        }
-
-        Object[][] objResult31 = calculator.calculateTablePerClusterWithVector(newClusters, bestAttributes, numberOfShownAttributes, varianceList);
+        Object[][] objResult31 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, varianceList);
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList.get(0));
         calculator.printTable(objResult31, bestAttributes, "Variance per Cluster: MinMax + Quartile ", "First",
                 "Second");
 
-        for(int f = 0; f < varianceList.get(0).getRowDimension();f++){
-            System.out.println(varianceList.get(0).getEntry(f,0));
+        List<double[][]> matrixList3 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> stdabwList = new ArrayList<>();
+        for(int l = 0; l < matrixList3.size(); l++){
+            stdabwList.add(calculator.calculateStandardDeviation(matrixList3.get(l)));
         }
+        Object[][] objResult32 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, stdabwList);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(0));
+        calculator.printTable(objResult32, bestAttributes, "Stdabw per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
+        List<double[][]> matrixList4 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> variationskoeffizientList = new ArrayList<>();
+        for(int l = 0; l < matrixList4.size(); l++){
+            variationskoeffizientList.add(calculator.calculateVariationsCoefficient(matrixList4.get(l)));
+        }
+        Object[][] objResult33 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, variationskoeffizientList);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, variationskoeffizientList.get(0));
+        calculator.printTable(objResult33, bestAttributes, "Variationskoeffizient per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
+        List<double[][]> matrixList5 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> geometricMeanList = new ArrayList<>();
+        for(int l = 0; l < matrixList5.size(); l++){
+            geometricMeanList.add(calculator.calculateGeomMean(matrixList5.get(l)));
+        }
+        Object[][] objResult34 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, geometricMeanList);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geometricMeanList.get(0));
+        calculator.printTable(objResult34, bestAttributes, "GeometricMean per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
+        List<double[][]> matrixList6 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> medianDeviationList = new ArrayList<>();
+        for(int l = 0; l < matrixList6.size(); l++){
+            medianDeviationList.add(calculator.calculateMedianDeviation(matrixList6.get(l)));
+        }
+        Object[][] objResult35 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, medianDeviationList);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medianDeviationList.get(0));
+        calculator.printTable(objResult35, bestAttributes, "MedianDeviation per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
+        List<double[][]> matrixList7 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> quartilsDispersionsList = new ArrayList<>();
+        for(int l = 0; l < matrixList7.size(); l++){
+            quartilsDispersionsList.add(calculator.calculateQuartilsDispersion(matrixList7.get(l)));
+        }
+        Object[][] objResult36 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, quartilsDispersionsList);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartilsDispersionsList.get(0));
+        calculator.printTable(objResult36, bestAttributes, "QuartilsDispersions per Cluster: MinMax + Quartile ", "First",
+                "Second");
 
 
 
 
 
+
+
+
+        /*
         //Calculates first the best attributes per cluster and then takes the most frequent of this list
         bestAttributes = calculator.bestAttributesFirstForClusterThenForAll(newClusters, numberOfShownAttributes);
         Object[][] objResult4 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
@@ -683,7 +749,7 @@ public class Main {
                 "First", "Second");
         System.out.println("First per Cluster, then the most frequent: ");
         calculator.calculateOverlapInterval(newClusters, bestAttributes);
-
+        */
 
 
 
