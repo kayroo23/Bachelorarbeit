@@ -457,62 +457,72 @@ public class Main {
             clusters.add(new ArrayList<Point>());
         }
         for(int k = 0; k < 10000; k++){
-            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht
-            double[] attList = new double[6];
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+1);
             attList[1] = (int)((Math.random()*9)+1);
             attList[2] = (int)((Math.random()*39)+1);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 0;
+            attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(0).add(p);
         }
         for(int k = 0; k < 10000; k++){
-            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht
-            double[] attList = new double[6];
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+21);
             attList[1] = (int)((Math.random()*39)+11);
             attList[2] = (int)((Math.random()*19)+41);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 1;
+            attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(1).add(p);
         }
         for(int k = 0; k < 10000; k++){
-            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht
-            double[] attList = new double[6];
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+41);
             attList[1] = (int)((Math.random()*29)+51);
             attList[2] = (int)((Math.random()*19)+61);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 2;
+            attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(2).add(p);
         }
         for(int k = 0; k < 10000; k++){
-            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht
-            double[] attList = new double[6];
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+61);
             attList[1] = (int)((Math.random()*5)+81);
             attList[2] = (int)((Math.random()*12)+81);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 3;
+            attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(3).add(p);
         }
         for(int k = 0; k < 10000; k++){
-            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht
-            double[] attList = new double[6];
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+81);
             attList[1] = (int)((Math.random()*5)+96);
             attList[2] = (int)((Math.random()*6)+94);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 4;
+            attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(4).add(p);
         }
@@ -533,7 +543,7 @@ public class Main {
         //generateFakeData(clusters, numberOfPointsPerCluster);
         //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
 
-        generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
+        //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         newClusters = generateGoldStandardDataset();
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
@@ -558,11 +568,20 @@ public class Main {
 
         //printMatrix(standardDeviation, "stdabw");
         //printMatrix(pearsonMatrix, "Pearson Matrix: ");
-        printMatrix(spearmanMatrix, "Spearman Matrix: ");
+        //printMatrix(spearmanMatrix, "Spearman Matrix: ");
         //printMatrix(kendallsTauMatrix, "Kendalls Tau Matrix: ");
 
 
         //Calculates the best attributes in general with matrices
+        /*
+        bestAttributes = calculator.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanMatrix);
+        Object[][] objResult = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResult, bestAttributes, "Spearman for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with Spearman");
+        System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
+
         bestAttributes = calculator.calculateBestAttributesForMatrix(numberOfShownAttributes, pearsonMatrix);
         Object[][] objResult1 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
@@ -579,18 +598,10 @@ public class Main {
         System.out.println("For all attributes with Kendall");
         System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
 
-        bestAttributes = calculator.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanMatrix);
-        Object[][] objResult = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
-                calculator.calculateQuartileResult(newClusters, bestAttributes));
-        calculator.printTable(objResult, bestAttributes, "Spearman for all Points: MinMax + Quartile",
-                "First", "Second");
-        System.out.println("For all attributes with Spearman");
-        System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
-
 
 
         //Calculates the best attributes in general with vector
-        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, standardDeviation);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, standardDeviation);
         Object[][] objResultVector1 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
         calculator.printTable(objResultVector1, bestAttributes, "Stdabw for all Points: MinMax + Quartile",
@@ -599,7 +610,7 @@ public class Main {
         System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
 
 
-        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, geomMean);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMean);
         Object[][] objResultVector2 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
         calculator.printTable(objResultVector2, bestAttributes, "Geometric Mean for all Points: MinMax + Quartile",
@@ -607,7 +618,16 @@ public class Main {
         System.out.println("For all attributes with Geometric Mean");
         System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
 
-        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, variance);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medianDeviation);
+        Object[][] objResultVector4 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
+                calculator.calculateQuartileResult(newClusters, bestAttributes));
+        calculator.printTable(objResultVector4, bestAttributes, "MedianDeviation for all Points: MinMax + Quartile",
+                "First", "Second");
+        System.out.println("For all attributes with MedianDeviation");
+        System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
+        */
+
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, variance);
         Object[][] objResultVector3 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
                 calculator.calculateQuartileResult(newClusters, bestAttributes));
         calculator.printTable(objResultVector3, bestAttributes, "Variance for all Points: MinMax + Quartile",
@@ -615,23 +635,43 @@ public class Main {
         System.out.println("For all attributes with Variance");
         System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
 
-        bestAttributes = calculator.calculateBestAttributesForVectors(numberOfShownAttributes, medianDeviation);
-        Object[][] objResultVector4 = calculator.calculateTable(calculator.calculateMinMaxResults(newClusters, bestAttributes),
-                calculator.calculateQuartileResult(newClusters, bestAttributes));
-        calculator.printTable(objResultVector4, bestAttributes, "MedianDeviation for all Points: MinMax + Quartile",
-                "First", "Second");
-        System.out.println("For all attributes with MedianDeviation");
-        System.out.println(calculator.calculateOverlapInterval(newClusters, bestAttributes));
 
 
 
-        /*
+
 
         //Calculates the best attributes per cluster
-        Object[][] objResult3 = calculator.calculateTablePerClusterWithSpearman(newClusters, bestAttributes, numberOfShownAttributes);
-        bestAttributes = calculator.bestAttributesForFirstClusterWithSpearman(newClusters, numberOfShownAttributes);
+        List<double[][]> matrixList1 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> spearmanList = new ArrayList<>();
+        for(int l = 0; l < matrixList1.size(); l++){
+            spearmanList.add(new SpearmansCorrelation().computeCorrelationMatrix(matrixList1.get(l)));
+        }
+        Object[][] objResult3 = calculator.calculateTablePerClusterWithMatrix(newClusters, bestAttributes, numberOfShownAttributes, spearmanList);
+        bestAttributes = calculator.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanList.get(0));
         calculator.printTable(objResult3, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
                 "Second");
+
+
+        List<double[][]> matrixList2 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> varianceList = new ArrayList<>();
+        for(int l = 0; l < matrixList2.size(); l++){
+            varianceList.add(calculator.calculateVariance(matrixList2.get(l)));
+        }
+
+        for(int f = 0; f < varianceList.get(0).getRowDimension();f++){
+            System.out.println(varianceList.get(0).getEntry(f,0));
+        }
+
+        Object[][] objResult31 = calculator.calculateTablePerClusterWithVector(newClusters, bestAttributes, numberOfShownAttributes, varianceList);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList.get(0));
+        calculator.printTable(objResult31, bestAttributes, "Variance per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+        for(int f = 0; f < varianceList.get(0).getRowDimension();f++){
+            System.out.println(varianceList.get(0).getEntry(f,0));
+        }
+
+
 
 
 
@@ -645,7 +685,7 @@ public class Main {
         calculator.calculateOverlapInterval(newClusters, bestAttributes);
 
 
-        */
+
 
 
     }
