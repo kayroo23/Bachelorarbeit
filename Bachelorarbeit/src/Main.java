@@ -3,12 +3,12 @@ import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
-import org.apache.commons.math3.stat.descriptive.moment.Mean;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -452,7 +452,7 @@ public class Main {
     }
 
 
-    private static List<List<Point>> generateGoldStandardDataset(){
+    private static List<List<Point>> generateRandomGoldStandardDataset(){
         List<List<Point>> clusters = new ArrayList<>();
         for(int i = 0; i < 5; i++){
             clusters.add(new ArrayList<Point>());
@@ -503,7 +503,7 @@ public class Main {
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+61);
-            attList[1] = (int)((Math.random()*5)+81);
+            attList[1] = (int)((Math.random()*15)+81);
             attList[2] = (int)((Math.random()*12)+81);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
@@ -517,7 +517,7 @@ public class Main {
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+81);
-            attList[1] = (int)((Math.random()*5)+96);
+            attList[1] = (int)((Math.random()*4)+96);
             attList[2] = (int)((Math.random()*6)+94);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
@@ -529,6 +529,99 @@ public class Main {
         }
 
         return clusters;
+    }
+
+    private static List<List<Point>> generateGaussGoldStandardDataset(double distance){
+        List<List<Point>> clusters = new ArrayList<>();
+        for(int i = 0; i < 5; i++){
+            clusters.add(new ArrayList<Point>());
+        }
+        for(int k = 0; k < 10000; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
+            attList[0] = (int)((Math.random()*19)+1);
+            attList[1] = calculateGaussian(1,10,distance);
+            attList[2] = calculateGaussian(1,40,distance);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 0;
+            attList[7] = 1234567;
+            Point p = new Point(attList.length, attList);
+            clusters.get(0).add(p);
+        }
+        for(int k = 0; k < 10000; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
+            attList[0] = (int)((Math.random()*19)+21);
+            attList[1] = calculateGaussian(11,50,distance);
+            attList[2] = calculateGaussian(41,60,distance);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 1;
+            attList[7] = 1234567;
+            Point p = new Point(attList.length, attList);
+            clusters.get(1).add(p);
+        }
+        for(int k = 0; k < 10000; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
+            attList[0] = (int)((Math.random()*19)+41);
+            attList[1] = calculateGaussian(51,80,distance);
+            attList[2] = calculateGaussian(61,80,distance);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 2;
+            attList[7] = 1234567;
+            Point p = new Point(attList.length, attList);
+            clusters.get(2).add(p);
+        }
+        for(int k = 0; k < 10000; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
+            attList[0] = (int)((Math.random()*19)+61);
+            attList[1] = calculateGaussian(81,95,distance);
+            attList[2] = calculateGaussian(81,93,distance);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 3;
+            attList[7] = 1234567;
+            Point p = new Point(attList.length, attList);
+            clusters.get(3).add(p);
+        }
+        for(int k = 0; k < 10000; k++){
+            //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
+            double[] attList = new double[8];
+            attList[0] = (int)((Math.random()*19)+81);
+            attList[1] = calculateGaussian(95,100,distance);
+            attList[2] = calculateGaussian(94,100,distance);
+            attList[3] = (int)((Math.random()*99)+1);
+            attList[4] = ((int)(Math.random()*4))*25;
+            attList[5] = Math.random() > 0.5 ? 100 : 0;
+            attList[6] = 4;
+            attList[7] = 1234567;
+            Point p = new Point(attList.length, attList);
+            clusters.get(4).add(p);
+        }
+
+        return clusters;
+    }
+
+    /**Calculates gaussian distribution where the max/min values are reached at +distance/-distance
+     * The higher the distance the lower the chance to get a value out of the [min,max] interval
+     *
+     * @param min value after -distance
+     * @param max value after +distance
+     * @param distance to reach the max/min values
+     * @return gaussian distribution
+     */
+    private static double calculateGaussian(double min, double max, double distance){
+        Random rnd = new Random();
+        double mean = (min + max) / 2;
+        return (mean + rnd.nextGaussian()*((max - mean)/distance));
     }
 
     public static void main(String[] args) {
@@ -545,7 +638,8 @@ public class Main {
         //calculationFor2Attributes(clusters, numberOfPointsPerCluster);
 
         //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
-        newClusters = generateGoldStandardDataset();
+        //newClusters = generateRandomGoldStandardDataset();
+        newClusters = generateGaussGoldStandardDataset(10);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
@@ -735,7 +829,14 @@ public class Main {
 
 
 
-
+        Random rnd = new Random();
+        int count = 0;
+        for(int k = 0; k < 10000000; k++){
+            if(Math.abs(rnd.nextGaussian()) > 4){
+                count++;
+            }
+        }
+        System.out.println(count);
 
 
 
