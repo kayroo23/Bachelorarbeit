@@ -466,7 +466,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 0;
+            attList[6] = 1;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(0).add(p);
@@ -480,7 +480,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 1;
+            attList[6] = 25;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(1).add(p);
@@ -494,7 +494,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 2;
+            attList[6] = 50;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(2).add(p);
@@ -508,7 +508,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 3;
+            attList[6] = 75;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(3).add(p);
@@ -522,7 +522,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 4;
+            attList[6] = 100;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(4).add(p);
@@ -545,7 +545,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 0;
+            attList[6] = 1;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(0).add(p);
@@ -559,7 +559,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 1;
+            attList[6] = 25;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(1).add(p);
@@ -573,7 +573,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 2;
+            attList[6] = 50;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(2).add(p);
@@ -587,7 +587,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 3;
+            attList[6] = 75;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(3).add(p);
@@ -601,7 +601,7 @@ public class Main {
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
-            attList[6] = 4;
+            attList[6] = 100;
             attList[7] = 1234567;
             Point p = new Point(attList.length, attList);
             clusters.get(4).add(p);
@@ -639,7 +639,7 @@ public class Main {
 
         //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //newClusters = generateRandomGoldStandardDataset();
-        newClusters = generateGaussGoldStandardDataset(10);
+        newClusters = generateGaussGoldStandardDataset(2);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
@@ -652,6 +652,7 @@ public class Main {
 
         GeneralCalculation calculator = new GeneralCalculation();
         double[][] matrix = calculator.calculateMatrix(newClusters);
+
         RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix kendallsTauMatrix = new KendallsCorrelation().computeCorrelationMatrix(matrix);
@@ -664,6 +665,7 @@ public class Main {
         RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
 
         //printMatrix(standardDeviation, "stdabw");
+        //printMatrix(variance, "variance");
         //printMatrix(pearsonMatrix, "Pearson Matrix: ");
         //printMatrix(spearmanMatrix, "Spearman Matrix: ");
         //printMatrix(kendallsTauMatrix, "Kendalls Tau Matrix: ");
@@ -763,6 +765,7 @@ public class Main {
                 "Second");
 
 
+
         List<double[][]> matrixList2 = calculator.calculateMatrixList(newClusters);
         List<RealMatrix> varianceList = new ArrayList<>();
         for(int l = 0; l < matrixList2.size(); l++){
@@ -773,6 +776,8 @@ public class Main {
         calculator.printTable(objResult31, bestAttributes, "Variance per Cluster: MinMax + Quartile ", "First",
                 "Second");
 
+
+
         List<double[][]> matrixList3 = calculator.calculateMatrixList(newClusters);
         List<RealMatrix> stdabwList = new ArrayList<>();
         for(int l = 0; l < matrixList3.size(); l++){
@@ -782,6 +787,7 @@ public class Main {
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(0));
         calculator.printTable(objResult32, bestAttributes, "Stdabw per Cluster: MinMax + Quartile ", "First",
                 "Second");
+
 
 
         List<double[][]> matrixList4 = calculator.calculateMatrixList(newClusters);
@@ -795,6 +801,7 @@ public class Main {
                 "Second");
 
 
+
         List<double[][]> matrixList5 = calculator.calculateMatrixList(newClusters);
         List<RealMatrix> geometricMeanList = new ArrayList<>();
         for(int l = 0; l < matrixList5.size(); l++){
@@ -804,6 +811,7 @@ public class Main {
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geometricMeanList.get(0));
         calculator.printTable(objResult34, bestAttributes, "GeometricMean per Cluster: MinMax + Quartile ", "First",
                 "Second");
+
 
 
         List<double[][]> matrixList6 = calculator.calculateMatrixList(newClusters);
@@ -817,6 +825,7 @@ public class Main {
                 "Second");
 
 
+
         List<double[][]> matrixList7 = calculator.calculateMatrixList(newClusters);
         List<RealMatrix> quartilsDispersionsList = new ArrayList<>();
         for(int l = 0; l < matrixList7.size(); l++){
@@ -826,17 +835,6 @@ public class Main {
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartilsDispersionsList.get(0));
         calculator.printTable(objResult36, bestAttributes, "QuartilsDispersions per Cluster: MinMax + Quartile ", "First",
                 "Second");
-
-
-
-        Random rnd = new Random();
-        int count = 0;
-        for(int k = 0; k < 10000000; k++){
-            if(Math.abs(rnd.nextGaussian()) > 4){
-                count++;
-            }
-        }
-        System.out.println(count);
 
 
 

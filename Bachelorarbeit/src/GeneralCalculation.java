@@ -96,7 +96,9 @@ import java.util.List;
              for(int k = 0; k < temp.length; k++){
                  temp[k] = matrix[k][i];
              }
+             variance.clear();
              result.setEntry(i,0, variance.evaluate(temp));
+
          }
          return result;
      }
