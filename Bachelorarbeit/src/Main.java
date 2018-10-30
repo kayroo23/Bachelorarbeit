@@ -531,12 +531,12 @@ public class Main {
         return clusters;
     }
 
-    private static List<List<Point>> generateGaussGoldStandardDataset(double distance){
+    private static List<List<Point>> generateGaussGoldStandardDataset(double distance, int pointsPerCluster){
         List<List<Point>> clusters = new ArrayList<>();
         for(int i = 0; i < 5; i++){
             clusters.add(new ArrayList<Point>());
         }
-        for(int k = 0; k < 10000; k++){
+        for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+1);
@@ -550,7 +550,7 @@ public class Main {
             Point p = new Point(attList.length, attList);
             clusters.get(0).add(p);
         }
-        for(int k = 0; k < 10000; k++){
+        for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+21);
@@ -564,7 +564,7 @@ public class Main {
             Point p = new Point(attList.length, attList);
             clusters.get(1).add(p);
         }
-        for(int k = 0; k < 10000; k++){
+        for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+41);
@@ -578,7 +578,7 @@ public class Main {
             Point p = new Point(attList.length, attList);
             clusters.get(2).add(p);
         }
-        for(int k = 0; k < 10000; k++){
+        for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+61);
@@ -592,7 +592,7 @@ public class Main {
             Point p = new Point(attList.length, attList);
             clusters.get(3).add(p);
         }
-        for(int k = 0; k < 10000; k++){
+        for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+81);
@@ -628,7 +628,7 @@ public class Main {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
         int numberOfClusters = 5;
-        int numberOfPointsPerCluster = 500;
+        int numberOfPointsPerCluster = 100;
         int numberOfAttributes = 10;
         for(int i = 0; i < numberOfClusters; i++){
             clusters.add(new ArrayList<NewPair>());
@@ -639,7 +639,7 @@ public class Main {
 
         //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //newClusters = generateRandomGoldStandardDataset();
-        newClusters = generateGaussGoldStandardDataset(2);
+        newClusters = generateGaussGoldStandardDataset(2, numberOfPointsPerCluster);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
@@ -652,6 +652,13 @@ public class Main {
 
         GeneralCalculation calculator = new GeneralCalculation();
         double[][] matrix = calculator.calculateMatrix(newClusters);
+
+        /*for(int k = 0; k < matrix.length; k++){
+            for(int l = 0; l < matrix[k].length; l++){
+                System.out.print(matrix[k][l] + ",      ");
+            }
+            System.out.println();
+        }*/
 
         RealMatrix pearsonMatrix = new PearsonsCorrelation().computeCorrelationMatrix(matrix);
         RealMatrix spearmanMatrix = new SpearmansCorrelation().computeCorrelationMatrix(matrix);
@@ -771,9 +778,27 @@ public class Main {
         for(int l = 0; l < matrixList2.size(); l++){
             varianceList.add(calculator.calculateVariance(matrixList2.get(l)));
         }
-        Object[][] objResult31 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, varianceList);
+        Object[][] objResult31 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, varianceList);
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList.get(0));
         calculator.printTable(objResult31, bestAttributes, "Variance per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
+        //Variance of all points - variance of cluster
+        List<double[][]> matrixList21 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> varianceList2 = new ArrayList<>();
+        for(int l = 0; l < matrixList21.size(); l++){
+            RealMatrix tempVariance = calculator.calculateVariance(matrixList21.get(l));
+            for(int k = 0; k < tempVariance.getRowDimension(); k++){
+                tempVariance.setEntry(k,0, Math.abs(variance.getEntry(k,0)) - Math.abs(tempVariance.getEntry(k,0)));
+                System.out.println(tempVariance.getEntry(k,0));
+            }
+            varianceList2.add(tempVariance);
+
+        }
+        Object[][] objResult311 = calculator.calculateMaximizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, varianceList2);
+        bestAttributes = calculator.calculateMaxAttributesForVectors(numberOfShownAttributes, varianceList2.get(0));
+        calculator.printTable(objResult311, bestAttributes, "Variance difference per Cluster: MinMax + Quartile ", "First",
                 "Second");
 
 
@@ -783,7 +808,7 @@ public class Main {
         for(int l = 0; l < matrixList3.size(); l++){
             stdabwList.add(calculator.calculateStandardDeviation(matrixList3.get(l)));
         }
-        Object[][] objResult32 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, stdabwList);
+        Object[][] objResult32 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, stdabwList);
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(0));
         calculator.printTable(objResult32, bestAttributes, "Stdabw per Cluster: MinMax + Quartile ", "First",
                 "Second");
@@ -795,7 +820,7 @@ public class Main {
         for(int l = 0; l < matrixList4.size(); l++){
             variationskoeffizientList.add(calculator.calculateVariationsCoefficient(matrixList4.get(l)));
         }
-        Object[][] objResult33 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, variationskoeffizientList);
+        Object[][] objResult33 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, variationskoeffizientList);
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, variationskoeffizientList.get(0));
         calculator.printTable(objResult33, bestAttributes, "Variationskoeffizient per Cluster: MinMax + Quartile ", "First",
                 "Second");
@@ -807,7 +832,7 @@ public class Main {
         for(int l = 0; l < matrixList5.size(); l++){
             geometricMeanList.add(calculator.calculateGeomMean(matrixList5.get(l)));
         }
-        Object[][] objResult34 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, geometricMeanList);
+        Object[][] objResult34 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, geometricMeanList);
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geometricMeanList.get(0));
         calculator.printTable(objResult34, bestAttributes, "GeometricMean per Cluster: MinMax + Quartile ", "First",
                 "Second");
@@ -819,7 +844,7 @@ public class Main {
         for(int l = 0; l < matrixList6.size(); l++){
             medianDeviationList.add(calculator.calculateMedianDeviation(matrixList6.get(l)));
         }
-        Object[][] objResult35 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, medianDeviationList);
+        Object[][] objResult35 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, medianDeviationList);
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medianDeviationList.get(0));
         calculator.printTable(objResult35, bestAttributes, "MedianDeviation per Cluster: MinMax + Quartile ", "First",
                 "Second");
@@ -831,7 +856,7 @@ public class Main {
         for(int l = 0; l < matrixList7.size(); l++){
             quartilsDispersionsList.add(calculator.calculateQuartilsDispersion(matrixList7.get(l)));
         }
-        Object[][] objResult36 = calculator.calculateTablePerClusterWithVector(newClusters, numberOfShownAttributes, quartilsDispersionsList);
+        Object[][] objResult36 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, quartilsDispersionsList);
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartilsDispersionsList.get(0));
         calculator.printTable(objResult36, bestAttributes, "QuartilsDispersions per Cluster: MinMax + Quartile ", "First",
                 "Second");

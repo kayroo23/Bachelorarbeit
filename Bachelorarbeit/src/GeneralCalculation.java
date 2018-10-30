@@ -20,7 +20,7 @@ import java.util.List;
      RealMatrix calculateStandardDeviation(double[][] matrix){
          double[] input = new double[matrix[0].length];
          RealMatrix result = new Array2DRowRealMatrix(input);
-         double[] temp = new double[matrix[0].length];
+         double[] temp = new double[matrix.length];
          StandardDeviation stdabw = new StandardDeviation();
 
          for(int i = 0; i < matrix[0].length; i++){
@@ -35,7 +35,7 @@ import java.util.List;
      RealMatrix calculateVariationsCoefficient(double[][] matrix){
          double[] input = new double[matrix[0].length];
          RealMatrix result = new Array2DRowRealMatrix(input);
-         double[] temp = new double[matrix[0].length];
+         double[] temp = new double[matrix.length];
          StandardDeviation stdabw = new StandardDeviation();
          Mean mean = new Mean();
 
@@ -52,7 +52,7 @@ import java.util.List;
      RealMatrix calculateMedianDeviation(double[][] matrix){
          double[] input = new double[matrix[0].length];
          RealMatrix result = new Array2DRowRealMatrix(input);
-         double[] temp = new double[matrix[0].length];
+         double[] temp = new double[matrix.length];
          Median median = new Median();
         double medianResult;
 
@@ -74,7 +74,7 @@ import java.util.List;
      RealMatrix calculateGeomMean(double[][] matrix){
          double[] input = new double[matrix[0].length];
          RealMatrix result = new Array2DRowRealMatrix(input);
-         double[] temp = new double[matrix[0].length];
+         double[] temp = new double[matrix.length];
          GeometricMean geomMean = new GeometricMean();
 
          for(int i = 0; i < matrix[0].length; i++){
@@ -89,7 +89,7 @@ import java.util.List;
      RealMatrix calculateVariance(double[][] matrix){
          double[] input = new double[matrix[0].length];
          RealMatrix result = new Array2DRowRealMatrix(input);
-         double[] temp = new double[matrix[0].length];
+         double[] temp = new double[matrix.length];
          Variance variance = new Variance();
 
          for(int i = 0; i < matrix[0].length; i++){
@@ -106,7 +106,7 @@ import java.util.List;
      RealMatrix calculateQuartilsDispersion(double[][] matrix){
          double[] input = new double[matrix[0].length];
          RealMatrix result = new Array2DRowRealMatrix(input);
-         double[] temp = new double[matrix[0].length];
+         double[] temp = new double[matrix.length];
          Percentile p = new Percentile();
 
 
@@ -137,6 +137,22 @@ import java.util.List;
          return bestAttributes;
      }
 
+     List<Integer> calculateMaxAttributesForVectors(int numberOfShownAttributes, RealMatrix vector){
+         List<Integer> bestAttributes = new ArrayList<>();
+         for(int l = 0; l < numberOfShownAttributes; l++){
+             double max = Double.MIN_VALUE;
+             int position = -1;
+             for(int k = 0; k < vector.getRowDimension(); k++){
+                 if((vector.getEntry(k,0) > max) && !bestAttributes.contains(k)){
+                     max = vector.getEntry(k,0);
+                     position = k;
+                 }
+             }
+             bestAttributes.add(position);
+         }
+         return bestAttributes;
+     }
+
 
      /**Gibt die Anzahl an Punkten im kleinsten Cluster zurueck
       *
@@ -156,9 +172,9 @@ import java.util.List;
     double[][] calculateMatrix(List<List<Point>> newClusters){
         int min = getMinimumClusterSize(newClusters);
         double[][] matrix = new double[min * newClusters.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
-        for (List<Point> cluster : newClusters) {
+        for(int k = 0; k < newClusters.size(); k++){
             for(int l = 0; l < min; l++){
-                matrix[l] = cluster.get(l).getAttributes();
+                matrix[l+(k*min)] = newClusters.get(k).get(l).getAttributes();
             }
         }
         return matrix;
@@ -377,7 +393,7 @@ import java.util.List;
         return objResult;
     }
 
-    Object[][] calculateTablePerClusterWithVector(List<List<Point>> newClusters, int numberOfShownAttributes, List<RealMatrix> vectorList){
+    Object[][] calculateMinimizingTablePerClusterWithVector(List<List<Point>> newClusters, int numberOfShownAttributes, List<RealMatrix> vectorList){
 
          Object[][] objResult2 = new Object[newClusters.size()*4 - 2][];
          Object[][] test = new Object[newClusters.size()][(numberOfShownAttributes*2)+1];
@@ -389,6 +405,41 @@ import java.util.List;
 
          for(int i = 0; i < newClusters.size(); i++) {
              List<Integer> bestAttributes = this.calculateMinAttributesForVectors(numberOfShownAttributes, vectorList.get(i));
+             List<List<Point>> oneCluster = new ArrayList<>();
+             oneCluster.add(newClusters.get(i));
+             Object[][] objResult1 = this.calculateTable(this.calculateMinMaxResults(oneCluster, bestAttributes), this.calculateQuartileResult(oneCluster, bestAttributes));
+
+             test[i][0] = "";
+             for (int loopVariable = 0; loopVariable < test[0].length - 1; loopVariable++) {
+                 if (loopVariable % 2 == 0) {
+                     test[i][loopVariable + 1] = "Attribute " + bestAttributes.get(loopVariable / 2) + ":  " + "First";
+                 } else {
+                     test[i][loopVariable + 1] = "Attribute " + bestAttributes.get(loopVariable / 2) + ":  " + "Second";
+                 }
+                 objResult2[4 * i] = objResult1[0];
+                 objResult2[(4 * i) + 1] = objResult1[1];
+                 if (i + 1 < newClusters.size()) {
+                     objResult2[(4 * i) + 2] = empty;
+                     objResult2[(4 * i) + 3] = test[i + 1];
+                 }
+             }
+         }
+
+         return objResult2;
+     }
+
+     Object[][] calculateMaximizingTablePerClusterWithVector(List<List<Point>> newClusters, int numberOfShownAttributes, List<RealMatrix> vectorList){
+
+         Object[][] objResult2 = new Object[newClusters.size()*4 - 2][];
+         Object[][] test = new Object[newClusters.size()][(numberOfShownAttributes*2)+1];
+         Object[] empty = new Object[(numberOfShownAttributes*2)+1];
+
+         for(int l = 0; l < empty.length; l++){
+             empty[l] = "";
+         }
+
+         for(int i = 0; i < newClusters.size(); i++) {
+             List<Integer> bestAttributes = this.calculateMaxAttributesForVectors(numberOfShownAttributes, vectorList.get(i));
              List<List<Point>> oneCluster = new ArrayList<>();
              oneCluster.add(newClusters.get(i));
              Object[][] objResult1 = this.calculateTable(this.calculateMinMaxResults(oneCluster, bestAttributes), this.calculateQuartileResult(oneCluster, bestAttributes));
