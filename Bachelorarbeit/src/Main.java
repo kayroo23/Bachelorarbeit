@@ -531,7 +531,13 @@ public class Main {
         return clusters;
     }
 
-    private static List<List<Point>> generateGaussGoldStandardDataset(double distance, int pointsPerCluster){
+    /**
+     *
+     * @param overlap percentage overlap
+     * @param pointsPerCluster number of points per cluster
+     * @return goldstandard dataset
+     */
+    private static List<List<Point>> generateGaussGoldStandardDataset(double overlap, int pointsPerCluster){
         List<List<Point>> clusters = new ArrayList<>();
         for(int i = 0; i < 5; i++){
             clusters.add(new ArrayList<Point>());
@@ -541,8 +547,8 @@ public class Main {
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+1);
-            attList[1] = calculateGaussian(1,10,distance,rnd);
-            attList[2] = calculateGaussian(1,40,distance,rnd);
+            attList[1] = calculateGaussian(1,10,overlap,rnd);
+            attList[2] = calculateGaussian(1,40,overlap,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -556,8 +562,8 @@ public class Main {
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+21);
-            attList[1] = calculateGaussian(11,50,distance,rnd);
-            attList[2] = calculateGaussian(41,60,distance,rnd);
+            attList[1] = calculateGaussian(11,50,overlap,rnd);
+            attList[2] = calculateGaussian(41,60,overlap,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -571,8 +577,8 @@ public class Main {
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+41);
-            attList[1] = calculateGaussian(51,80,distance,rnd);
-            attList[2] = calculateGaussian(61,80,distance,rnd);
+            attList[1] = calculateGaussian(51,80,overlap,rnd);
+            attList[2] = calculateGaussian(61,80,overlap,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -586,8 +592,8 @@ public class Main {
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+61);
-            attList[1] = calculateGaussian(81,95,distance,rnd);
-            attList[2] = calculateGaussian(81,93,distance,rnd);
+            attList[1] = calculateGaussian(81,95,overlap,rnd);
+            attList[2] = calculateGaussian(81,93,overlap,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -601,8 +607,8 @@ public class Main {
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+81);
-            attList[1] = calculateGaussian(95,100,distance,rnd);
-            attList[2] = calculateGaussian(94,100,distance,rnd);
+            attList[1] = calculateGaussian(95,100,overlap,rnd);
+            attList[2] = calculateGaussian(94,100,overlap,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -620,13 +626,14 @@ public class Main {
      *
      * @param min value after -distance
      * @param max value after +distance
-     * @param distance to reach the max/min values
+     * @param overlap increases the range
      * @return gaussian distribution
      */
-    private static double calculateGaussian(double min, double max, double distance, Random rnd){
-
-        double mean = (min + max) / 2;
-        return (mean + rnd.nextGaussian()*((max - mean)/distance));
+    private static double calculateGaussian(double min, double max, double overlap, Random rnd){
+        double localMin = min * (1 - overlap);
+        double localMax = max * (1 + overlap);
+        double mean = (localMin + localMax) / 2;
+        return (mean + rnd.nextGaussian()*((localMax - mean)/3));
     }
 
     public static void main(String[] args) {
@@ -644,7 +651,7 @@ public class Main {
 
         //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //newClusters = generateRandomGoldStandardDataset();
-        newClusters = generateGaussGoldStandardDataset(0.1, numberOfPointsPerCluster);
+        newClusters = generateGaussGoldStandardDataset(0.9, numberOfPointsPerCluster);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
