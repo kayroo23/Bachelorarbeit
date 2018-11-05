@@ -782,7 +782,6 @@ public class Main {
             }
         }
 
-        printMatrix(spearmanList.get(0), "Spearman Cluster 0");
         Object[][] objResult3 = calculator.calculateTablePerClusterWithMatrix(newClusters, numberOfShownAttributes, spearmanList);
         bestAttributes = calculator.calculateBestAttributesForMatrix(numberOfShownAttributes, spearmanList.get(0));
         calculator.printTable(objResult3, bestAttributes, "Spearman per Cluster: MinMax + Quartile ", "First",
@@ -807,14 +806,31 @@ public class Main {
         for(int l = 0; l < matrixList21.size(); l++){
             RealMatrix tempVariance = calculator.calculateVariance(matrixList21.get(l));
             for(int k = 0; k < tempVariance.getRowDimension(); k++){
-                tempVariance.setEntry(k,0, Math.abs(variance.getEntry(k,0)) - Math.abs(tempVariance.getEntry(k,0)));
+                tempVariance.setEntry(k,0, -(Math.abs(variance.getEntry(k,0)) - Math.abs(tempVariance.getEntry(k,0))));
             }
             varianceList2.add(tempVariance);
 
         }
-        Object[][] objResult311 = calculator.calculateMaximizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, varianceList2);
-        bestAttributes = calculator.calculateMaxAttributesForVectors(numberOfShownAttributes, varianceList2.get(0));
+        Object[][] objResult311 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, varianceList2);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList2.get(0));
         calculator.printTable(objResult311, bestAttributes, "Variance difference per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
+        //Stdabw of all points - stdabw of cluster
+        List<double[][]> matrixList41 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> stdabwDif = new ArrayList<>();
+        for(int l = 0; l < matrixList41.size(); l++){
+            RealMatrix tempStdabw = calculator.calculateStandardDeviation(matrixList41.get(l));
+            for(int k = 0; k < tempStdabw.getRowDimension(); k++){
+                tempStdabw.setEntry(k,0, -(Math.abs(standardDeviation.getEntry(k,0)) - Math.abs(tempStdabw.getEntry(k,0))));
+            }
+            stdabwDif.add(tempStdabw);
+
+        }
+        Object[][] objResult41 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, stdabwDif);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwDif.get(0));
+        calculator.printTable(objResult41, bestAttributes, "Stdabw difference per Cluster: MinMax + Quartile ", "First",
                 "Second");
 
 
@@ -843,6 +859,23 @@ public class Main {
 
 
 
+        //VarCofDif of all points - VarCofDif of cluster
+        List<double[][]> matrixList42 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> varCofDif = new ArrayList<>();
+        for(int l = 0; l < matrixList41.size(); l++){
+            RealMatrix tempVarCofDif = calculator.calculateVariationsCoefficient(matrixList42.get(l));
+            for(int k = 0; k < tempVarCofDif.getRowDimension(); k++){
+                tempVarCofDif.setEntry(k,0, -(Math.abs(variationsCoefficient.getEntry(k,0)) - Math.abs(tempVarCofDif.getEntry(k,0))));
+            }
+            varCofDif.add(tempVarCofDif);
+
+        }
+        Object[][] objResult42 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, varCofDif);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varCofDif.get(0));
+        calculator.printTable(objResult42, bestAttributes, "VarCof Difference per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
         List<double[][]> matrixList5 = calculator.calculateMatrixList(newClusters);
         List<RealMatrix> geometricMeanList = new ArrayList<>();
         for(int l = 0; l < matrixList5.size(); l++){
@@ -866,6 +899,26 @@ public class Main {
                 "Second");
 
 
+        //MedianDeviation of all points - MedianDeviation of cluster
+        List<double[][]> matrixList61 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> medDefDif = new ArrayList<>();
+        for(int l = 0; l < matrixList61.size(); l++){
+            RealMatrix tempMedDefDif = calculator.calculateMedianDeviation(matrixList61.get(l));
+            for(int k = 0; k < tempMedDefDif.getRowDimension(); k++){
+                tempMedDefDif.setEntry(k,0, -(Math.abs(medianDeviation.getEntry(k,0)) - Math.abs(tempMedDefDif.getEntry(k,0))));
+            }
+            medDefDif.add(tempMedDefDif);
+
+        }
+        Object[][] objResult61 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, medDefDif);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medDefDif.get(0));
+        calculator.printTable(objResult61, bestAttributes, "MedianDeviation difference per Cluster: MinMax + Quartile ", "First",
+                "Second");
+
+
+
+
+
 
         List<double[][]> matrixList7 = calculator.calculateMatrixList(newClusters);
         List<RealMatrix> quartilsDispersionsList = new ArrayList<>();
@@ -878,6 +931,23 @@ public class Main {
                 "Second");
 
 
+
+
+        //Quartilsdispersion of all points - Quartilsdispersion of cluster
+        List<double[][]> matrixList71 = calculator.calculateMatrixList(newClusters);
+        List<RealMatrix> quartDif = new ArrayList<>();
+        for(int l = 0; l < matrixList71.size(); l++){
+            RealMatrix tempQuartDif = calculator.calculateQuartilsDispersion(matrixList71.get(l));
+            for(int k = 0; k < tempQuartDif.getRowDimension(); k++){
+                tempQuartDif.setEntry(k,0, -(Math.abs(quartilsDispersion.getEntry(k,0)) - Math.abs(tempQuartDif.getEntry(k,0))));
+            }
+            quartDif.add(tempQuartDif);
+
+        }
+        Object[][] objResult71 = calculator.calculateMinimizingTablePerClusterWithVector(newClusters, numberOfShownAttributes, quartDif);
+        bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDif.get(0));
+        calculator.printTable(objResult71, bestAttributes, "Quartilsdispersion difference per Cluster: MinMax + Quartile ", "First",
+                "Second");
 
 
         /*

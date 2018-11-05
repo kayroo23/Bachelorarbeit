@@ -137,23 +137,6 @@ import java.util.List;
          return bestAttributes;
      }
 
-     List<Integer> calculateMaxAttributesForVectors(int numberOfShownAttributes, RealMatrix vector){
-         List<Integer> bestAttributes = new ArrayList<>();
-         for(int l = 0; l < numberOfShownAttributes; l++){
-             double max = Double.MIN_VALUE;
-             int position = -1;
-             for(int k = 0; k < vector.getRowDimension(); k++){
-                 if((vector.getEntry(k,0) > max) && !bestAttributes.contains(k)){
-                     max = vector.getEntry(k,0);
-                     position = k;
-                 }
-             }
-             bestAttributes.add(position);
-         }
-         return bestAttributes;
-     }
-
-
      /**Gibt die Anzahl an Punkten im kleinsten Cluster zurueck
       *
       * @param newClusters Liste an Clustern
@@ -405,41 +388,6 @@ import java.util.List;
 
          for(int i = 0; i < newClusters.size(); i++) {
              List<Integer> bestAttributes = this.calculateMinAttributesForVectors(numberOfShownAttributes, vectorList.get(i));
-             List<List<Point>> oneCluster = new ArrayList<>();
-             oneCluster.add(newClusters.get(i));
-             Object[][] objResult1 = this.calculateTable(this.calculateMinMaxResults(oneCluster, bestAttributes), this.calculateQuartileResult(oneCluster, bestAttributes));
-
-             test[i][0] = "";
-             for (int loopVariable = 0; loopVariable < test[0].length - 1; loopVariable++) {
-                 if (loopVariable % 2 == 0) {
-                     test[i][loopVariable + 1] = "Attribute " + bestAttributes.get(loopVariable / 2) + ":  " + "First";
-                 } else {
-                     test[i][loopVariable + 1] = "Attribute " + bestAttributes.get(loopVariable / 2) + ":  " + "Second";
-                 }
-                 objResult2[4 * i] = objResult1[0];
-                 objResult2[(4 * i) + 1] = objResult1[1];
-                 if (i + 1 < newClusters.size()) {
-                     objResult2[(4 * i) + 2] = empty;
-                     objResult2[(4 * i) + 3] = test[i + 1];
-                 }
-             }
-         }
-
-         return objResult2;
-     }
-
-     Object[][] calculateMaximizingTablePerClusterWithVector(List<List<Point>> newClusters, int numberOfShownAttributes, List<RealMatrix> vectorList){
-
-         Object[][] objResult2 = new Object[newClusters.size()*4 - 2][];
-         Object[][] test = new Object[newClusters.size()][(numberOfShownAttributes*2)+1];
-         Object[] empty = new Object[(numberOfShownAttributes*2)+1];
-
-         for(int l = 0; l < empty.length; l++){
-             empty[l] = "";
-         }
-
-         for(int i = 0; i < newClusters.size(); i++) {
-             List<Integer> bestAttributes = this.calculateMaxAttributesForVectors(numberOfShownAttributes, vectorList.get(i));
              List<List<Point>> oneCluster = new ArrayList<>();
              oneCluster.add(newClusters.get(i));
              Object[][] objResult1 = this.calculateTable(this.calculateMinMaxResults(oneCluster, bestAttributes), this.calculateQuartileResult(oneCluster, bestAttributes));
