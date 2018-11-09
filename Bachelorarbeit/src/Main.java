@@ -543,12 +543,14 @@ public class Main {
             clusters.add(new ArrayList<Point>());
         }
         Random rnd = new Random();
+        double overlap1 = overlap * Math.random();
+        double overlap2 = overlap * Math.random();
         for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+1);
-            attList[1] = calculateGaussian(1,10,overlap,rnd);
-            attList[2] = calculateGaussian(1,40,overlap,rnd);
+            attList[1] = calculateGaussian(1,10,overlap1,rnd);
+            attList[2] = calculateGaussian(1,40,overlap2,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -558,12 +560,14 @@ public class Main {
             clusters.get(0).add(p);
         }
         rnd = new Random();
+        overlap1 = overlap * Math.random();
+        overlap2 = overlap * Math.random();
         for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+21);
-            attList[1] = calculateGaussian(11,50,overlap,rnd);
-            attList[2] = calculateGaussian(41,60,overlap,rnd);
+            attList[1] = calculateGaussian(11,50,overlap1,rnd);
+            attList[2] = calculateGaussian(41,60,overlap2,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -573,12 +577,14 @@ public class Main {
             clusters.get(1).add(p);
         }
         rnd = new Random();
+        overlap1 = overlap * Math.random();
+        overlap2 = overlap * Math.random();
         for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+41);
-            attList[1] = calculateGaussian(51,80,overlap,rnd);
-            attList[2] = calculateGaussian(61,80,overlap,rnd);
+            attList[1] = calculateGaussian(51,80,overlap1,rnd);
+            attList[2] = calculateGaussian(61,80,overlap2,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -588,12 +594,14 @@ public class Main {
             clusters.get(2).add(p);
         }
         rnd = new Random();
+        overlap1 = overlap * Math.random();
+        overlap2 = overlap * Math.random();
         for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+61);
-            attList[1] = calculateGaussian(81,95,overlap,rnd);
-            attList[2] = calculateGaussian(81,93,overlap,rnd);
+            attList[1] = calculateGaussian(81,95,overlap1,rnd);
+            attList[2] = calculateGaussian(81,93,overlap2,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -603,12 +611,14 @@ public class Main {
             clusters.get(3).add(p);
         }
         rnd = new Random();
+        overlap1 = overlap * Math.random();
+        overlap2 = overlap * Math.random();
         for(int k = 0; k < pointsPerCluster; k++){
             //alter,gehalt,groesse,kontonr,blutgrp,geschlecht, clusterkonstante, konstante
             double[] attList = new double[8];
             attList[0] = (int)((Math.random()*19)+81);
-            attList[1] = calculateGaussian(95,100,overlap,rnd);
-            attList[2] = calculateGaussian(94,100,overlap,rnd);
+            attList[1] = calculateGaussian(95,100,overlap1,rnd);
+            attList[2] = calculateGaussian(94,100,overlap2,rnd);
             attList[3] = (int)((Math.random()*99)+1);
             attList[4] = ((int)(Math.random()*4))*25;
             attList[5] = Math.random() > 0.5 ? 100 : 0;
@@ -636,6 +646,50 @@ public class Main {
         return (mean + rnd.nextGaussian()*((localMax - mean)/3));
     }
 
+    private static void evaluateDataset(int numberOfPointsPerCluster, int numberOfShownAttributes, int iterations){
+        GeneralCalculation calculator = new GeneralCalculation();
+        List<Integer> knownBestAttributes = new ArrayList<>();
+        knownBestAttributes.add(0);
+        knownBestAttributes.add(1);
+        knownBestAttributes.add(2);
+        knownBestAttributes.add(6);
+        double overlap = 0;
+        int steps = 10;
+        double[] count = new double[12];
+        List<List<Point>> newClusters2 = new ArrayList<>();
+        List<List<Integer>> listOfBestAtt = new ArrayList<>();
+        for(int i = 0; i < steps; i++){
+            for(int k = 0; k < iterations; k++){
+                newClusters2 = generateGaussGoldStandardDataset(overlap, numberOfPointsPerCluster);
+                List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
+                for(int l = 0; l < matrixList.size(); l++){
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateVariance(matrixList.get(l))));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateStandardDeviation(matrixList.get(l))));
+                    //TODO hier andere berechnungen ergänzen
+
+                    for(int u = 0; u < listOfBestAtt.size(); u++){
+                        for (int att : listOfBestAtt.get(u)) {
+                            if(knownBestAttributes.contains(att)){
+                                count[u]++;
+                            }
+                        }
+                    }
+                    listOfBestAtt.clear();
+                }
+                matrixList.clear();
+            }
+            overlap += 0.1;
+        }
+        //5 ist die Anzahl an Clustern
+        double divisor = 5*numberOfShownAttributes*steps*iterations;
+        System.out.print("Genauigkeit variance: ");
+        System.out.println(count[0]/(divisor));
+        System.out.print("Genauigkeit stdabw: ");
+        System.out.println(count[1]/(divisor));
+    }
+
     public static void main(String[] args) {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
@@ -651,7 +705,7 @@ public class Main {
 
         //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //newClusters = generateRandomGoldStandardDataset();
-        newClusters = generateGaussGoldStandardDataset(0.9, numberOfPointsPerCluster);
+        newClusters = generateGaussGoldStandardDataset(0.5, numberOfPointsPerCluster);
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
@@ -948,6 +1002,13 @@ public class Main {
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDif.get(0));
         calculator.printTable(objResult71, bestAttributes, "Quartilsdispersion difference per Cluster: MinMax + Quartile ", "First",
                 "Second");
+
+
+
+
+
+        evaluateDataset(numberOfPointsPerCluster,numberOfShownAttributes, 1000);
+
 
 
         /*
