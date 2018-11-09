@@ -658,7 +658,7 @@ public class Main {
         double[] count = new double[12];
         List<List<Point>> newClusters2 = new ArrayList<>();
         List<List<Integer>> listOfBestAtt = new ArrayList<>();
-        for(int i = 0; i < steps; i++){
+        for(int i = 0; i <= steps; i++){
             for(int k = 0; k < iterations; k++){
                 newClusters2 = generateGaussGoldStandardDataset(overlap, numberOfPointsPerCluster);
                 List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
@@ -667,7 +667,15 @@ public class Main {
                             calculator.calculateVariance(matrixList.get(l))));
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateStandardDeviation(matrixList.get(l))));
-                    //TODO hier andere berechnungen ergänzen
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateGeomMean(matrixList.get(l))));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateMedianDeviation(matrixList.get(l))));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateQuartilsDispersion(matrixList.get(l))));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateVariationsCoefficient(matrixList.get(l))));
+                    //TODO hier andere berechnungen für differenzen metriken hinzufügen
 
                     for(int u = 0; u < listOfBestAtt.size(); u++){
                         for (int att : listOfBestAtt.get(u)) {
@@ -680,14 +688,49 @@ public class Main {
                 }
                 matrixList.clear();
             }
+            //5 ist die Anzahl an Clustern
+            double divisor = 5*numberOfShownAttributes*iterations;
+            System.out.print("Rauschwert der Daten: ");
+            System.out.println(overlap);
+            System.out.print("Genauigkeit variance: ");
+            System.out.println(count[0]/(divisor));
+            count[0] = 0;
+            System.out.print("Genauigkeit stdabw: ");
+            System.out.println(count[1]/(divisor));
+            count[1] = 0;
+            System.out.print("Genauigkeit Geometric Mean: ");
+            System.out.println(count[2]/(divisor));
+            count[2] = 0;
+            System.out.print("Genauigkeit Median Deviation: ");
+            System.out.println(count[3]/(divisor));
+            count[3] = 0;
+            System.out.print("Genauigkeit Quartilsdispersionscoeff.: ");
+            System.out.println(count[4]/(divisor));
+            count[4] = 0;
+            System.out.print("Genauigkeit Variationscoeff.: ");
+            System.out.println(count[5]/(divisor));
+            count[5] = 0;
+
+            System.out.println();
+
             overlap += 0.1;
         }
+        /*
         //5 ist die Anzahl an Clustern
         double divisor = 5*numberOfShownAttributes*steps*iterations;
         System.out.print("Genauigkeit variance: ");
         System.out.println(count[0]/(divisor));
         System.out.print("Genauigkeit stdabw: ");
         System.out.println(count[1]/(divisor));
+        System.out.print("Genauigkeit Geometric Mean: ");
+        System.out.println(count[2]/(divisor));
+        System.out.print("Genauigkeit Median Deviation: ");
+        System.out.println(count[3]/(divisor));
+        System.out.print("Genauigkeit Quartilsdispersionscoeff.: ");
+        System.out.println(count[4]/(divisor));
+        System.out.print("Genauigkeit Variationscoeff.: ");
+        System.out.println(count[5]/(divisor));
+        */
     }
 
     public static void main(String[] args) {
