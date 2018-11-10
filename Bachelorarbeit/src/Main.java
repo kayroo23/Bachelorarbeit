@@ -659,10 +659,13 @@ public class Main {
         List<List<Point>> newClusters2 = new ArrayList<>();
         List<List<Integer>> listOfBestAtt = new ArrayList<>();
         for(int i = 0; i <= steps; i++){
+            overlap = ((double)i)/10;
             for(int k = 0; k < iterations; k++){
                 newClusters2 = generateGaussGoldStandardDataset(overlap, numberOfPointsPerCluster);
                 List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
                 for(int l = 0; l < matrixList.size(); l++){
+
+                    //standard metriken
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateVariance(matrixList.get(l))));
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
@@ -675,7 +678,55 @@ public class Main {
                             calculator.calculateQuartilsDispersion(matrixList.get(l))));
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateVariationsCoefficient(matrixList.get(l))));
-                    //TODO hier andere berechnungen für differenzen metriken hinzufügen
+
+
+
+                    double[][] matrix = calculator.calculateMatrix(newClusters2);
+                    RealMatrix standardDeviation = calculator.calculateStandardDeviation(matrix);
+                    RealMatrix geomMean = calculator.calculateGeomMean(matrix);
+                    RealMatrix variance = calculator.calculateVariance(matrix);
+                    RealMatrix medianDeviation = calculator.calculateMedianDeviation(matrix);
+                    RealMatrix variationsCoefficient = calculator.calculateVariationsCoefficient(matrix);
+                    RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
+
+                    List<RealMatrix> varianceList2 = new ArrayList<>();
+                    List<RealMatrix> stdabwList = new ArrayList<>();
+                    List<RealMatrix> medDevList = new ArrayList<>();
+                    List<RealMatrix> varCofList = new ArrayList<>();
+                    List<RealMatrix> quartDispList = new ArrayList<>();
+                    List<RealMatrix> geomMeanList = new ArrayList<>();
+
+                    //Berechnung für metrikdifferenzen
+                    for(int x = 0; x < matrixList.size(); x++){
+                        RealMatrix tempVariance = calculator.calculateVariance(matrixList.get(x));
+                        RealMatrix tempStdabw = calculator.calculateStandardDeviation(matrixList.get(x));
+                        RealMatrix tempMedDev = calculator.calculateMedianDeviation(matrixList.get(x));
+                        RealMatrix tempVarCof = calculator.calculateVariationsCoefficient(matrixList.get(x));
+                        RealMatrix tempQuartDisp = calculator.calculateQuartilsDispersion(matrixList.get(x));
+                        RealMatrix tempGeomMean = calculator.calculateGeomMean(matrixList.get(x));
+
+                        for(int y = 0; y < tempVariance.getRowDimension(); y++){
+                            tempVariance.setEntry(y,0, -(Math.abs(variance.getEntry(y,0)) - Math.abs(tempVariance.getEntry(y,0))));
+                            tempStdabw.setEntry(y,0, -(Math.abs(standardDeviation.getEntry(y,0)) - Math.abs(tempStdabw.getEntry(y,0))));
+                            tempMedDev.setEntry(y,0, -(Math.abs(medianDeviation.getEntry(y,0)) - Math.abs(tempMedDev.getEntry(y,0))));
+                            tempVarCof.setEntry(y,0, -(Math.abs(variationsCoefficient.getEntry(y,0)) - Math.abs(tempVarCof.getEntry(y,0))));
+                            tempQuartDisp.setEntry(y,0, -(Math.abs(quartilsDispersion.getEntry(y,0)) - Math.abs(tempQuartDisp.getEntry(y,0))));
+                            tempGeomMean.setEntry(y,0, -(Math.abs(geomMean.getEntry(y,0)) - Math.abs(tempGeomMean.getEntry(y,0))));
+                        }
+                        varianceList2.add(tempVariance);
+                        stdabwList.add(tempStdabw);
+                        medDevList.add(tempMedDev);
+                        varCofList.add(tempVarCof);
+                        quartDispList.add(tempQuartDisp);
+                        geomMeanList.add(tempGeomMean);
+                    }
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList2.get(l)));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(l)));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medDevList.get(l)));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varCofList.get(l)));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDispList.get(l)));
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMeanList.get(l)));
+
 
                     for(int u = 0; u < listOfBestAtt.size(); u++){
                         for (int att : listOfBestAtt.get(u)) {
@@ -710,10 +761,26 @@ public class Main {
             System.out.print("Genauigkeit Variationscoeff.: ");
             System.out.println(count[5]/(divisor));
             count[5] = 0;
+            System.out.print("Genauigkeit Varianzdifferenz: ");
+            System.out.println(count[6]/(divisor));
+            count[6] = 0;
+            System.out.print("Genauigkeit Stdabw.differenz: ");
+            System.out.println(count[7]/(divisor));
+            count[7] = 0;
+            System.out.print("Genauigkeit Mediandev.differenz: ");
+            System.out.println(count[8]/(divisor));
+            count[8] = 0;
+            System.out.print("Genauigkeit Variationscoeff.differenz: ");
+            System.out.println(count[9]/(divisor));
+            count[9] = 0;
+            System.out.print("Genauigkeit Quartilsdisp.differenz: ");
+            System.out.println(count[10]/(divisor));
+            count[10] = 0;
+            System.out.print("Genauigkeit GeometricMean differenz: ");
+            System.out.println(count[11]/(divisor));
+            count[11] = 0;
 
             System.out.println();
-
-            overlap += 0.1;
         }
         /*
         //5 ist die Anzahl an Clustern
@@ -730,6 +797,18 @@ public class Main {
         System.out.println(count[4]/(divisor));
         System.out.print("Genauigkeit Variationscoeff.: ");
         System.out.println(count[5]/(divisor));
+        System.out.print("Genauigkeit Varianzdifferenz: ");
+        System.out.println(count[6]/(divisor));
+        System.out.print("Genauigkeit Stdabw.differenz: ");
+        System.out.println(count[7]/(divisor));
+        System.out.print("Genauigkeit Mediandev.differenz: ");
+        System.out.println(count[8]/(divisor));
+        System.out.print("Genauigkeit Variationscoeff.differenz: ");
+        System.out.println(count[9]/(divisor));
+        System.out.print("Genauigkeit Quartilsdisp.differenz: ");
+        System.out.println(count[10]/(divisor));
+        System.out.print("Genauigkeit GeometricMean differenz: ");
+        System.out.println(count[11]/(divisor));
         */
     }
 
@@ -1050,7 +1129,7 @@ public class Main {
 
 
 
-        evaluateDataset(numberOfPointsPerCluster,numberOfShownAttributes, 1000);
+        evaluateDataset(numberOfPointsPerCluster,numberOfShownAttributes, 10000);
 
 
 

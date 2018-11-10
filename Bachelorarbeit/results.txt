@@ -1,0 +1,159 @@
+iterations pro Rauschwert = 10000
+Cluster = 5
+Punkte pro CLuster = 100
+Attribute = 7
+
+
+Rauschwert der Daten: 0.0
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.349775
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.6354
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 1.0
+Genauigkeit Stdabw.differenz: 1.0
+Genauigkeit Mediandev.differenz: 1.0
+Genauigkeit Variationscoeff.differenz: 0.9679
+Genauigkeit Quartilsdisp.differenz: 0.87701
+Genauigkeit GeometricMean differenz: 0.34094
+
+Rauschwert der Daten: 0.1
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.349715
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.63458
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 1.0
+Genauigkeit Stdabw.differenz: 1.0
+Genauigkeit Mediandev.differenz: 1.0
+Genauigkeit Variationscoeff.differenz: 0.967385
+Genauigkeit Quartilsdisp.differenz: 0.87717
+Genauigkeit GeometricMean differenz: 0.340175
+
+Rauschwert der Daten: 0.2
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.34969
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.63517
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 1.0
+Genauigkeit Stdabw.differenz: 1.0
+Genauigkeit Mediandev.differenz: 1.0
+Genauigkeit Variationscoeff.differenz: 0.967265
+Genauigkeit Quartilsdisp.differenz: 0.876055
+Genauigkeit GeometricMean differenz: 0.33908
+
+Rauschwert der Daten: 0.3
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.34969
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.63483
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 1.0
+Genauigkeit Stdabw.differenz: 1.0
+Genauigkeit Mediandev.differenz: 0.99997
+Genauigkeit Variationscoeff.differenz: 0.967105
+Genauigkeit Quartilsdisp.differenz: 0.872355
+Genauigkeit GeometricMean differenz: 0.338355
+
+Rauschwert der Daten: 0.4
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.349645
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.634895
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 1.0
+Genauigkeit Stdabw.differenz: 1.0
+Genauigkeit Mediandev.differenz: 0.99993
+Genauigkeit Variationscoeff.differenz: 0.96626
+Genauigkeit Quartilsdisp.differenz: 0.87187
+Genauigkeit GeometricMean differenz: 0.336925
+
+Rauschwert der Daten: 0.5
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.34967
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.63495
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 1.0
+Genauigkeit Stdabw.differenz: 1.0
+Genauigkeit Mediandev.differenz: 0.999695
+Genauigkeit Variationscoeff.differenz: 0.965825
+Genauigkeit Quartilsdisp.differenz: 0.87142
+Genauigkeit GeometricMean differenz: 0.3359
+
+Rauschwert der Daten: 0.6
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.349635
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.63472
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 1.0
+Genauigkeit Stdabw.differenz: 1.0
+Genauigkeit Mediandev.differenz: 0.999015
+Genauigkeit Variationscoeff.differenz: 0.96446
+Genauigkeit Quartilsdisp.differenz: 0.86919
+Genauigkeit GeometricMean differenz: 0.335025
+
+Rauschwert der Daten: 0.7
+Genauigkeit variance: 0.75
+Genauigkeit stdabw: 0.75
+Genauigkeit Geometric Mean: 0.34965
+Genauigkeit Median Deviation: 0.75
+Genauigkeit Quartilsdispersionscoeff.: 0.635095
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 0.999995
+Genauigkeit Stdabw.differenz: 0.999995
+Genauigkeit Mediandev.differenz: 0.99754
+Genauigkeit Variationscoeff.differenz: 0.964595
+Genauigkeit Quartilsdisp.differenz: 0.86937
+Genauigkeit GeometricMean differenz: 0.33359
+
+Rauschwert der Daten: 0.8
+Genauigkeit variance: 0.74994
+Genauigkeit stdabw: 0.74994
+Genauigkeit Geometric Mean: 0.349655
+Genauigkeit Median Deviation: 0.749985
+Genauigkeit Quartilsdispersionscoeff.: 0.634735
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 0.99948
+Genauigkeit Stdabw.differenz: 0.999525
+Genauigkeit Mediandev.differenz: 0.99433
+Genauigkeit Variationscoeff.differenz: 0.96295
+Genauigkeit Quartilsdisp.differenz: 0.86829
+Genauigkeit GeometricMean differenz: 0.330865
+
+Rauschwert der Daten: 0.9
+Genauigkeit variance: 0.74942
+Genauigkeit stdabw: 0.74942
+Genauigkeit Geometric Mean: 0.349685
+Genauigkeit Median Deviation: 0.749835
+Genauigkeit Quartilsdispersionscoeff.: 0.63431
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 0.99741
+Genauigkeit Stdabw.differenz: 0.997465
+Genauigkeit Mediandev.differenz: 0.989905
+Genauigkeit Variationscoeff.differenz: 0.96105
+Genauigkeit Quartilsdisp.differenz: 0.866825
+Genauigkeit GeometricMean differenz: 0.32552
+
+Rauschwert der Daten: 1.0
+Genauigkeit variance: 0.747625
+Genauigkeit stdabw: 0.747625
+Genauigkeit Geometric Mean: 0.349585
+Genauigkeit Median Deviation: 0.748965
+Genauigkeit Quartilsdispersionscoeff.: 0.634145
+Genauigkeit Variationscoeff.: 0.75
+Genauigkeit Varianzdifferenz: 0.99296
+Genauigkeit Stdabw.differenz: 0.992935
+Genauigkeit Mediandev.differenz: 0.982935
+Genauigkeit Variationscoeff.differenz: 0.958585
+Genauigkeit Quartilsdisp.differenz: 0.86575
+Genauigkeit GeometricMean differenz: 0.31824
