@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="orsoncharts-1.4-eval-nofx">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/library/jfreechart-1.0.19/lib/orsoncharts-1.4-eval-nofx.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

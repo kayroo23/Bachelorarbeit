@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="swtgraphics2d">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/library/jfreechart-1.0.19/lib/swtgraphics2d.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -3,6 +3,7 @@ import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
+import org.jfree.ui.RefineryUtilities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -692,7 +693,7 @@ public class Main {
         knownBestAttributes.add(6);
         double overlap = 0;
         int steps = 10;
-        double[] count = new double[12];
+        double[][] count = new double[steps+1][12];
         List<List<Point>> newClusters2 = new ArrayList<>();
         List<List<Integer>> listOfBestAtt = new ArrayList<>();
         for(int i = 0; i <= steps; i++){
@@ -768,7 +769,7 @@ public class Main {
                     for(int u = 0; u < listOfBestAtt.size(); u++){
                         for (int att : listOfBestAtt.get(u)) {
                             if(knownBestAttributes.contains(att)){
-                                count[u]++;
+                                count[i][u]++;
                             }
                         }
                     }
@@ -781,41 +782,30 @@ public class Main {
             System.out.print("Rauschwert der Daten: ");
             System.out.println(overlap);
             System.out.print("Genauigkeit variance: ");
-            System.out.println(count[0]/(divisor));
-            count[0] = 0;
+            System.out.println(count[i][0]/(divisor));
             System.out.print("Genauigkeit stdabw: ");
-            System.out.println(count[1]/(divisor));
-            count[1] = 0;
+            System.out.println(count[i][1]/(divisor));
             System.out.print("Genauigkeit Geometric Mean: ");
-            System.out.println(count[2]/(divisor));
-            count[2] = 0;
+            System.out.println(count[i][2]/(divisor));
             System.out.print("Genauigkeit Median Deviation: ");
-            System.out.println(count[3]/(divisor));
-            count[3] = 0;
+            System.out.println(count[i][3]/(divisor));
             System.out.print("Genauigkeit Quartilsdispersionscoeff.: ");
-            System.out.println(count[4]/(divisor));
-            count[4] = 0;
+            System.out.println(count[i][4]/(divisor));
             System.out.print("Genauigkeit Variationscoeff.: ");
-            System.out.println(count[5]/(divisor));
-            count[5] = 0;
+            System.out.println(count[i][5]/(divisor));
             System.out.print("Genauigkeit Varianzdifferenz: ");
-            System.out.println(count[6]/(divisor));
-            count[6] = 0;
+            System.out.println(count[i][6]/(divisor));
             System.out.print("Genauigkeit Stdabw.differenz: ");
-            System.out.println(count[7]/(divisor));
-            count[7] = 0;
+            System.out.println(count[i][7]/(divisor));
             System.out.print("Genauigkeit Mediandev.differenz: ");
-            System.out.println(count[8]/(divisor));
-            count[8] = 0;
+            System.out.println(count[i][8]/(divisor));
             System.out.print("Genauigkeit Variationscoeff.differenz: ");
-            System.out.println(count[9]/(divisor));
-            count[9] = 0;
+            System.out.println(count[i][9]/(divisor));
             System.out.print("Genauigkeit Quartilsdisp.differenz: ");
-            System.out.println(count[10]/(divisor));
-            count[10] = 0;
+            System.out.println(count[i][10]/(divisor));
             System.out.print("Genauigkeit GeometricMean differenz: ");
-            System.out.println(count[11]/(divisor));
-            count[11] = 0;
+            System.out.println(count[i][11]/(divisor));
+
 
             System.out.println();
         }
@@ -847,6 +837,22 @@ public class Main {
         System.out.print("Genauigkeit GeometricMean differenz: ");
         System.out.println(count[11]/(divisor));
         */
+
+        PlotLineChart chart = new PlotLineChart(
+                "Normaldistribution" ,
+                "Normaldistribution");
+        for(int i = 0; i < count[0].length; i++){
+            for(int j = 0; j < count.length; j++){
+                chart.addToDataset(count[j][i]/(5*numberOfShownAttributes*iterations),
+                        Integer.toString(i), Integer.toString(j));
+            }
+        }
+
+        chart.setFinalData("");
+        chart.pack( );
+        RefineryUtilities.centerFrameOnScreen( chart );
+        chart.setVisible( true );
+
     }
 
     private static void evaluateGaussDataset(int numberOfPointsPerCluster, int numberOfShownAttributes, int iterations){
@@ -858,7 +864,7 @@ public class Main {
         knownBestAttributes.add(6);
         double overlap = 0;
         int steps = 10;
-        double[] count = new double[12];
+        double[][] count = new double[11][12];
         List<List<Point>> newClusters2 = new ArrayList<>();
         List<List<Integer>> listOfBestAtt = new ArrayList<>();
         for(int i = 0; i <= steps; i++){
@@ -934,7 +940,7 @@ public class Main {
                     for(int u = 0; u < listOfBestAtt.size(); u++){
                         for (int att : listOfBestAtt.get(u)) {
                             if(knownBestAttributes.contains(att)){
-                                count[u]++;
+                                count[i][u]++;
                             }
                         }
                     }
@@ -947,41 +953,29 @@ public class Main {
             System.out.print("Rauschwert der Daten: ");
             System.out.println(overlap);
             System.out.print("Genauigkeit variance: ");
-            System.out.println(count[0]/(divisor));
-            count[0] = 0;
+            System.out.println(count[i][0]/(divisor));
             System.out.print("Genauigkeit stdabw: ");
-            System.out.println(count[1]/(divisor));
-            count[1] = 0;
+            System.out.println(count[i][1]/(divisor));
             System.out.print("Genauigkeit Geometric Mean: ");
-            System.out.println(count[2]/(divisor));
-            count[2] = 0;
+            System.out.println(count[i][2]/(divisor));
             System.out.print("Genauigkeit Median Deviation: ");
-            System.out.println(count[3]/(divisor));
-            count[3] = 0;
+            System.out.println(count[i][3]/(divisor));
             System.out.print("Genauigkeit Quartilsdispersionscoeff.: ");
-            System.out.println(count[4]/(divisor));
-            count[4] = 0;
+            System.out.println(count[i][4]/(divisor));
             System.out.print("Genauigkeit Variationscoeff.: ");
-            System.out.println(count[5]/(divisor));
-            count[5] = 0;
+            System.out.println(count[i][5]/(divisor));
             System.out.print("Genauigkeit Varianzdifferenz: ");
-            System.out.println(count[6]/(divisor));
-            count[6] = 0;
+            System.out.println(count[i][6]/(divisor));
             System.out.print("Genauigkeit Stdabw.differenz: ");
-            System.out.println(count[7]/(divisor));
-            count[7] = 0;
+            System.out.println(count[i][7]/(divisor));
             System.out.print("Genauigkeit Mediandev.differenz: ");
-            System.out.println(count[8]/(divisor));
-            count[8] = 0;
+            System.out.println(count[i][8]/(divisor));
             System.out.print("Genauigkeit Variationscoeff.differenz: ");
-            System.out.println(count[9]/(divisor));
-            count[9] = 0;
+            System.out.println(count[i][9]/(divisor));
             System.out.print("Genauigkeit Quartilsdisp.differenz: ");
-            System.out.println(count[10]/(divisor));
-            count[10] = 0;
+            System.out.println(count[i][10]/(divisor));
             System.out.print("Genauigkeit GeometricMean differenz: ");
-            System.out.println(count[11]/(divisor));
-            count[11] = 0;
+            System.out.println(count[i][11]/(divisor));
 
             System.out.println();
         }
@@ -1013,6 +1007,21 @@ public class Main {
         System.out.print("Genauigkeit GeometricMean differenz: ");
         System.out.println(count[11]/(divisor));
         */
+
+        PlotLineChart chart = new PlotLineChart(
+                "Gaussdistribution" ,
+                "Gaussdistribution");
+        for(int i = 0; i < count[0].length; i++){
+            for(int j = 0; j < count.length; j++){
+                chart.addToDataset(count[j][i]/(5*numberOfShownAttributes*iterations),
+                        Integer.toString(i), Integer.toString(j));
+            }
+        }
+
+        chart.setFinalData("");
+        chart.pack( );
+        RefineryUtilities.centerFrameOnScreen( chart );
+        chart.setVisible( true );
     }
 
     private static void evaluateBigDataset(int numberOfClusters, int numberOfPointsPerCluster, int numberOfShownAttributes, int iterations){
@@ -1313,6 +1322,7 @@ public class Main {
 
 
         //Calculates the best attributes per cluster
+        /*
         List<double[][]> matrixList1 = calculator.calculateMatrixList(newClusters);
         List<RealMatrix> spearmanList = new ArrayList<>();
         for(int l = 0; l < matrixList1.size(); l++){
@@ -1494,17 +1504,17 @@ public class Main {
         bestAttributes = calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDif.get(0));
         calculator.printTable(objResult71, bestAttributes, "Quartilsdispersion difference per Cluster: MinMax + Quartile ", "First",
                 "Second");
-
+        */
 
 
 
         //System.out.println("Gauss: ");
-        //evaluateGaussDataset(numberOfPointsPerCluster,numberOfShownAttributes, 10000);
+        evaluateGaussDataset(numberOfPointsPerCluster,numberOfShownAttributes, 10);
         //System.out.println();
         //System.out.println("Equally: ");
-        //evaluateEquallyDataset(numberOfPointsPerCluster, numberOfShownAttributes, 10000);
-        System.out.println("Big Dataset Equally: ");
-        evaluateBigDataset(100, numberOfPointsPerCluster, numberOfShownAttributes, 50);
+        evaluateEquallyDataset(numberOfPointsPerCluster, numberOfShownAttributes, 10);
+        //System.out.println("Big Dataset Equally: ");
+        //evaluateBigDataset(100, numberOfPointsPerCluster, numberOfShownAttributes, 50);
 
 
         /*
@@ -1517,9 +1527,6 @@ public class Main {
         System.out.println("First per Cluster, then the most frequent: ");
         calculator.calculateOverlapInterval(newClusters, bestAttributes);
         */
-
-
-
 
     }
 
