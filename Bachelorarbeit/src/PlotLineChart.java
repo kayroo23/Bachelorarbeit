@@ -9,6 +9,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 class PlotLineChart extends ApplicationFrame{
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    JFreeChart lineChart;
 
     PlotLineChart( String applicationTitle , String chartTitle ) {
         super(applicationTitle);
@@ -27,18 +28,15 @@ class PlotLineChart extends ApplicationFrame{
         setContentPane( chartPanel );
     }
 
-    private DefaultCategoryDataset createDataset( ) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-        dataset.addValue( 15 , "schools" , "1970" );
-        dataset.addValue( 30 , "schools" , "1980" );
-        dataset.addValue( 60 , "schools" ,  "1990" );
-        dataset.addValue( 120 , "schools" , "2000" );
-        dataset.addValue( 240 , "schools" , "2010" );
-        dataset.addValue( 300 , "schools" , "2014" );
-        return dataset;
-    }
-
     void addToDataset(double data, String name, String columnKey){
         dataset.addValue(data, name, columnKey);
+    }
+
+    JFreeChart getLineCHart(){
+        return lineChart;
+    }
+
+    DefaultCategoryDataset getDataset(){
+        return dataset;
     }
 }

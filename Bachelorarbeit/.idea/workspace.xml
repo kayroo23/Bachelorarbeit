@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Bachelorarbeit:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="054eb020-5822-4096-a2a3-dca25af69d9b" name="Default Changelist" comment="" />
+    <list default="true" id="054eb020-5822-4096-a2a3-dca25af69d9b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Bachelorarbeit/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Bachelorarbeit/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Bachelorarbeit/PlotLineChart.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Bachelorarbeit/PlotLineChart.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PlotLineChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PlotLineChart.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +24,7 @@
     <session id="-493764723">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="38" />
+          <entry key="project.closed" value="42" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.28" value="1" />
@@ -24,37 +35,39 @@
           <entry key="project.open.time.33" value="4" />
           <entry key="project.open.time.34" value="2" />
           <entry key="project.open.time.35" value="3" />
-          <entry key="project.open.time.36" value="3" />
-          <entry key="project.open.time.37" value="1" />
+          <entry key="project.open.time.36" value="4" />
+          <entry key="project.open.time.37" value="2" />
           <entry key="project.open.time.38" value="1" />
           <entry key="project.open.time.39" value="2" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.6" value="3" />
-          <entry key="project.opened" value="38" />
+          <entry key="project.open.time.6" value="5" />
+          <entry key="project.opened" value="42" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="10" />
+          <entry key="java" value="11" />
+          <entry key="jpeg" value="4" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="10" />
+          <entry key="Image" value="4" />
+          <entry key="JAVA" value="11" />
           <entry key="PLAIN_TEXT" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="23" />
-          <entry key="java" value="29867" />
+          <entry key="java" value="31742" />
           <entry key="txt" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="29867" />
+          <entry key="JAVA" value="31742" />
           <entry key="PLAIN_TEXT" value="63" />
         </counts>
       </usages-collector>
@@ -100,11 +113,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="968" column="12" selection-start-line="968" selection-start-column="12" selection-end-line="968" selection-end-column="12" />
+            <state relative-caret-position="261">
+              <caret line="1193" column="54" lean-forward="true" selection-start-line="1193" selection-start-column="54" selection-end-line="1193" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;method#tooClose#0;class#Main#0" />
@@ -126,21 +139,39 @@
                 <element signature="method#printMatrix#0;class#Main#0" />
                 <element signature="docComment;method#readClassificationDataSet#0;class#Main#0" />
                 <element signature="method#readClassificationDataSet#0;class#Main#0" />
+                <element signature="method#generateEquallyGoldStandardDataset#0;class#Main#0" />
+                <element signature="docComment;method#generateGaussGoldStandardDataset#0;class#Main#0" />
                 <element signature="method#generateGaussGoldStandardDataset#0;class#Main#0" />
+                <element signature="docComment;method#getFunctionValue#0;class#Main#0" />
+                <element signature="docComment;method#generateGoldStandardMoreClusters#0;class#Main#0" />
                 <element signature="method#generateGoldStandardMoreClusters#0;class#Main#0" />
+                <element signature="docComment;method#calculateGaussian#0;class#Main#0" />
                 <element signature="method#calculateGaussian#0;class#Main#0" />
                 <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
-                <element signature="method#evaluateBigDataset#0;class#Main#0" />
+                <element signature="method#evaluateGaussDataset#0;class#Main#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+              <folding>
+                <element signature="e#491#492#0" expanded="true" />
+                <element signature="e#530#531#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/results.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
-              <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+              <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -185,20 +216,6 @@
                 <element signature="method#calculateQuartilsDispersion#0;class#GeneralCalculation#0" />
                 <element signature="method#calculateMinAttributesForVectors#0;class#GeneralCalculation#0" />
                 <element signature="method#calculateTablePerClusterWithMatrix#0;class#GeneralCalculation#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#465#466#0" expanded="true" />
-                <element signature="e#504#505#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -251,8 +268,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-346" />
-    <option name="y" value="-18" />
+    <option name="x" value="359" />
+    <option name="y" value="89" />
     <option name="width" value="1369" />
     <option name="height" value="788" />
   </component>
@@ -262,33 +279,15 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="Bachelorarbeit" type="b2602c69:ProjectViewProjectNode" />
               <item name="Bachelorarbeit" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Bachelorarbeit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bachelorarbeit" type="462c0819:PsiDirectoryNode" />
-              <item name="library" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Bachelorarbeit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bachelorarbeit" type="462c0819:PsiDirectoryNode" />
-              <item name="library" type="462c0819:PsiDirectoryNode" />
-              <item name="jfreechart-1.0.19" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Bachelorarbeit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bachelorarbeit" type="462c0819:PsiDirectoryNode" />
-              <item name="library" type="462c0819:PsiDirectoryNode" />
-              <item name="jfreechart-1.0.19" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Bachelorarbeit" type="b2602c69:ProjectViewProjectNode" />
@@ -305,9 +304,9 @@
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542625991772" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542891095054" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/library/jfreechart-1.0.19" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propCompiler" />
@@ -366,9 +365,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17170954" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2563966" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -377,7 +376,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.13934426" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3340564" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -403,6 +402,24 @@
     <entry file="file://$PROJECT_DIR$/src/CalculationPerCluster.java" />
     <entry file="file://$PROJECT_DIR$/src/CalculationForAllPoints.java" />
     <entry file="file://$PROJECT_DIR$/src/dataset_32_pendigits_changed.txt" />
+    <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="e#491#492#0" expanded="true" />
+            <element signature="e#530#531#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/results.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DrawPoints.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -440,22 +457,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#465#466#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/EquallyBigDataLineChart.jpeg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="968" column="12" selection-start-line="968" selection-start-column="12" selection-end-line="968" selection-end-column="12" />
+        <state relative-caret-position="261">
+          <caret line="1193" column="54" lean-forward="true" selection-start-line="1193" selection-start-column="54" selection-end-line="1193" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;method#tooClose#0;class#Main#0" />
@@ -477,19 +485,17 @@
             <element signature="method#printMatrix#0;class#Main#0" />
             <element signature="docComment;method#readClassificationDataSet#0;class#Main#0" />
             <element signature="method#readClassificationDataSet#0;class#Main#0" />
+            <element signature="method#generateEquallyGoldStandardDataset#0;class#Main#0" />
+            <element signature="docComment;method#generateGaussGoldStandardDataset#0;class#Main#0" />
             <element signature="method#generateGaussGoldStandardDataset#0;class#Main#0" />
+            <element signature="docComment;method#getFunctionValue#0;class#Main#0" />
+            <element signature="docComment;method#generateGoldStandardMoreClusters#0;class#Main#0" />
             <element signature="method#generateGoldStandardMoreClusters#0;class#Main#0" />
+            <element signature="docComment;method#calculateGaussian#0;class#Main#0" />
             <element signature="method#calculateGaussian#0;class#Main#0" />
             <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
-            <element signature="method#evaluateBigDataset#0;class#Main#0" />
+            <element signature="method#evaluateGaussDataset#0;class#Main#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/results.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -499,10 +505,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>Bachelorarbeit:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
