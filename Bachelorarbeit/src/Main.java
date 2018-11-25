@@ -1100,38 +1100,67 @@ public class Main {
         double overlap;
         int steps = 10;
         double[][] count = new double[steps+1][12];
-        List<List<Point>> newClusters2 = new ArrayList<>();
+        long[] time = new long[12];
+
+        List<List<Point>> newClusters2;
         List<List<Integer>> listOfBestAtt = new ArrayList<>();
         for(int i = 0; i <= steps; i++){
             overlap = ((double)i)/10;
             for(int k = 0; k < iterations; k++){
                 newClusters2 = generateGoldStandardMoreClusters(distribution, overlap, numberOfClusters, numberOfPointsPerCluster);
                 List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
-                for(int l = 0; l < matrixList.size(); l++){
 
+                long tempTime;
+                double[][] matrix = calculator.calculateMatrix(newClusters2);
+                tempTime = System.currentTimeMillis();
+                RealMatrix standardDeviation = calculator.calculateStandardDeviation(matrix);
+                time[6] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix geomMean = calculator.calculateGeomMean(matrix);
+                time[7] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix variance = calculator.calculateVariance(matrix);
+                time[8] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix medianDeviation = calculator.calculateMedianDeviation(matrix);
+                time[9] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix variationsCoefficient = calculator.calculateVariationsCoefficient(matrix);
+                time[10] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
+                time[11] += System.currentTimeMillis() - tempTime;
+
+
+                for(int l = 0; l < matrixList.size(); l++){
                     //standard metriken
+                    tempTime = System.currentTimeMillis();
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateVariance(matrixList.get(l))));
+                    time[0] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateStandardDeviation(matrixList.get(l))));
+                    time[1] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateGeomMean(matrixList.get(l))));
+                    time[2] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateMedianDeviation(matrixList.get(l))));
+                    time[3] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateQuartilsDispersion(matrixList.get(l))));
+                    time[4] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
                     listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
                             calculator.calculateVariationsCoefficient(matrixList.get(l))));
+                    time[5] += System.currentTimeMillis() - tempTime;
 
 
 
-                    double[][] matrix = calculator.calculateMatrix(newClusters2);
-                    RealMatrix standardDeviation = calculator.calculateStandardDeviation(matrix);
-                    RealMatrix geomMean = calculator.calculateGeomMean(matrix);
-                    RealMatrix variance = calculator.calculateVariance(matrix);
-                    RealMatrix medianDeviation = calculator.calculateMedianDeviation(matrix);
-                    RealMatrix variationsCoefficient = calculator.calculateVariationsCoefficient(matrix);
-                    RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
 
                     List<RealMatrix> varianceList2 = new ArrayList<>();
                     List<RealMatrix> stdabwList = new ArrayList<>();
@@ -1142,20 +1171,45 @@ public class Main {
 
                     //Berechnung für metrikdifferenzen
                     for(int x = 0; x < matrixList.size(); x++){
+
+                        tempTime = System.currentTimeMillis();
                         RealMatrix tempVariance = calculator.calculateVariance(matrixList.get(x));
+                        time[6] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
                         RealMatrix tempStdabw = calculator.calculateStandardDeviation(matrixList.get(x));
+                        time[7] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
                         RealMatrix tempMedDev = calculator.calculateMedianDeviation(matrixList.get(x));
+                        time[8] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
                         RealMatrix tempVarCof = calculator.calculateVariationsCoefficient(matrixList.get(x));
+                        time[9] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
                         RealMatrix tempQuartDisp = calculator.calculateQuartilsDispersion(matrixList.get(x));
+                        time[10] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
                         RealMatrix tempGeomMean = calculator.calculateGeomMean(matrixList.get(x));
+                        time[11] += System.currentTimeMillis() - tempTime;
 
                         for(int y = 0; y < tempVariance.getRowDimension(); y++){
+                            tempTime = System.currentTimeMillis();
                             tempVariance.setEntry(y,0, -(Math.abs(variance.getEntry(y,0)) - Math.abs(tempVariance.getEntry(y,0))));
+                            time[6] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
                             tempStdabw.setEntry(y,0, -(Math.abs(standardDeviation.getEntry(y,0)) - Math.abs(tempStdabw.getEntry(y,0))));
+                            time[7] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
                             tempMedDev.setEntry(y,0, -(Math.abs(medianDeviation.getEntry(y,0)) - Math.abs(tempMedDev.getEntry(y,0))));
+                            time[8] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
                             tempVarCof.setEntry(y,0, -(Math.abs(variationsCoefficient.getEntry(y,0)) - Math.abs(tempVarCof.getEntry(y,0))));
+                            time[9] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
                             tempQuartDisp.setEntry(y,0, -(Math.abs(quartilsDispersion.getEntry(y,0)) - Math.abs(tempQuartDisp.getEntry(y,0))));
+                            time[10] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
                             tempGeomMean.setEntry(y,0, -(Math.abs(geomMean.getEntry(y,0)) - Math.abs(tempGeomMean.getEntry(y,0))));
+                            time[11] += System.currentTimeMillis() - tempTime;
                         }
                         varianceList2.add(tempVariance);
                         stdabwList.add(tempStdabw);
@@ -1164,13 +1218,25 @@ public class Main {
                         quartDispList.add(tempQuartDisp);
                         geomMeanList.add(tempGeomMean);
                     }
-                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList2.get(l)));
-                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(l)));
-                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medDevList.get(l)));
-                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varCofList.get(l)));
-                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDispList.get(l)));
-                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMeanList.get(l)));
 
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList2.get(l)));
+                    time[6] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(l)));
+                    time[7] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medDevList.get(l)));
+                    time[8] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varCofList.get(l)));
+                    time[9] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDispList.get(l)));
+                    time[10] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMeanList.get(l)));
+                    time[11] += System.currentTimeMillis() - tempTime;
 
                     for(int u = 0; u < listOfBestAtt.size(); u++){
                         for (int att : listOfBestAtt.get(u)) {
@@ -1192,6 +1258,8 @@ public class Main {
         sb.append(numberOfClusters);
         sb.append("_");
         sb.append(numberOfPointsPerCluster);
+        sb.append("_");
+        sb.append(iterations);
         sb.append(".csv");
         PrintWriter csvWriter = new PrintWriter(new File(sb.toString()));
         sb = new StringBuilder();
@@ -1200,6 +1268,8 @@ public class Main {
         sb.append("NumClust");
         sb.append(',');
         sb.append("PointsCluster");
+        sb.append(',');
+        sb.append("Iterations per Noise");
         sb.append('\n');
 
         sb.append(distribution);
@@ -1207,6 +1277,8 @@ public class Main {
         sb.append(numberOfClusters);
         sb.append(',');
         sb.append(numberOfPointsPerCluster);
+        sb.append(',');
+        sb.append(iterations);
         sb.append('\n');
 
         sb.append("Rauschwert");
@@ -1263,6 +1335,15 @@ public class Main {
             sb.append(',');
             sb.append(count[i][11]/(divisor));
             sb.append('\n');
+        }
+        sb.append('\n');
+        sb.append("Time");
+        sb.append('\n');
+        sb.append(0);
+        sb.append(',');
+        for(int i = 0; i < 12; i++){
+            sb.append(time[i]);
+            sb.append(',');
         }
         csvWriter.write(sb.toString());
         csvWriter.close();
