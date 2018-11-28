@@ -1681,7 +1681,7 @@ public class Main {
                 evaluateBigDataset(args[0].charAt(0), Integer.parseInt(args[1]), Integer.parseInt(args[2]), numberOfShownAttributes, Integer.parseInt(args[3]));
             }
         }catch(Exception e){
-            System.out.println("FileNotFound");
+            e.printStackTrace();
         }
 
 
