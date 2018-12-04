@@ -7,7 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="054eb020-5822-4096-a2a3-dca25af69d9b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generateData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,7 +21,7 @@
     <session id="-493764723">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="45" />
+          <entry key="project.closed" value="46" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.28" value="1" />
@@ -32,19 +33,19 @@
           <entry key="project.open.time.34" value="3" />
           <entry key="project.open.time.35" value="3" />
           <entry key="project.open.time.36" value="4" />
-          <entry key="project.open.time.37" value="2" />
+          <entry key="project.open.time.37" value="3" />
           <entry key="project.open.time.38" value="1" />
           <entry key="project.open.time.39" value="2" />
           <entry key="project.open.time.42" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="6" />
-          <entry key="project.opened" value="45" />
+          <entry key="project.opened" value="46" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="csv" value="17" />
-          <entry key="java" value="11" />
+          <entry key="java" value="12" />
           <entry key="jpeg" value="4" />
           <entry key="txt" value="2" />
         </counts>
@@ -53,20 +54,20 @@
         <counts>
           <entry key="CSV" value="4" />
           <entry key="Image" value="4" />
-          <entry key="JAVA" value="11" />
+          <entry key="JAVA" value="12" />
           <entry key="PLAIN_TEXT" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="23" />
-          <entry key="java" value="33084" />
+          <entry key="java" value="33272" />
           <entry key="txt" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="33084" />
+          <entry key="JAVA" value="33272" />
           <entry key="PLAIN_TEXT" value="63" />
         </counts>
       </usages-collector>
@@ -113,13 +114,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="914" column="22" lean-forward="true" selection-start-line="914" selection-start-column="22" selection-end-line="914" selection-end-column="22" />
+            <state relative-caret-position="505">
+              <caret line="675" column="7" lean-forward="true" selection-start-line="667" selection-start-column="4" selection-end-line="675" selection-end-column="7" />
               <folding>
+                <element signature="method#calculateGaussian#0;class#Main#0" />
+                <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
                 <element signature="method#evaluateGaussDataset#0;class#Main#0" />
+                <element signature="method#evaluateBigDataset#0;class#Main#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/generateData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-391">
+              <caret line="10" column="51" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="docComment;method#calculateGaussian#0;class#generateData#0" />
+                <element signature="method#calculateGaussian#0;class#generateData#0" />
+                <element signature="docComment;method#getLogisticFunctionValue#0;class#generateData#0" />
+                <element signature="method#getLogisticFunctionValue#0;class#generateData#0" />
               </folding>
             </state>
           </provider>
@@ -128,7 +148,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
+            <state relative-caret-position="136">
               <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
@@ -225,6 +245,7 @@
         <option value="$PROJECT_DIR$/results.txt" />
         <option value="$PROJECT_DIR$/src/PlotLineChart.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/generateData.java" />
       </list>
     </option>
   </component>
@@ -246,8 +267,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -264,14 +286,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543222766294" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543929288113" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/library/jfreechart-1.0.19" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
@@ -332,9 +353,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2685325" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27132195" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -375,19 +396,9 @@
     <entry file="file://$PROJECT_DIR$/n_5_100.csv" />
     <entry file="file://$PROJECT_DIR$/n_5_100_1000.csv" />
     <entry file="file://$PROJECT_DIR$/n_5_100_100.csv" />
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="914" column="22" lean-forward="true" selection-start-line="914" selection-start-column="22" selection-end-line="914" selection-end-column="22" />
-          <folding>
-            <element signature="method#evaluateGaussDataset#0;class#Main#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="136">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
@@ -412,13 +423,6 @@
     <entry file="file://$PROJECT_DIR$/src/NewPair.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Point.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GeneralCalculation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -432,6 +436,40 @@
             <element signature="method#calculateQuartilsDispersion#0;class#GeneralCalculation#0" />
             <element signature="method#calculateMinAttributesForVectors#0;class#GeneralCalculation#0" />
             <element signature="method#calculateTablePerClusterWithMatrix#0;class#GeneralCalculation#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="675" column="7" lean-forward="true" selection-start-line="667" selection-start-column="4" selection-end-line="675" selection-end-column="7" />
+          <folding>
+            <element signature="method#calculateGaussian#0;class#Main#0" />
+            <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
+            <element signature="method#evaluateGaussDataset#0;class#Main#0" />
+            <element signature="method#evaluateBigDataset#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generateData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-391">
+          <caret line="10" column="51" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#calculateGaussian#0;class#generateData#0" />
+            <element signature="method#calculateGaussian#0;class#generateData#0" />
+            <element signature="docComment;method#getLogisticFunctionValue#0;class#generateData#0" />
+            <element signature="method#getLogisticFunctionValue#0;class#generateData#0" />
           </folding>
         </state>
       </provider>
