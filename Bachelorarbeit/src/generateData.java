@@ -7,9 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class generateData {
-    List<List<Point>> clusters = new ArrayList<>();
+class generateData {
+    private List<List<Point>> clusters = new ArrayList<>();
 
+    /**Generates a fakeData goldtandard
+     *
+     *
+     * @param c     char to choose the distribution type
+     * @param overlap   noisecoefficient
+     * @param numberOfClusters number of clusters
+     * @param pointsPerCluster points per cluster
+     */
     generateData(char c, double overlap, int numberOfClusters, int pointsPerCluster){
         AbstractRealDistribution randomGenAge;
         AbstractRealDistribution randomGen1;
@@ -67,22 +75,6 @@ public class generateData {
                 clusters.get(clusterNr).add(p);
             }
         }
-    }
-
-
-    /**Calculates gaussian distribution where the max/min values are reached at +distance/-distance
-     * The higher the distance the lower the chance to get a value out of the [min,max] interval
-     *
-     * @param min value after -distance
-     * @param max value after +distance
-     * @param overlap increases the range
-     * @return gaussian distribution
-     */
-    private static double calculateGaussian(double min, double max, double overlap, Random rnd){
-        double localMin = min * (1 - overlap);
-        double localMax = max * (1 + overlap);
-        double mean = (localMin + localMax) / 2;
-        return (mean + rnd.nextGaussian()*((localMax - mean)/3));
     }
 
     /**Generates the y Value of an logistic function
