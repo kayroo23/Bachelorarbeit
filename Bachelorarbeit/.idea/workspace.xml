@@ -7,9 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="054eb020-5822-4096-a2a3-dca25af69d9b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/n_5_100_100.csv" beforeDir="false" afterPath="$PROJECT_DIR$/n_5_100_100.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generateData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generateData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,7 +20,7 @@
     <session id="-493764723">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="47" />
+          <entry key="project.closed" value="48" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.28" value="1" />
@@ -36,11 +34,11 @@
           <entry key="project.open.time.36" value="4" />
           <entry key="project.open.time.37" value="3" />
           <entry key="project.open.time.38" value="1" />
-          <entry key="project.open.time.39" value="2" />
+          <entry key="project.open.time.39" value="3" />
           <entry key="project.open.time.42" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="7" />
-          <entry key="project.opened" value="47" />
+          <entry key="project.opened" value="48" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -118,8 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1227">
-              <caret line="656" column="4" selection-start-line="656" selection-start-column="4" selection-end-line="656" selection-end-column="4" />
+            <state relative-caret-position="-2904">
+              <caret line="1081" column="24" selection-start-line="1081" selection-start-column="20" selection-end-line="1081" selection-end-column="24" />
               <folding>
                 <element signature="docComment;method#tooClose#0;class#Main#0" />
                 <element signature="method#tooClose#0;class#Main#0" />
@@ -146,7 +144,6 @@
                 <element signature="method#calculateGaussian#0;class#Main#0" />
                 <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
                 <element signature="method#evaluateGaussDataset#0;class#Main#0" />
-                <element signature="method#evaluateBigDataset#0;class#Main#0" />
               </folding>
             </state>
           </provider>
@@ -155,11 +152,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/generateData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="-493">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
               <folding>
                 <element signature="docComment;method#generateData#0;class#generateData#0" />
-                <element signature="method#generateData#0;class#generateData#0" />
                 <element signature="docComment;method#getLogisticFunctionValue#0;class#generateData#0" />
                 <element signature="method#getLogisticFunctionValue#0;class#generateData#0" />
               </folding>
@@ -179,7 +175,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DrawPoints.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="153">
               <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -270,8 +266,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="359" />
-    <option name="y" value="89" />
+    <option name="x" value="-986" />
+    <option name="y" value="155" />
     <option name="width" value="1369" />
     <option name="height" value="788" />
   </component>
@@ -281,9 +277,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -300,6 +293,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -367,9 +363,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-1448" y="166" width="1456" height="876" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2739872" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19340974" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -417,6 +413,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DrawPoints.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/NewPair.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -427,17 +440,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PlotLineChart.java">
+    <entry file="file://$PROJECT_DIR$/src/GeneralCalculation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="68">
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding>
+            <element signature="method#calculateStandardDeviation#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateVariationsCoefficient#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateMedianDeviation#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateGeomMean#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateVariance#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateQuartilsDispersion#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateMinAttributesForVectors#0;class#GeneralCalculation#0" />
+            <element signature="method#calculateTablePerClusterWithMatrix#0;class#GeneralCalculation#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1227">
-          <caret line="656" column="4" selection-start-line="656" selection-start-column="4" selection-end-line="656" selection-end-column="4" />
+        <state relative-caret-position="-2904">
+          <caret line="1081" column="24" selection-start-line="1081" selection-start-column="20" selection-end-line="1081" selection-end-column="24" />
           <folding>
             <element signature="docComment;method#tooClose#0;class#Main#0" />
             <element signature="method#tooClose#0;class#Main#0" />
@@ -464,45 +487,16 @@
             <element signature="method#calculateGaussian#0;class#Main#0" />
             <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
             <element signature="method#evaluateGaussDataset#0;class#Main#0" />
-            <element signature="method#evaluateBigDataset#0;class#Main#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DrawPoints.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GeneralCalculation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
-          <folding>
-            <element signature="method#calculateStandardDeviation#0;class#GeneralCalculation#0" />
-            <element signature="method#calculateVariationsCoefficient#0;class#GeneralCalculation#0" />
-            <element signature="method#calculateMedianDeviation#0;class#GeneralCalculation#0" />
-            <element signature="method#calculateGeomMean#0;class#GeneralCalculation#0" />
-            <element signature="method#calculateVariance#0;class#GeneralCalculation#0" />
-            <element signature="method#calculateQuartilsDispersion#0;class#GeneralCalculation#0" />
-            <element signature="method#calculateMinAttributesForVectors#0;class#GeneralCalculation#0" />
-            <element signature="method#calculateTablePerClusterWithMatrix#0;class#GeneralCalculation#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/generateData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="-493">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
           <folding>
             <element signature="docComment;method#generateData#0;class#generateData#0" />
-            <element signature="method#generateData#0;class#generateData#0" />
             <element signature="docComment;method#getLogisticFunctionValue#0;class#generateData#0" />
             <element signature="method#getLogisticFunctionValue#0;class#generateData#0" />
           </folding>
