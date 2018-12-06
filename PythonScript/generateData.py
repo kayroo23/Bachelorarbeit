@@ -1,5 +1,7 @@
 import numpy as np
 import math
+import sys
+import pandas
 from sklearn.cluster import k_means
 from scipy.stats import cauchy
 
@@ -45,11 +47,16 @@ def generate_data(distribution, noise, number_of_clusters, points_per_cluster):
     return out_array
 
 
-data = generate_data(distribution='c', noise=0, number_of_clusters=3, points_per_cluster=10)
+data = generate_data(distribution=sys.argv[1], noise=float(sys.argv[2]), number_of_clusters=int(sys.argv[3]),
+                     points_per_cluster=int(sys.argv[4]))
 for x in data:
     print(x)
-kmeans = k_means(init='k-means++', X=data, n_clusters=3)
+kmeans = k_means(init='k-means++', X=data, n_clusters=int(sys.argv[3]))
 print(kmeans[1])
 # appends k_means cluster label to each point
 for i in range(len(data)):
     data[i].append(kmeans[1][i])
+
+df = pandas.DataFrame(data)
+headers = ["age", "height", "salary", "bank-ID", "blood", "sex", "constant", "real-cluster", "k-means"]
+df.to_csv("newCsv.csv", header=headers)
