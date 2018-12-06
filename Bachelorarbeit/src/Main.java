@@ -1596,7 +1596,7 @@ public class Main {
         //System.out.println("Equally: ");
         //evaluateEquallyDataset(numberOfPointsPerCluster, numberOfShownAttributes, 10);
         //System.out.println("Big Dataset Equally: ");
-        try{
+        /*try{
             if(args.length < 4){
                 evaluateBigDataset('n',5, numberOfPointsPerCluster, numberOfShownAttributes, 100);
             }else {
@@ -1604,8 +1604,13 @@ public class Main {
             }
         }catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
 
+        try{
+            Process p = Runtime.getRuntime().exec("python ..\\PythonScript\\generateData.py c 0 2 1");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
 
 
