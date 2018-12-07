@@ -8,11 +8,11 @@
   <component name="ChangeListManager">
     <list default="true" id="054eb020-5822-4096-a2a3-dca25af69d9b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/n_5_100_100.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/newCsv.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Bachelorarbeit/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Bachelorarbeit/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Bachelorarbeit/generateData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Bachelorarbeit/generateData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../PythonScript/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../PythonScript/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../PythonScript/newCsv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../PythonScript/newCsv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Point.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,7 +25,7 @@
     <session id="-493764723">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="50" />
+          <entry key="project.closed" value="51" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.28" value="1" />
@@ -39,40 +39,40 @@
           <entry key="project.open.time.36" value="4" />
           <entry key="project.open.time.37" value="3" />
           <entry key="project.open.time.38" value="1" />
-          <entry key="project.open.time.39" value="4" />
+          <entry key="project.open.time.39" value="5" />
           <entry key="project.open.time.42" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="7" />
           <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="50" />
+          <entry key="project.opened" value="51" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="csv" value="17" />
-          <entry key="java" value="12" />
+          <entry key="csv" value="19" />
+          <entry key="java" value="13" />
           <entry key="jpeg" value="4" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSV" value="4" />
+          <entry key="CSV" value="6" />
           <entry key="Image" value="4" />
-          <entry key="JAVA" value="12" />
+          <entry key="JAVA" value="13" />
           <entry key="PLAIN_TEXT" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="23" />
-          <entry key="java" value="33436" />
+          <entry key="java" value="35131" />
           <entry key="txt" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="33436" />
+          <entry key="JAVA" value="35131" />
           <entry key="PLAIN_TEXT" value="63" />
         </counts>
       </usages-collector>
@@ -122,8 +122,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="1614" lean-forward="true" selection-start-line="1614" selection-end-line="1614" />
+            <state relative-caret-position="435">
+              <caret line="1832" column="9" lean-forward="true" selection-start-line="1832" selection-start-column="9" selection-end-line="1832" selection-end-column="9" />
               <folding>
                 <element signature="docComment;method#tooClose#0;class#Main#0" />
                 <element signature="method#tooClose#0;class#Main#0" />
@@ -143,7 +143,6 @@
                 <element signature="method#printMatrix#0;class#Main#0" />
                 <element signature="docComment;method#readClassificationDataSet#0;class#Main#0" />
                 <element signature="method#readClassificationDataSet#0;class#Main#0" />
-                <element signature="method#generateEquallyGoldStandardDataset#0;class#Main#0" />
                 <element signature="docComment;method#generateGaussGoldStandardDataset#0;class#Main#0" />
                 <element signature="method#generateGaussGoldStandardDataset#0;class#Main#0" />
                 <element signature="docComment;method#calculateGaussian#0;class#Main#0" />
@@ -151,6 +150,9 @@
                 <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
                 <element signature="method#evaluateGaussDataset#0;class#Main#0" />
                 <element signature="method#evaluateBigDataset#0;class#Main#0" />
+                <element signature="method#generateOutputFile#0;class#Main#0" />
+                <element signature="method#evaluatePythonDataset#0;class#Main#0" />
+                <element signature="method#stringsToCluster#0;class#Main#0" />
               </folding>
             </state>
           </provider>
@@ -199,8 +201,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Point.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+            <state>
+              <caret column="58" selection-start-column="58" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -257,11 +259,12 @@
         <option value="$PROJECT_DIR$/src/CalculationPerCluster.java" />
         <option value="$PROJECT_DIR$/src/NewPair.java" />
         <option value="$PROJECT_DIR$/src/DrawPoints.java" />
-        <option value="$PROJECT_DIR$/src/Point.java" />
         <option value="$PROJECT_DIR$/src/GeneralCalculation.java" />
         <option value="$PROJECT_DIR$/results.txt" />
         <option value="$PROJECT_DIR$/src/PlotLineChart.java" />
         <option value="$PROJECT_DIR$/src/generateData.java" />
+        <option value="$PROJECT_DIR$/src/LocationWrapper.java" />
+        <option value="$PROJECT_DIR$/src/Point.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
       </list>
     </option>
@@ -284,6 +287,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
@@ -302,14 +306,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544107826773" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544181201774" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/library/jfreechart-1.0.19" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
@@ -372,7 +375,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1977612" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19989339" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -381,7 +384,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.31561822" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22342733" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -420,38 +423,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="1614" lean-forward="true" selection-start-line="1614" selection-end-line="1614" />
-          <folding>
-            <element signature="docComment;method#tooClose#0;class#Main#0" />
-            <element signature="method#tooClose#0;class#Main#0" />
-            <element signature="method#isNotValidCenter#0;class#Main#0" />
-            <element signature="docComment;method#getRandomPosition#0;class#Main#0" />
-            <element signature="docComment;method#generateFakeData#0;class#Main#0" />
-            <element signature="method#generateFakeData#0;class#Main#0" />
-            <element signature="method#getRandomCenter#0;class#Main#0" />
-            <element signature="docComment;method#generateFakeData#1;class#Main#0" />
-            <element signature="method#generateFakeData#1;class#Main#0" />
-            <element signature="method#calculationFor2Attributes#0;class#Main#0" />
-            <element signature="method#calculationForMoreAttributes#0;class#Main#0" />
-            <element signature="method#calculateMatrix#0;class#Main#0" />
-            <element signature="method#calculateBestAttributes#0;class#Main#0" />
-            <element signature="method#replaceWorst#0;class#Main#0" />
-            <element signature="method#calculateResults#0;class#Main#0" />
-            <element signature="method#printMatrix#0;class#Main#0" />
-            <element signature="docComment;method#readClassificationDataSet#0;class#Main#0" />
-            <element signature="method#readClassificationDataSet#0;class#Main#0" />
-            <element signature="method#generateEquallyGoldStandardDataset#0;class#Main#0" />
-            <element signature="docComment;method#generateGaussGoldStandardDataset#0;class#Main#0" />
-            <element signature="method#generateGaussGoldStandardDataset#0;class#Main#0" />
-            <element signature="docComment;method#calculateGaussian#0;class#Main#0" />
-            <element signature="method#calculateGaussian#0;class#Main#0" />
-            <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
-            <element signature="method#evaluateGaussDataset#0;class#Main#0" />
-            <element signature="method#evaluateBigDataset#0;class#Main#0" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/newCsv.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="76" lean-forward="true" selection-start-line="1" selection-start-column="76" selection-end-line="1" selection-end-column="76" />
         </state>
       </provider>
     </entry>
@@ -487,13 +465,6 @@
     <entry file="file://$PROJECT_DIR$/src/NewPair.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Point.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GeneralCalculation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -507,6 +478,63 @@
             <element signature="method#calculateQuartilsDispersion#0;class#GeneralCalculation#0" />
             <element signature="method#calculateMinAttributesForVectors#0;class#GeneralCalculation#0" />
             <element signature="method#calculateTablePerClusterWithMatrix#0;class#GeneralCalculation#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LocationWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+          <folding>
+            <element signature="e#416#417#0" expanded="true" />
+            <element signature="e#447#448#0" expanded="true" />
+            <element signature="e#481#482#0" expanded="true" />
+            <element signature="e#510#511#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="58" selection-start-column="58" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="1832" column="9" lean-forward="true" selection-start-line="1832" selection-start-column="9" selection-end-line="1832" selection-end-column="9" />
+          <folding>
+            <element signature="docComment;method#tooClose#0;class#Main#0" />
+            <element signature="method#tooClose#0;class#Main#0" />
+            <element signature="method#isNotValidCenter#0;class#Main#0" />
+            <element signature="docComment;method#getRandomPosition#0;class#Main#0" />
+            <element signature="docComment;method#generateFakeData#0;class#Main#0" />
+            <element signature="method#generateFakeData#0;class#Main#0" />
+            <element signature="method#getRandomCenter#0;class#Main#0" />
+            <element signature="docComment;method#generateFakeData#1;class#Main#0" />
+            <element signature="method#generateFakeData#1;class#Main#0" />
+            <element signature="method#calculationFor2Attributes#0;class#Main#0" />
+            <element signature="method#calculationForMoreAttributes#0;class#Main#0" />
+            <element signature="method#calculateMatrix#0;class#Main#0" />
+            <element signature="method#calculateBestAttributes#0;class#Main#0" />
+            <element signature="method#replaceWorst#0;class#Main#0" />
+            <element signature="method#calculateResults#0;class#Main#0" />
+            <element signature="method#printMatrix#0;class#Main#0" />
+            <element signature="docComment;method#readClassificationDataSet#0;class#Main#0" />
+            <element signature="method#readClassificationDataSet#0;class#Main#0" />
+            <element signature="docComment;method#generateGaussGoldStandardDataset#0;class#Main#0" />
+            <element signature="method#generateGaussGoldStandardDataset#0;class#Main#0" />
+            <element signature="docComment;method#calculateGaussian#0;class#Main#0" />
+            <element signature="method#calculateGaussian#0;class#Main#0" />
+            <element signature="method#evaluateEquallyDataset#0;class#Main#0" />
+            <element signature="method#evaluateGaussDataset#0;class#Main#0" />
+            <element signature="method#evaluateBigDataset#0;class#Main#0" />
+            <element signature="method#generateOutputFile#0;class#Main#0" />
+            <element signature="method#evaluatePythonDataset#0;class#Main#0" />
+            <element signature="method#stringsToCluster#0;class#Main#0" />
           </folding>
         </state>
       </provider>

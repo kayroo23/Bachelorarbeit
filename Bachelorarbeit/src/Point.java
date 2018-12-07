@@ -1,6 +1,6 @@
-import java.util.ArrayList;
+import org.apache.commons.math3.ml.clustering.Clusterable;
 
-public class Point {
+public class Point implements Clusterable {
 
     private int numberOfAttributes;
     private double[] attributes;
@@ -24,6 +24,8 @@ public class Point {
         return attributes;
     }
 
-
+    public double[] getPoint(){
+        return attributes;
+    }
 
 }
