@@ -1,10 +1,4 @@
-import org.apache.commons.math3.distribution.AbstractRealDistribution;
-import org.apache.commons.math3.distribution.CauchyDistribution;
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.ml.clustering.CentroidCluster;
-import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
@@ -1028,7 +1022,7 @@ public class Main {
         for(int i = 0; i <= steps; i++){
             overlap = ((double)i)/10;
             for(int k = 0; k < iterations; k++){
-                newClusters2 = new generateData(distribution, overlap, numberOfClusters, numberOfPointsPerCluster).getClusters();
+                newClusters2 = new generateSimpleData(distribution, overlap, numberOfClusters, numberOfPointsPerCluster).getClusters();
                 List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
 
                 long tempTime;
@@ -1178,6 +1172,176 @@ public class Main {
         }
     }
 
+
+    private static void evaluateClusteredDataset(char distribution, int numberOfClusters, int numberOfPointsPerCluster, int numberOfShownAttributes, int iterations) {
+        GeneralCalculation calculator = new GeneralCalculation();
+        List<Integer> knownBestAttributes = new ArrayList<>();
+
+        knownBestAttributes.add(0);
+        knownBestAttributes.add(1);
+        knownBestAttributes.add(2);
+        knownBestAttributes.add(6);
+        double overlap;
+        int steps = 10;
+        double[][] count = new double[steps+1][12];
+        long[] time = new long[12];
+
+        List<List<Point>> newClusters2;
+        List<List<Integer>> listOfBestAtt = new ArrayList<>();
+        for(int i = 0; i <= steps; i++){
+            overlap = ((double)i)/10;
+            for(int k = 0; k < iterations; k++){
+                newClusters2 = new generateKMeansData(distribution, overlap, numberOfClusters, numberOfPointsPerCluster).getClusters();
+                List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
+
+                long tempTime;
+                double[][] matrix = calculator.calculateMatrix(newClusters2);
+                tempTime = System.currentTimeMillis();
+                RealMatrix standardDeviation = calculator.calculateStandardDeviation(matrix);
+                time[6] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix geomMean = calculator.calculateGeomMean(matrix);
+                time[7] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix variance = calculator.calculateVariance(matrix);
+                time[8] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix medianDeviation = calculator.calculateMedianDeviation(matrix);
+                time[9] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix variationsCoefficient = calculator.calculateVariationsCoefficient(matrix);
+                time[10] += System.currentTimeMillis() - tempTime;
+                tempTime = System.currentTimeMillis();
+                RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
+                time[11] += System.currentTimeMillis() - tempTime;
+
+
+                for(int l = 0; l < matrixList.size(); l++){
+                    //standard metriken
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateVariance(matrixList.get(l))));
+                    time[0] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateStandardDeviation(matrixList.get(l))));
+                    time[1] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateGeomMean(matrixList.get(l))));
+                    time[2] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateMedianDeviation(matrixList.get(l))));
+                    time[3] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateQuartilsDispersion(matrixList.get(l))));
+                    time[4] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                            calculator.calculateVariationsCoefficient(matrixList.get(l))));
+                    time[5] += System.currentTimeMillis() - tempTime;
+
+
+
+
+                    List<RealMatrix> varianceList2 = new ArrayList<>();
+                    List<RealMatrix> stdabwList = new ArrayList<>();
+                    List<RealMatrix> medDevList = new ArrayList<>();
+                    List<RealMatrix> varCofList = new ArrayList<>();
+                    List<RealMatrix> quartDispList = new ArrayList<>();
+                    List<RealMatrix> geomMeanList = new ArrayList<>();
+
+                    //Berechnung für metrikdifferenzen
+                    for(int x = 0; x < matrixList.size(); x++){
+
+                        tempTime = System.currentTimeMillis();
+                        RealMatrix tempVariance = calculator.calculateVariance(matrixList.get(x));
+                        time[6] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
+                        RealMatrix tempStdabw = calculator.calculateStandardDeviation(matrixList.get(x));
+                        time[7] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
+                        RealMatrix tempMedDev = calculator.calculateMedianDeviation(matrixList.get(x));
+                        time[8] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
+                        RealMatrix tempVarCof = calculator.calculateVariationsCoefficient(matrixList.get(x));
+                        time[9] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
+                        RealMatrix tempQuartDisp = calculator.calculateQuartilsDispersion(matrixList.get(x));
+                        time[10] += System.currentTimeMillis() - tempTime;
+                        tempTime = System.currentTimeMillis();
+                        RealMatrix tempGeomMean = calculator.calculateGeomMean(matrixList.get(x));
+                        time[11] += System.currentTimeMillis() - tempTime;
+
+                        for(int y = 0; y < tempVariance.getRowDimension(); y++){
+                            tempTime = System.currentTimeMillis();
+                            tempVariance.setEntry(y,0, -(Math.abs(variance.getEntry(y,0)) - Math.abs(tempVariance.getEntry(y,0))));
+                            time[6] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
+                            tempStdabw.setEntry(y,0, -(Math.abs(standardDeviation.getEntry(y,0)) - Math.abs(tempStdabw.getEntry(y,0))));
+                            time[7] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
+                            tempMedDev.setEntry(y,0, -(Math.abs(medianDeviation.getEntry(y,0)) - Math.abs(tempMedDev.getEntry(y,0))));
+                            time[8] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
+                            tempVarCof.setEntry(y,0, -(Math.abs(variationsCoefficient.getEntry(y,0)) - Math.abs(tempVarCof.getEntry(y,0))));
+                            time[9] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
+                            tempQuartDisp.setEntry(y,0, -(Math.abs(quartilsDispersion.getEntry(y,0)) - Math.abs(tempQuartDisp.getEntry(y,0))));
+                            time[10] += System.currentTimeMillis() - tempTime;
+                            tempTime = System.currentTimeMillis();
+                            tempGeomMean.setEntry(y,0, -(Math.abs(geomMean.getEntry(y,0)) - Math.abs(tempGeomMean.getEntry(y,0))));
+                            time[11] += System.currentTimeMillis() - tempTime;
+                        }
+                        varianceList2.add(tempVariance);
+                        stdabwList.add(tempStdabw);
+                        medDevList.add(tempMedDev);
+                        varCofList.add(tempVarCof);
+                        quartDispList.add(tempQuartDisp);
+                        geomMeanList.add(tempGeomMean);
+                    }
+
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList2.get(l)));
+                    time[6] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(l)));
+                    time[7] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medDevList.get(l)));
+                    time[8] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varCofList.get(l)));
+                    time[9] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDispList.get(l)));
+                    time[10] += System.currentTimeMillis() - tempTime;
+                    tempTime = System.currentTimeMillis();
+                    listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMeanList.get(l)));
+                    time[11] += System.currentTimeMillis() - tempTime;
+
+                    for(int u = 0; u < listOfBestAtt.size(); u++){
+                        for (int att : listOfBestAtt.get(u)) {
+                            if(knownBestAttributes.contains(att)){
+                                count[i][u]++;
+                            }
+                        }
+                    }
+                    listOfBestAtt.clear();
+                }
+                matrixList.clear();
+            }
+        }
+        try{
+            generateOutputFile(count, time, distribution, numberOfClusters, numberOfShownAttributes, numberOfPointsPerCluster, iterations, steps);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     private static void generateOutputFile(double[][] count, long[] time, char distribution, int numberOfClusters,
                                            int numberOfShownAttributes, int numberOfPointsPerCluster, int iterations,
                                            int steps)throws FileNotFoundException{
@@ -1301,7 +1465,7 @@ public class Main {
                 String[][] input = new String[(numberOfClusters*numberOfPointsPerCluster) + 1][];
                 try{
                     String args = distribution + " " + Double.toString(overlap) + " " + Integer.toString(numberOfClusters) + " " + Integer.toString(numberOfPointsPerCluster);
-                    String command = "python ..\\PythonScript\\generateData.py " + args;
+                    String command = "python ..\\PythonScript\\generateSimpleData.py " + args;
                     Process p = Runtime.getRuntime().exec(command);
                     p.waitFor();
                     BufferedReader br = new BufferedReader(new FileReader("newCsv.csv"));
@@ -1487,7 +1651,7 @@ public class Main {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
         int numberOfClusters = 5;
-        int numberOfPointsPerCluster = 5;
+        int numberOfPointsPerCluster = 1000;
         int numberOfAttributes = 10;
         for(int i = 0; i < numberOfClusters; i++){
             clusters.add(new ArrayList<NewPair>());
@@ -1499,7 +1663,7 @@ public class Main {
         //generateFakeData(newClusters, numberOfPointsPerCluster, numberOfAttributes);
         //newClusters = generateRandomGoldStandardDataset();
         //newClusters = generateGaussGoldStandardDataset(0.5, numberOfPointsPerCluster);
-        newClusters = new generateData('n', 0.5, numberOfClusters, numberOfPointsPerCluster).getClusters();
+        newClusters = new generateSimpleData('n', 0.5, numberOfClusters, numberOfPointsPerCluster).getClusters();
         //calculationForMoreAttributes(newClusters, numberOfPointsPerCluster);
 
         //readClassificationDataSet("dataset_32_pendigits_changed.txt", newClusters, 0);
@@ -1817,19 +1981,24 @@ public class Main {
             e.printStackTrace();
         }*/
 
-        List<Point> pointsToCluster = new ArrayList<>() ;
-        pointsToCluster.add(new Point(2, new double[]{1,1}));
-        pointsToCluster.add(new Point(2, new double[]{2,1}));
-        pointsToCluster.add(new Point(2, new double[]{10,10}));
-        pointsToCluster.add(new Point(2, new double[]{11,10}));
-        List<CentroidCluster<Point>> clusteringResults = new KMeansPlusPlusClusterer<Point>( 2, 10 ).cluster( pointsToCluster );
-        //clusteringResult enthällt k-viele Listen mit Punkten (Punkte sind in Cluster unterteilt)
-        //Bsp liste 0:
-        for (Point a : clusteringResults.get(0).getPoints()) {
-            for(int k = 0; k < a.getPoint().length; k++){
-                System.out.print(a.getPoint()[k] + ", ");
+        /*try{
+            if(args.length < 4){
+                evaluateClusteredDataset('n',5, numberOfPointsPerCluster, numberOfShownAttributes, 100);
+            }else {
+                evaluateClusteredDataset(args[0].charAt(0), Integer.parseInt(args[1]), Integer.parseInt(args[2]), numberOfShownAttributes, Integer.parseInt(args[3]));
             }
-            System.out.println();
+        }catch(Exception e){
+            e.printStackTrace();
+        }*/
+
+        List<List<Point>> newClusters2 = new multivariateGaussian(0.3, numberOfClusters, numberOfPointsPerCluster).getClusters();
+        for (List<Point> p : newClusters2) {
+            for (Point point : p) {
+                for(int k = 0; k < point.getNumberOfAttributes(); k++){
+                    System.out.print(point.getAttributes()[k] + ", ");
+                }
+                System.out.println();
+            }
         }
 
         //evaluatePythonDataset('n',5, numberOfPointsPerCluster, numberOfShownAttributes, 100);
