@@ -1,19 +1,22 @@
 import org.apache.commons.math3.distribution.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-class multivariateGaussian extends generateData{
+final class multivariateGaussian extends generateData{
 
     multivariateGaussian(final double overlap, final int numberOfClusters, final int pointsPerCluster){
 
+    }
+
+    static List<List<Point>> calculateRandomData(final double overlap, final int numberOfClusters, final int pointsPerCluster){
         //initialisierung der Liste
+        List<List<Point>> clusters = new ArrayList<>();
         for(int i = 0; i < numberOfClusters; i++){
             clusters.add(new ArrayList<Point>());
         }
-        int maxValue = numberOfClusters * 10;
         double[] sample;
-
         for(int clusterNr = 0; clusterNr < numberOfClusters; clusterNr++){
             Random randomNr = new Random();
             double overlap1 = 1 + (overlap * Math.random());
@@ -30,7 +33,7 @@ class multivariateGaussian extends generateData{
             }
 
             AbstractMultivariateRealDistribution randomGen = new MultivariateNormalDistribution(means, covariances);
-
+            int maxValue = numberOfClusters * 10;
             //Hinzufuegen der eigentlichen Daten mit der obigen Verteilung
             for(int k = 0; k < pointsPerCluster; k++){
                 double[] attList = new double[8];
@@ -51,5 +54,6 @@ class multivariateGaussian extends generateData{
                 clusters.get(clusterNr).add(p);
             }
         }
+        return clusters;
     }
 }

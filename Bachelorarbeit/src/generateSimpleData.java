@@ -56,20 +56,7 @@ class generateSimpleData extends generateData{
 
             //Hinzufuegen der eigentlichen Daten mit der obigen Verteilung
             for(int k = 0; k < pointsPerCluster; k++){
-                double[] attList = new double[8];
-                //good attributes
-                attList[0] = randomGenAge.sample();
-                attList[1] = randomGen1.sample();
-                attList[2] = randomGen2.sample();
-                attList[6] = 10 * clusterNr;
-
-                //Random attributes
-                attList[3] = randomNr.nextInt(maxValue);
-                attList[4] = (randomNr.nextInt(4))*((float)numberOfClusters*2.5);
-                attList[5] = Math.random() > 0.5 ? maxValue : 0;
-                attList[7] = 1234567;
-
-                Point p = new Point(attList.length, attList);
+                Point p = getRandomPoint(randomGen1, randomGen2, randomGenAge, clusterNr, numberOfClusters);
                 clusters.get(clusterNr).add(p);
             }
         }
