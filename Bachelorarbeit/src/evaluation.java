@@ -890,6 +890,179 @@ public final class evaluation {
         }
     }
 
+    static void evaluateDataset(int numberOfShownAttributes, List<List<Point>> newClusters2, int points, int features, float noise) {
+        GeneralCalculation calculator = new GeneralCalculation();
+        List<Integer> knownBestAttributes = new ArrayList<>();
+        List<Integer> tempBestAttributes = new ArrayList<>();
+
+        knownBestAttributes.add(0);
+        knownBestAttributes.add(1);
+        knownBestAttributes.add(2);
+        knownBestAttributes.add(3);
+        knownBestAttributes.add(4);
+        double[] count = new double[12];
+        double[][] notFound = new double[5][12];
+        long[] time = new long[12];
+
+
+        List<List<Integer>> listOfBestAtt = new ArrayList<>();
+        List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
+
+        long tempTime;
+        double[][] matrix = calculator.calculateMatrix(newClusters2);
+        tempTime = System.nanoTime();
+        RealMatrix standardDeviation = calculator.calculateStandardDeviation(matrix);
+        time[6] += System.nanoTime() - tempTime;
+        tempTime = System.nanoTime();
+        RealMatrix geomMean = calculator.calculateGeomMean(matrix);
+        time[7] += System.nanoTime() - tempTime;
+        tempTime = System.nanoTime();
+        RealMatrix variance = calculator.calculateVariance(matrix);
+        time[8] += System.nanoTime() - tempTime;
+        tempTime = System.nanoTime();
+        RealMatrix medianDeviation = calculator.calculateMedianDeviation(matrix);
+        time[9] += System.nanoTime() - tempTime;
+        tempTime = System.nanoTime();
+        RealMatrix variationsCoefficient = calculator.calculateVariationsCoefficient(matrix);
+        time[10] += System.nanoTime() - tempTime;
+        tempTime = System.nanoTime();
+        RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
+        time[11] += System.nanoTime() - tempTime;
+
+
+        for(int l = 0; l < matrixList.size(); l++){
+            //standard metriken
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                    calculator.calculateVariance(matrixList.get(l))));
+            time[0] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                    calculator.calculateStandardDeviation(matrixList.get(l))));
+            time[1] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                    calculator.calculateGeomMean(matrixList.get(l))));
+            time[2] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                    calculator.calculateMedianDeviation(matrixList.get(l))));
+            time[3] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                    calculator.calculateQuartilsDispersion(matrixList.get(l))));
+            time[4] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+                    calculator.calculateVariationsCoefficient(matrixList.get(l))));
+            time[5] += System.nanoTime() - tempTime;
+
+
+
+
+            List<RealMatrix> varianceList2 = new ArrayList<>();
+            List<RealMatrix> stdabwList = new ArrayList<>();
+            List<RealMatrix> medDevList = new ArrayList<>();
+            List<RealMatrix> varCofList = new ArrayList<>();
+            List<RealMatrix> quartDispList = new ArrayList<>();
+            List<RealMatrix> geomMeanList = new ArrayList<>();
+
+            //Berechnung für metrikdifferenzen
+            for(int x = 0; x < matrixList.size(); x++){
+
+                tempTime = System.nanoTime();
+                RealMatrix tempVariance = calculator.calculateVariance(matrixList.get(x));
+                time[6] += System.nanoTime() - tempTime;
+                tempTime = System.nanoTime();
+                RealMatrix tempStdabw = calculator.calculateStandardDeviation(matrixList.get(x));
+                time[7] += System.nanoTime() - tempTime;
+                tempTime = System.nanoTime();
+                RealMatrix tempMedDev = calculator.calculateMedianDeviation(matrixList.get(x));
+                time[8] += System.nanoTime() - tempTime;
+                tempTime = System.nanoTime();
+                RealMatrix tempVarCof = calculator.calculateVariationsCoefficient(matrixList.get(x));
+                time[9] += System.nanoTime() - tempTime;
+                tempTime = System.nanoTime();
+                RealMatrix tempQuartDisp = calculator.calculateQuartilsDispersion(matrixList.get(x));
+                time[10] += System.nanoTime() - tempTime;
+                tempTime = System.nanoTime();
+                RealMatrix tempGeomMean = calculator.calculateGeomMean(matrixList.get(x));
+                time[11] += System.nanoTime() - tempTime;
+
+                for(int y = 0; y < tempVariance.getRowDimension(); y++){
+                    tempTime = System.nanoTime();
+                    tempVariance.setEntry(y,0, -(Math.abs(variance.getEntry(y,0)) - Math.abs(tempVariance.getEntry(y,0))));
+                    time[6] += System.nanoTime() - tempTime;
+                    tempTime = System.nanoTime();
+                    tempStdabw.setEntry(y,0, -(Math.abs(standardDeviation.getEntry(y,0)) - Math.abs(tempStdabw.getEntry(y,0))));
+                    time[7] += System.nanoTime() - tempTime;
+                    tempTime = System.nanoTime();
+                    tempMedDev.setEntry(y,0, -(Math.abs(medianDeviation.getEntry(y,0)) - Math.abs(tempMedDev.getEntry(y,0))));
+                    time[8] += System.nanoTime() - tempTime;
+                    tempTime = System.nanoTime();
+                    tempVarCof.setEntry(y,0, -(Math.abs(variationsCoefficient.getEntry(y,0)) - Math.abs(tempVarCof.getEntry(y,0))));
+                    time[9] += System.nanoTime() - tempTime;
+                    tempTime = System.nanoTime();
+                    tempQuartDisp.setEntry(y,0, -(Math.abs(quartilsDispersion.getEntry(y,0)) - Math.abs(tempQuartDisp.getEntry(y,0))));
+                    time[10] += System.nanoTime() - tempTime;
+                    tempTime = System.nanoTime();
+                    tempGeomMean.setEntry(y,0, -(Math.abs(geomMean.getEntry(y,0)) - Math.abs(tempGeomMean.getEntry(y,0))));
+                    time[11] += System.nanoTime() - tempTime;
+                }
+                varianceList2.add(tempVariance);
+                stdabwList.add(tempStdabw);
+                medDevList.add(tempMedDev);
+                varCofList.add(tempVarCof);
+                quartDispList.add(tempQuartDisp);
+                geomMeanList.add(tempGeomMean);
+            }
+
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList2.get(l)));
+            time[6] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(l)));
+            time[7] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medDevList.get(l)));
+            time[8] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varCofList.get(l)));
+            time[9] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDispList.get(l)));
+            time[10] += System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMeanList.get(l)));
+            time[11] += System.nanoTime() - tempTime;
+
+            for(int u = 0; u < listOfBestAtt.size(); u++){
+                tempBestAttributes = new ArrayList<>(knownBestAttributes);
+                for (int att : listOfBestAtt.get(u)) {
+                    if(knownBestAttributes.contains(att)){
+                        count[u]++;
+                        for(int z = 0; z < tempBestAttributes.size(); z++){
+                            if(tempBestAttributes.get(z) == att){
+                                tempBestAttributes.remove(z);
+                                break;
+                            }
+                        }
+                    }
+                }
+                for(int f = 0; f < tempBestAttributes.size(); f++){
+                    notFound[tempBestAttributes.get(f)][u]++;
+                }
+            }
+            listOfBestAtt.clear();
+        }
+        matrixList.clear();
+        try{
+            generateOutputFile1(count, notFound, time, newClusters2.size(), numberOfShownAttributes, points, features, noise);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private static List<List<Point>> generateEquallyGoldStandardDataset(double overlap, int pointsPerCluster){
         List<List<Point>> clusters = new ArrayList<>();
         for(int i = 0; i < 5; i++){
@@ -1338,4 +1511,115 @@ public final class evaluation {
         csvWriter.close();
         System.out.println("Done");
     }
+
+
+    private static void generateOutputFile1(double[] count, double[][] notFound, long[] time, int numberOfClusters,
+                                            int numberOfShownAttributes, int points, int features, float noise)throws FileNotFoundException{
+        double divisor = numberOfClusters*numberOfShownAttributes;
+        StringBuilder sb = new StringBuilder();
+        sb.append("eval");
+        sb.append("_");
+        sb.append("g");
+        sb.append("_");
+        sb.append(points);
+        sb.append("_");
+        sb.append(features);
+        sb.append("_");
+        sb.append(numberOfClusters);
+        sb.append("_");
+        sb.append(noise);
+        sb.append(".csv");
+        PrintWriter csvWriter = new PrintWriter(new File(sb.toString()));
+
+        sb = new StringBuilder();
+
+        sb.append("Rauschwert");
+        sb.append(',');
+        sb.append("var");
+        sb.append(',');
+        sb.append("stdabw");
+        sb.append(',');
+        sb.append("geoMean");
+        sb.append(',');
+        sb.append("MedDev");
+        sb.append(',');
+        sb.append("QuartDisp");
+        sb.append(',');
+        sb.append("VariCoeff");
+        sb.append(',');
+        sb.append("VarDiff");
+        sb.append(',');
+        sb.append("stdabwDiff");
+        sb.append(',');
+        sb.append("MedDevDiff");
+        sb.append(',');
+        sb.append("VarCoffDiff");
+        sb.append(',');
+        sb.append("QuartDispDiff");
+        sb.append(',');
+        sb.append("geoMeanDiff");
+        sb.append('\n');
+
+
+        sb.append(" ");
+        sb.append(',');
+        sb.append(count[0]/(divisor));
+        sb.append(',');
+        sb.append(count[1]/(divisor));
+        sb.append(',');
+        sb.append(count[2]/(divisor));
+        sb.append(',');
+        sb.append(count[3]/(divisor));
+        sb.append(',');
+        sb.append(count[4]/(divisor));
+        sb.append(',');
+        sb.append(count[5]/(divisor));
+        sb.append(',');
+        sb.append(count[6]/(divisor));
+        sb.append(',');
+        sb.append(count[7]/(divisor));
+        sb.append(',');
+        sb.append(count[8]/(divisor));
+        sb.append(',');
+        sb.append(count[9]/(divisor));
+        sb.append(',');
+        sb.append(count[10]/(divisor));
+        sb.append(',');
+        sb.append(count[11]/(divisor));
+        sb.append('\n');
+
+        sb.append('\n');
+        sb.append("Time");
+        sb.append('\n');
+        sb.append(0);
+        sb.append(',');
+        for(int i = 0; i < 12; i++){
+            sb.append(time[i]);
+            sb.append(',');
+        }
+        sb.append('\n');
+        sb.append('\n');
+        sb.append("Not Found:");
+        sb.append('\n');
+        sb.append("Attribute");
+        sb.append('\n');
+        for(int k = 0; k < notFound.length; k++){
+            if(k % 5 == 0){
+                sb.append('\n');
+            }
+            sb.append(k % 5);
+
+            sb.append(',');
+            for(int l = 0; l < notFound[k].length; l++){
+                sb.append(notFound[k][l]);
+                sb.append(',');
+            }
+            sb.append('\n');
+        }
+
+        csvWriter.write(sb.toString());
+        csvWriter.close();
+        System.out.println("Done");
+    }
+
 }

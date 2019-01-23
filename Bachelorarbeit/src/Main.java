@@ -1,4 +1,6 @@
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.ml.clustering.CentroidCluster;
+import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.KendallsCorrelation;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
@@ -454,6 +456,37 @@ public class Main {
         }
     }
 
+    /**
+     * reads CSV in location and converts every line in one Point without the last attribute (clusterlable)
+     * @param location to the CSV-File
+     * @param clusters to store the points
+     */
+    private static void readCSV(String location, List<Point> clusters){
+        File file = new File(location);
+        try{
+            int i = 0;
+            String s;
+            Scanner sc = new Scanner(file);
+            while(sc.hasNextLine()){
+                //Exit when line is empty
+                if(!sc.hasNext()){
+                    break;
+                }
+                while(sc.hasNext()){
+                    s = sc.next();
+                    String[] values = s.split(",");
+                    double[] attributes = new double[values.length - 2];
+                    for(int l = 0; l < values.length - 2; l++){
+                        attributes[l] = Double.parseDouble(values[l]);
+                    }
+                    clusters.add(new Point(attributes.length, attributes));
+                }
+            }
+        }catch(FileNotFoundException e){
+            System.out.println("Einlesen der Datei fehlgeschlagen!");
+        }
+    }
+
     public static void main(String[] args) {
         List<List<NewPair>> clusters = new ArrayList<>();
         List<List<Point>> newClusters = new ArrayList<>();
@@ -788,6 +821,16 @@ public class Main {
             e.printStackTrace();
         }*/
 
+
+
+
+
+
+
+
+
+
+        /*
         try{
             if(args.length < 4){
                 evaluation.evaluateClusteredDataset('n',5, numberOfPointsPerCluster, numberOfShownAttributes, 100);
@@ -797,6 +840,8 @@ public class Main {
         }catch(Exception e){
             e.printStackTrace();
         }
+        */
+
 
         /*List<List<Point>> newClusters2 = new generateKMeansData('n', 0.3, numberOfClusters, numberOfPointsPerCluster).getClusters();
         for (List<Point> p : newClusters2) {
@@ -808,7 +853,39 @@ public class Main {
             }
         }*/
 
-        //evaluatePythonDataset('n',5, numberOfPointsPerCluster, numberOfShownAttributes, 100);
+
+
+        List<List<Point>> clusters2 = new ArrayList<>();
+        List<Point> tempClusters = new ArrayList<>();
+        for(int i = 0; i < 5; i++){
+            clusters2.add(new ArrayList<Point>());
+        }
+        System.out.println("Start reading");
+        readCSV("data_gaussian_n1000_features10_k5_noise33.csv", tempClusters);
+        System.out.println("Reading done");
+        List<CentroidCluster<Point>> clusteringResults = new KMeansPlusPlusClusterer<Point>( 5, 100 ).cluster( tempClusters );
+        System.out.println("KMeans done");
+        for (int k = 0; k < clusteringResults.size(); k++){
+            for(int l = 0; l < clusteringResults.get(k).getPoints().size(); l++){
+                clusters2.get(k).add(clusteringResults.get(k).getPoints().get(l));
+            }
+        }
+
+        /*for (List<Point> p : clusters2) {
+            for (Point point : p) {
+                for(int k = 0; k < point.getNumberOfAttributes(); k++){
+                    System.out.print(point.getAttributes()[k] + ", ");
+                }
+                System.out.println();
+            }
+        }*/
+        evaluation.evaluateDataset(5, clusters2, 1000000, 10, 33);
+
+
+
+
+        //evaluation.evaluatePythonDataset('n',5, numberOfPointsPerCluster, numberOfShownAttributes, 100);
+
 
         /*
         //Calculates first the best attributes per cluster and then takes the most frequent of this list
