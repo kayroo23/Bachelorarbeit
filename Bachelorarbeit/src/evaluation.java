@@ -904,8 +904,9 @@ public final class evaluation {
         double[][] notFound = new double[5][12];
         long[] time = new long[12];
 
+        int numberOfMetrics = 12;
 
-        List<List<Integer>> listOfBestAtt = new ArrayList<>();
+        List<List<double[]>> listOfBestAtt = new ArrayList<>();
         List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
 
         long tempTime;
@@ -933,27 +934,27 @@ public final class evaluation {
         for(int l = 0; l < matrixList.size(); l++){
             //standard metriken
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes,
                     calculator.calculateVariance(matrixList.get(l))));
             time[0] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes,
                     calculator.calculateStandardDeviation(matrixList.get(l))));
             time[1] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes,
                     calculator.calculateGeomMean(matrixList.get(l))));
             time[2] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes,
                     calculator.calculateMedianDeviation(matrixList.get(l))));
             time[3] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes,
                     calculator.calculateQuartilsDispersion(matrixList.get(l))));
             time[4] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes,
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes,
                     calculator.calculateVariationsCoefficient(matrixList.get(l))));
             time[5] += System.nanoTime() - tempTime;
 
@@ -1018,29 +1019,31 @@ public final class evaluation {
             }
 
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varianceList2.get(l)));
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes, varianceList2.get(l)));
             time[6] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, stdabwList.get(l)));
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes, stdabwList.get(l)));
             time[7] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, medDevList.get(l)));
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes, medDevList.get(l)));
             time[8] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, varCofList.get(l)));
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes, varCofList.get(l)));
             time[9] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, quartDispList.get(l)));
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes, quartDispList.get(l)));
             time[10] += System.nanoTime() - tempTime;
             tempTime = System.nanoTime();
-            listOfBestAtt.add(calculator.calculateMinAttributesForVectors(numberOfShownAttributes, geomMeanList.get(l)));
+            listOfBestAtt.add(calculator.calculateMinForVectors(numberOfShownAttributes, geomMeanList.get(l)));
             time[11] += System.nanoTime() - tempTime;
 
-            for(int u = 0; u < listOfBestAtt.size(); u++){
+            for(int u = l * numberOfMetrics; u < listOfBestAtt.size(); u++){
                 tempBestAttributes = new ArrayList<>(knownBestAttributes);
-                for (int att : listOfBestAtt.get(u)) {
+
+                for(int s = 0; s < listOfBestAtt.get(u).size(); s++){
+                    int att = (int)listOfBestAtt.get(u).get(s)[0];
                     if(knownBestAttributes.contains(att)){
-                        count[u]++;
+                        count[u % numberOfMetrics]++;
                         for(int z = 0; z < tempBestAttributes.size(); z++){
                             if(tempBestAttributes.get(z) == att){
                                 tempBestAttributes.remove(z);
@@ -1049,11 +1052,12 @@ public final class evaluation {
                         }
                     }
                 }
+
                 for(int f = 0; f < tempBestAttributes.size(); f++){
-                    notFound[tempBestAttributes.get(f)][u]++;
+                    notFound[tempBestAttributes.get(f)][u % numberOfMetrics]++;
                 }
             }
-            listOfBestAtt.clear();
+
         }
         matrixList.clear();
         try{

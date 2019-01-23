@@ -137,6 +137,24 @@ import java.util.List;
          return bestAttributes;
      }
 
+     List<double[]> calculateMinForVectors(int numberOfShownAttributes, RealMatrix vector){
+         List<Integer> bestAttributes = new ArrayList<>();
+         List<double[]> output = new ArrayList<>();
+         for(int l = 0; l < numberOfShownAttributes; l++){
+             double min = Double.MAX_VALUE;
+             int position = -1;
+             for(int k = 0; k < vector.getRowDimension(); k++){
+                 if((vector.getEntry(k,0) < min) && !bestAttributes.contains(k)){
+                     min = vector.getEntry(k,0);
+                     position = k;
+                 }
+             }
+             bestAttributes.add(position);
+             output.add(new double[]{position, min});
+         }
+         return output;
+     }
+
      /**Gibt die Anzahl an Punkten im kleinsten Cluster zurueck
       *
       * @param newClusters Liste an Clustern
