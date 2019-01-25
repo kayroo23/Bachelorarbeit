@@ -406,13 +406,6 @@ public class Main {
 
     }
 
-    private static void printMatrix(RealMatrix spearmanMatrix, String s){
-        System.out.println(s);
-        for(int u = 0; u < spearmanMatrix.getRowDimension(); u++){
-            System.out.println(spearmanMatrix.getRowVector(u));
-        }
-        System.out.println();
-    }
 
     /**reads the txt file and stores the points in seperated clusters
      *
@@ -475,8 +468,8 @@ public class Main {
                 while(sc.hasNext()){
                     s = sc.next();
                     String[] values = s.split(",");
-                    double[] attributes = new double[values.length - 2];
-                    for(int l = 0; l < values.length - 2; l++){
+                    double[] attributes = new double[values.length - 1];
+                    for(int l = 0; l < values.length - 1; l++){
                         attributes[l] = Double.parseDouble(values[l]);
                     }
                     clusters.add(new Point(attributes.length, attributes));
@@ -855,16 +848,16 @@ public class Main {
 
 
 
-        List<List<Point>> clusters2 = new ArrayList<>();
         List<Point> tempClusters = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
-            clusters2.add(new ArrayList<Point>());
-        }
         System.out.println("Start reading");
-        readCSV("data_gaussian_n1000_features10_k5_noise33.csv", tempClusters);
+        readCSV("data_gaussian_n100000_features10_k5_noise33.csv", tempClusters);
         System.out.println("Reading done");
         List<CentroidCluster<Point>> clusteringResults = new KMeansPlusPlusClusterer<Point>( 5, 100 ).cluster( tempClusters );
         System.out.println("KMeans done");
+        List<List<Point>> clusters2 = new ArrayList<>();
+        for(int i = 0; i < 5; i++){
+            clusters2.add(new ArrayList<Point>());
+        }
         for (int k = 0; k < clusteringResults.size(); k++){
             for(int l = 0; l < clusteringResults.get(k).getPoints().size(); l++){
                 clusters2.get(k).add(clusteringResults.get(k).getPoints().get(l));

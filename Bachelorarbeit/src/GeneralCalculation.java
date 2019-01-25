@@ -17,6 +17,14 @@ import java.util.List;
 
     private List<double[][]> listOfMatrices = new ArrayList<>();
 
+     static void printMatrix(RealMatrix spearmanMatrix, String s){
+         System.out.println(s);
+         for(int u = 0; u < spearmanMatrix.getRowDimension(); u++){
+             System.out.println(spearmanMatrix.getRowVector(u));
+         }
+         System.out.println();
+     }
+
      RealMatrix calculateStandardDeviation(double[][] matrix){
          double[] input = new double[matrix[0].length];
          RealMatrix result = new Array2DRowRealMatrix(input);
@@ -137,9 +145,9 @@ import java.util.List;
          return bestAttributes;
      }
 
-     List<double[]> calculateMinForVectors(int numberOfShownAttributes, RealMatrix vector){
+     double[][] calculateMinForVectors(int numberOfShownAttributes, RealMatrix vector){
          List<Integer> bestAttributes = new ArrayList<>();
-         List<double[]> output = new ArrayList<>();
+         double[][] output = new double[numberOfShownAttributes][2];
          for(int l = 0; l < numberOfShownAttributes; l++){
              double min = Double.MAX_VALUE;
              int position = -1;
@@ -150,7 +158,8 @@ import java.util.List;
                  }
              }
              bestAttributes.add(position);
-             output.add(new double[]{position, min});
+             output[l][0] = position;
+             output[l][1] = min;
          }
          return output;
      }
