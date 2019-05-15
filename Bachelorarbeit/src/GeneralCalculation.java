@@ -108,6 +108,7 @@ import java.util.List;
              result.setEntry(i,0, variance.evaluate(temp));
 
          }
+         //printMatrix(result, "result");
          return result;
      }
 
@@ -190,11 +191,28 @@ import java.util.List;
         return matrix;
     }
 
+    double[][] matchClusterPoints(List<List<Point>> newClusters){
+        int points = 0;
+        for(List<Point> c : newClusters){
+             points += c.size();
+        }
+        double[][] matrix = new double[points][newClusters.get(0).get(0).getNumberOfAttributes()];
+        int n = 0;
+        for(int k = 0; k < newClusters.size(); k++){
+            for(int l = 0; l < newClusters.get(k).size(); l++){
+                matrix[n] = newClusters.get(k).get(l).getAttributes();
+                n++;
+            }
+
+        }
+         return matrix;
+     }
+
     List<double[][]> calculateMatrixList(List<List<Point>> newClusters) {
-        int min = getMinimumClusterSize(newClusters);
+        //int min = getMinimumClusterSize(newClusters);
         for (List<Point> cluster : newClusters) {
-            double[][] matrix = new double[min][newClusters.get(0).get(0).getNumberOfAttributes()];
-            for (int l = 0; l < min; l++) {
+            double[][] matrix = new double[cluster.size()][newClusters.get(0).get(0).getNumberOfAttributes()];
+            for (int l = 0; l < cluster.size(); l++) {
                 matrix[l] = cluster.get(l).getAttributes();
             }
             listOfMatrices.add(matrix);

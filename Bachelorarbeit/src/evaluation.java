@@ -1,3 +1,4 @@
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.jfree.ui.RefineryUtilities;
 
@@ -890,7 +891,8 @@ public final class evaluation {
         }
     }
 
-    static void evaluateDataset(int numberOfShownAttributes, List<List<Point>> newClusters2, int points, int features, float noise) {
+    static void evaluateDataset(int numberOfShownAttributes, List<List<Point>> newClusters2, int points, int features, int clusterNr, double noise,
+                                double jaccard, double mutual, double rand) {
         GeneralCalculation calculator = new GeneralCalculation();
         List<Integer> knownBestAttributes = new ArrayList<>();
         List<Integer> tempBestAttributes = new ArrayList<>();
@@ -905,6 +907,7 @@ public final class evaluation {
         double[] count = new double[numberOfMetrics];
         double[][] notFound = new double[5][numberOfMetrics];
         long[] time = new long[numberOfMetrics];
+        int[][] clusterGood = new int[4][newClusters2.size()];
 
         List<List<double[][]>> listOfBestAtt = new ArrayList<>();
         List<double[][]> matrixList = calculator.calculateMatrixList(newClusters2);
@@ -914,9 +917,15 @@ public final class evaluation {
         }
 
         long tempTime;
-        double[][] matrix = calculator.calculateMatrix(newClusters2);
+        //double[][] matrix = calculator.calculateMatrix(newClusters2);
+        double[][] matrix = calculator.matchClusterPoints(newClusters2);
+
         tempTime = System.nanoTime();
         RealMatrix variance = calculator.calculateVariance(matrix);
+        //RealMatrix m = new Array2DRowRealMatrix(matrix);
+        //GeneralCalculation.printMatrix(m, "");
+
+
         time[5] += System.nanoTime() - tempTime;
         tempTime = System.nanoTime();
         tempTime = System.nanoTime();
@@ -932,8 +941,8 @@ public final class evaluation {
         time[8] += System.nanoTime() - tempTime;
         tempTime = System.nanoTime();
         RealMatrix quartilsDispersion = calculator.calculateQuartilsDispersion(matrix);
-        time[9] += System.nanoTime() - tempTime;
 
+        time[9] += System.nanoTime() - tempTime;
 
         for(int l = 0; l < matrixList.size(); l++){
             //standard metriken
@@ -977,6 +986,10 @@ public final class evaluation {
 
                 tempTime = System.nanoTime();
                 RealMatrix tempVariance = calculator.calculateVariance(matrixList.get(x));
+                //GeneralCalculation.printMatrix(variance, "");
+                //GeneralCalculation.printMatrix(tempVariance, "");
+
+
                 time[5] += System.nanoTime() - tempTime;
                 tempTime = System.nanoTime();
                 RealMatrix tempStdabw = calculator.calculateStandardDeviation(matrixList.get(x));
@@ -996,7 +1009,7 @@ public final class evaluation {
 
                 for(int y = 0; y < tempVariance.getRowDimension(); y++){
                     tempTime = System.nanoTime();
-                    tempVariance.setEntry(y,0, -(Math.abs(variance.getEntry(y,0)) - Math.abs(tempVariance.getEntry(y,0))));
+                    tempVariance.setEntry(y,0, - (Math.abs(variance.getEntry(y,0)) - Math.abs(tempVariance.getEntry(y,0))));
                     time[5] += System.nanoTime() - tempTime;
                     tempTime = System.nanoTime();
                     tempStdabw.setEntry(y,0, -(Math.abs(standardDeviation.getEntry(y,0)) - Math.abs(tempStdabw.getEntry(y,0))));
@@ -1015,6 +1028,7 @@ public final class evaluation {
                     //time[11] += System.nanoTime() - tempTime;
                 }
                 varianceList2.add(tempVariance);
+                //GeneralCalculation.printMatrix(tempVariance, "");
                 stdabwList.add(tempStdabw);
                 medDevList.add(tempMedDev);
                 varCofList.add(tempVarCof);
@@ -1043,10 +1057,11 @@ public final class evaluation {
 
             for(int u = 0; u < listOfBestAtt.size(); u++){
                 tempBestAttributes = new ArrayList<>(knownBestAttributes);
-
+                int good = 0;
                 for(int s = 0; s < listOfBestAtt.get(u).get(l).length; s++){
                     int att = (int)listOfBestAtt.get(u).get(l)[s][0];
                     if(knownBestAttributes.contains(att)){
+                        good++;
                         count[u]++;
                         for(int z = 0; z < tempBestAttributes.size(); z++){
                             if(tempBestAttributes.get(z) == att){
@@ -1056,16 +1071,29 @@ public final class evaluation {
                         }
                     }
                 }
-
                 for(int f = 0; f < tempBestAttributes.size(); f++){
                     notFound[tempBestAttributes.get(f)][u]++;
+                }
+                //MedDevDifference
+                if(u == 7){
+                    clusterGood[0][l] = good;
+                    //VarDiff
+                } else if(u == 5){
+                    clusterGood[1][l] = good;
+                    //MedDev
+                }else if(u == 2){
+                    clusterGood[2][l] = good;
+                    //Var
+                }else if(u == 0){
+                    clusterGood[3][l] = good;
                 }
             }
 
         }
         matrixList.clear();
         try{
-            generateOutputFile1(count, listOfBestAtt, time, newClusters2.size(), numberOfShownAttributes, points, features, noise);
+            generateOutputFile1(count, listOfBestAtt, time, clusterNr, numberOfShownAttributes, points, features, noise, jaccard, mutual, rand);
+            generatePlotFile(clusterGood, clusterNr, points, features, noise);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -1522,10 +1550,11 @@ public final class evaluation {
 
 
     private static void generateOutputFile1(double[] count, List<List<double[][]>> listOfBestAtt, long[] time, int numberOfClusters,
-                                            int numberOfShownAttributes, int points, int features, float noise)throws FileNotFoundException{
+                                            int numberOfShownAttributes, int points, int features, double noise,
+                                            double jaccard, double mutual, double rand)throws FileNotFoundException{
         double divisor = numberOfClusters*numberOfShownAttributes;
         StringBuilder sb = new StringBuilder();
-        sb.append("eval");
+        sb.append("new_eval");
         sb.append("_");
         sb.append("g");
         sb.append("_");
@@ -1541,7 +1570,7 @@ public final class evaluation {
 
         sb = new StringBuilder();
 
-        sb.append("Rauschwert");
+        sb.append("Metrik:");
         sb.append(',');
         sb.append("var");
         sb.append(',');
@@ -1569,7 +1598,7 @@ public final class evaluation {
         sb.append('\n');
 
 
-        sb.append(" ");
+        sb.append("Mean:");
         sb.append(',');
         sb.append(count[0]/(divisor));
         sb.append(',');
@@ -1591,11 +1620,15 @@ public final class evaluation {
         sb.append(',');
         sb.append(count[9]/(divisor));
         sb.append('\n');
-
+        sb.append("cluster-statistic");
+        sb.append(jaccard);
+        sb.append(',');
+        sb.append(mutual);
+        sb.append(',');
+        sb.append(rand);
+        sb.append(',');
         sb.append('\n');
-        sb.append("Time");
-        sb.append('\n');
-        sb.append(0);
+        sb.append("Time in ns:");
         sb.append(',');
         for(int i = 0; i < time.length; i++){
             sb.append(time[i]);
@@ -1629,6 +1662,37 @@ public final class evaluation {
             sb.append('\n');
             sb.append('\n');
         }
+
+        csvWriter.write(sb.toString());
+        csvWriter.close();
+        System.out.println("Done");
+    }
+
+    private static void generatePlotFile(int[][] clusterGood, int numberOfClusters, int points, int features, double noise)throws FileNotFoundException{
+        StringBuilder sb = new StringBuilder();
+        sb.append("./plotData/plot");
+        sb.append("_");
+        sb.append("g");
+        sb.append("_");
+        sb.append(points);
+        sb.append("_");
+        sb.append(features);
+        sb.append("_");
+        sb.append(numberOfClusters);
+        sb.append("_");
+        sb.append(noise);
+        sb.append(".csv");
+        PrintWriter csvWriter = new PrintWriter(new File(sb.toString()));
+
+        sb = new StringBuilder();
+        for(int k = 0; k < clusterGood.length; k++){
+            for(int i : clusterGood[k]){
+                sb.append(',');
+                sb.append(i);
+            }
+            sb.append('\n');
+        }
+
 
         csvWriter.write(sb.toString());
         csvWriter.close();

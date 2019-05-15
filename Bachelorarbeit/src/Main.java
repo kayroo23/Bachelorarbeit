@@ -454,12 +454,17 @@ public class Main {
      * @param location to the CSV-File
      * @param clusters to store the points
      */
-    private static void readCSV(String location, List<Point> clusters){
+    private static void readCSV(String location, List<Point> clusters, double[] metaInfo){
         File file = new File(location);
         try{
-            int i = 0;
             String s;
             Scanner sc = new Scanner(file);
+            s = sc.next();
+            String[] values = s.split(",");
+            for(int l = 0; l < metaInfo.length; l++){
+                metaInfo[l] = Double.parseDouble(values[l]);
+            }
+
             while(sc.hasNextLine()){
                 //Exit when line is empty
                 if(!sc.hasNext()){
@@ -467,9 +472,9 @@ public class Main {
                 }
                 while(sc.hasNext()){
                     s = sc.next();
-                    String[] values = s.split(",");
-                    double[] attributes = new double[values.length - 1];
-                    for(int l = 0; l < values.length - 1; l++){
+                    values = s.split(",");
+                    double[] attributes = new double[values.length];
+                    for(int l = 0; l < values.length; l++){
                         attributes[l] = Double.parseDouble(values[l]);
                     }
                     clusters.add(new Point(attributes.length, attributes));
@@ -477,6 +482,46 @@ public class Main {
             }
         }catch(FileNotFoundException e){
             System.out.println("Einlesen der Datei fehlgeschlagen!");
+        }
+    }
+
+    /**
+     * reads CSV in location and converts every line in one Point without the last attribute (clusterlable)
+     * and Clusters with the last attribute (clusterlable)
+     * @param location to the CSV-File
+     * @param clusters to store the points in clusters
+     */
+    private static void readCSVAndCluster(String location, List<List<Point>> clusters, double[] metaInfo){
+        File file = new File(location);
+        try{
+            String s;
+            Scanner sc = new Scanner(file);
+            s = sc.next();
+            String[] values = s.split(",");
+            for(int l = 0; l < metaInfo.length; l++){
+                metaInfo[l] = Double.parseDouble(values[l]);
+            }
+            for(int i = 0; i < (int)metaInfo[2]; i++){
+                clusters.add(new ArrayList<Point>());
+            }
+
+            while(sc.hasNextLine()){
+                //Exit when line is empty
+                if(!sc.hasNext()){
+                    break;
+                }
+                while(sc.hasNext()){
+                    s = sc.next();
+                    values = s.split(",");
+                    double[] attributes = new double[values.length-2];
+                    for(int l = 0; l < values.length-2; l++){
+                        attributes[l] = Double.parseDouble(values[l]);
+                    }
+                    clusters.get((int)(Double.parseDouble(values[values.length-2]))).add(new Point(attributes.length, attributes));
+                }
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
         }
     }
 
@@ -846,24 +891,50 @@ public class Main {
             }
         }*/
 
-
-
+        String location;
+        if(args.length > 0){
+            location = args[0];
+        }else{
+            //location = "data_gaussian_n1000_features11_k5_noise10.csv";
+            location = "data_gaussian_n100_features10_k25_noise33.csv";
+        }
         List<Point> tempClusters = new ArrayList<>();
-        System.out.println("Start reading");
-        readCSV("data_gaussian_n100000_features10_k5_noise33.csv", tempClusters);
-        System.out.println("Reading done");
-        List<CentroidCluster<Point>> clusteringResults = new KMeansPlusPlusClusterer<Point>( 5, 100 ).cluster( tempClusters );
-        System.out.println("KMeans done");
+        //points, features, clusters, noise
+        double[] metaInfo = new double[7];
+        //System.out.println("Start reading");
         List<List<Point>> clusters2 = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
+
+        /*readCSV(location, tempClusters, metaInfo);
+        System.out.println("Reading done");
+        List<CentroidCluster<Point>> clusteringResults = new KMeansPlusPlusClusterer<Point>( (int)metaInfo[2], 100 ).cluster( tempClusters );
+        System.out.println("KMeans done");
+        for(int i = 0; i < (int)metaInfo[2]; i++){
             clusters2.add(new ArrayList<Point>());
         }
         for (int k = 0; k < clusteringResults.size(); k++){
             for(int l = 0; l < clusteringResults.get(k).getPoints().size(); l++){
                 clusters2.get(k).add(clusteringResults.get(k).getPoints().get(l));
             }
+        }*/
+
+        readCSVAndCluster(location, clusters2, metaInfo);
+        List<Integer> removeList = new ArrayList<>();
+
+        //Remove empty Clusters
+
+        for(int gg = 0; gg < clusters2.size(); gg++){
+            //System.out.println(clusters2.get(gg).size());
+            if(clusters2.get(gg).size() == 0){
+                removeList.add(gg);
+            }
+        }
+        for(int gg = 0; gg < removeList.size(); gg++){
+            int i = removeList.get(gg);
+            clusters2.remove(i);
         }
 
+
+        //Cluster Dataset
         /*for (List<Point> p : clusters2) {
             for (Point point : p) {
                 for(int k = 0; k < point.getNumberOfAttributes(); k++){
@@ -872,7 +943,8 @@ public class Main {
                 System.out.println();
             }
         }*/
-        evaluation.evaluateDataset(5, clusters2, 1000000, 10, 33);
+        evaluation.evaluateDataset(5, clusters2, (int)metaInfo[0], (int)metaInfo[1], (int)metaInfo[2], metaInfo[3],
+                metaInfo[4], metaInfo[5], metaInfo[6]);
 
 
 
